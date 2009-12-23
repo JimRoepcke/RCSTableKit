@@ -1,0 +1,20 @@
+{
+	controllerClassName = RootViewController;
+	
+	staticTitle = "RCSTable Sampler";
+	
+	displaySectionKeys = (hello,);
+	
+	sections = {
+		hello = {
+			displayRowKeys = (helloWorld,);
+			rows = {
+				helloWorld = {
+					staticText = "Hello, World!";
+					pushConfiguration = "Root";
+					accessoryType = disclosureIndicator;
+				};
+			};
+		};
+	};
+}
