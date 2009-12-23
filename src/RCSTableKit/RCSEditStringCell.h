@@ -1,15 +1,11 @@
 //
-//  RCSAddressCell.h
+//  RCSEditStringCell.h
 //  Created by Jim Roepcke.
 //  See license below.
 //
 
-#import "RCSTableViewCell.h"
-
-
-@interface RCSAddressCell : RCSTableViewCell {
-	NSMutableArray *_lines;
-	NSArray *_labels;
+@interface RCSEditStringCell : RCSTableViewCell <UITextFieldDelegate> {
+	UITextField *_editStringTextField;
 }
 
 @end

@@ -73,7 +73,7 @@
 		387DEC8910E196D900F918B1 /* RCSTableUIViewControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableUIViewControllerAdditions.m; path = Classes/RCSTableUIViewControllerAdditions.m; sourceTree = "<group>"; };
 		387DEC9310E1973600F918B1 /* RCSTableViewGrouped.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RCSTableViewGrouped.xib; path = Resources/RCSTableViewGrouped.xib; sourceTree = "<group>"; };
 		387DEC9410E1973600F918B1 /* RCSTableViewPlain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RCSTableViewPlain.xib; path = Resources/RCSTableViewPlain.xib; sourceTree = "<group>"; };
-		389EEF0710E17E9500950925 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		387DECE510E1CB7200F918B1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = SOURCE_ROOT; };
 		389EEF2510E17EBE00950925 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSTableKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -104,7 +104,7 @@
 		0867D691FE84028FC02AAC07 /* RCSTableKit */ = {
 			isa = PBXGroup;
 			children = (
-				389EEF0710E17E9500950925 /* README.txt */,
+				387DECE510E1CB7200F918B1 /* README.txt */,
 				387DEBFC10E1936F00F918B1 /* Headers */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,

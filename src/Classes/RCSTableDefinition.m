@@ -4,10 +4,6 @@
 //  See license below.
 //
 
-#import "RCSTableDefinition.h"
-#import "RCSTableSectionDefinition.h"
-#import "RCSTable.h"
-
 @interface RCSTableDefinition ()
 @property (nonatomic, readwrite, retain) NSDictionary *dictionary;
 @property (nonatomic, readwrite, retain) NSString *key;

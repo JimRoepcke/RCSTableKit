@@ -4,9 +4,6 @@
 //  See license below.
 //
 
-#import "RCSAddressCell.h"
-#import "RCSTableRow.h"
-
 @implementation RCSAddressCell
 
 - (id)initWithStyle: (UITableViewCellStyle)style reuseIdentifier: (NSString *)reuseIdentifier

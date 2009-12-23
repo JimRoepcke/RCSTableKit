@@ -4,9 +4,6 @@
 //  See license below.
 //
 
-#import "RCSTableUIViewControllerAdditions.h"
-#import "RCSTableViewController.h"
-
 @implementation UIViewController (RCSTableUIViewControllerAdditions)
 
 + (NSDictionary *) configurationNamed: (NSString *)name

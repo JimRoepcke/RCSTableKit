@@ -4,9 +4,6 @@
 //  See license below.
 //
 
-#import "RCSBaseDefinition.h"
-
-
 @implementation RCSBaseDefinition
 
 #pragma mark -
