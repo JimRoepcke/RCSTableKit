@@ -8,25 +8,25 @@
 
 + (NSDictionary *) configurationNamed: (NSString *)name
 {
-	NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
-	return [[[NSDictionary alloc] initWithContentsOfFile:path] autorelease];
+	NSString *path = [[NSBundle mainBundle] pathForResource: name ofType: @"plist"];
+	return [[[NSDictionary alloc] initWithContentsOfFile: path] autorelease];
 }
 
 - (BOOL) boolForKey: (id)key withDefault: (BOOL)value inDictionary: (NSDictionary *)dict
 {
-	NSNumber *num = [dict objectForKey:key];
+	NSNumber *num = [dict objectForKey: key];
 	return num == nil ? value : [num boolValue];
 }
 
 - (NSInteger) integerForKey: (id)key withDefault: (NSInteger)value inDictionary: (NSDictionary *)dict
 {
-	NSNumber *num = [dict objectForKey:key];
+	NSNumber *num = [dict objectForKey: key];
 	return num == nil ? value : [num integerValue];
 }
 
 - (NSString *) stringForKey: (id)key withDefault: (NSString *)value inDictionary: (NSDictionary *)dict
 {
-	NSString *s = [dict objectForKey:key];
+	NSString *s = [dict objectForKey: key];
 	return s == nil ? value : s;
 }
 

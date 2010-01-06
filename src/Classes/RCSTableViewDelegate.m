@@ -26,7 +26,7 @@
 	[super dealloc];
 }
 
-- (void)tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath
+- (void) tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath
 {
 	[[self.dataSource rowAtIndexPath: indexPath] willDisplayCell: cell];
 }
@@ -36,7 +36,7 @@
     return [((RCSTableRow *)[self.dataSource rowAtIndexPath: indexPath]) editingStyle];
 }
 
-- (void)tableView: (UITableView *)tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath
+- (void) tableView: (UITableView *)tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath
 {
     [[self.dataSource rowAtIndexPath: indexPath] accessoryButtonTapped];
 }

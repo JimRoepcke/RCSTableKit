@@ -32,7 +32,7 @@
 		if (name_ == nil) return nil;
 		configuration_ = [[self class] configurationNamed: name_];
 	}
-	NSString *nibName = [configuration_ objectForKey:@"nibName"];
+	NSString *nibName = [configuration_ objectForKey: @"nibName"];
 	if (nibName == nil) nibName = @"RCSTableViewPlain";
 	if (self = [super initWithNibName: nibName bundle: nil]) {
 		self.configurationName = name_;
@@ -110,8 +110,8 @@
 	}
 }
 
-- (void)willReloadData {}
-- (void)didReloadData {}
+- (void) willReloadData {}
+- (void) didReloadData {}
 
 - (void) reloadData
 {
@@ -155,17 +155,17 @@
 #pragma mark Configuration Accessors
 
 - (BOOL) configurationBoolForKey: (id)key withDefault: (BOOL)value {
-	NSNumber *num = [self.configuration objectForKey:key];
+	NSNumber *num = [self.configuration objectForKey: key];
 	return num == nil ? value : [num boolValue];
 }
 
 - (NSInteger) configurationIntegerForKey: (id)key withDefault: (NSInteger)value {
-	NSNumber *num = [self.configuration objectForKey:key];
+	NSNumber *num = [self.configuration objectForKey: key];
 	return num == nil ? value : [num integerValue];
 }
 
 - (NSString *) configurationStringForKey: (id)key withDefault: (NSString *)value {
-	NSString *s = [self.configuration objectForKey:key];
+	NSString *s = [self.configuration objectForKey: key];
 	return s == nil ? value : s;
 }
 
@@ -184,27 +184,27 @@
 
 // delegate methods are forwarded to self.tableViewDelegate
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void) tableView: (UITableView *)tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath {
 	[self.tableViewDelegate tableView: tableView willDisplayCell: cell forRowAtIndexPath: indexPath];
 }
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+- (void) tableView: (UITableView *)tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath {
 	[self.tableViewDelegate tableView: tableView accessoryButtonTappedForRowWithIndexPath: indexPath];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCellEditingStyle) tableView: (UITableView *)tableView editingStyleForRowAtIndexPath: (NSIndexPath *)indexPath {
     return [self.tableViewDelegate tableView: tableView editingStyleForRowAtIndexPath: indexPath];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat) tableView: (UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath {
 	return [self.tableViewDelegate tableView: tableView heightForRowAtIndexPath: indexPath];
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSIndexPath *)tableView: (UITableView *)tableView willSelectRowAtIndexPath: (NSIndexPath *)indexPath {
 	return [self.tableViewDelegate tableView: tableView willSelectRowAtIndexPath: indexPath];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void) tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
 	[self.tableViewDelegate tableView: tableView didSelectRowAtIndexPath: indexPath];
 }
 

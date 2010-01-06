@@ -65,7 +65,7 @@
 	return [self numberOfSections];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *) tableView: (UITableView *)tableView titleForHeaderInSection: (NSInteger)section {
 	return [[self.table sectionAtIndex: (NSUInteger)section] title];
 }
 

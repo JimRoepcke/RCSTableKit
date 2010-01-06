@@ -6,7 +6,7 @@
 
 @implementation RCSEditStringCell
 
-- (id)initWithStyle: (UITableViewCellStyle)style reuseIdentifier: (NSString *)reuseIdentifier
+- (id) initWithStyle: (UITableViewCellStyle)style reuseIdentifier: (NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle: style reuseIdentifier: reuseIdentifier]) {
         // Initialization code
@@ -21,14 +21,14 @@
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[_editStringTextField release];
     [super dealloc];
 }
 
-- (void)layoutSubviews
+- (void) layoutSubviews
 {
 	[super layoutSubviews];
 	CGRect boundsFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
@@ -119,21 +119,21 @@
 	}
 }
 
-- (void)removeFromSuperview
+- (void) removeFromSuperview
 {
 	[self.row.object setValue: _editStringTextField.text
 				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[super removeFromSuperview];
 }
 
-- (BOOL)becomeFirstResponder
+- (BOOL) becomeFirstResponder
 {
 	[super becomeFirstResponder];
 	return [_editStringTextField becomeFirstResponder];
 }
 
-- (BOOL)resignFirstResponder
+- (BOOL) resignFirstResponder
 {
 	[super resignFirstResponder];
 	[self.row.object setValue: _editStringTextField.text
@@ -144,7 +144,7 @@
 #pragma mark -
 #pragma mark RCSTableViewController notifications
 
-- (void)viewWillDisappear: (NSNotification *)notification
+- (void) viewWillDisappear: (NSNotification *)notification
 {
 	[self.row.object setValue: _editStringTextField.text
 				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
@@ -153,14 +153,14 @@
 #pragma mark -
 #pragma mark Text Field Delegate methods
 
-// may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called
-- (void)textFieldDidEndEditing:(UITextField *)textField
+// may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing: YES called
+- (void) textFieldDidEndEditing: (UITextField *)textField
 {
 	[self.row.object setValue: _editStringTextField.text
 				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
 }
 
-- (BOOL)textFieldShouldReturn: (UITextField *)textField
+- (BOOL) textFieldShouldReturn: (UITextField *)textField
 {
 	[self endEditing: NO];
 	return NO;

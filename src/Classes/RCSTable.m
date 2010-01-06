@@ -64,18 +64,18 @@
 
 - (BOOL) isEditableAtIndexPath: (NSIndexPath *)indexPath
 {
-	RCSTableRow *row = [self rowAtIndexPath:indexPath];
+	RCSTableRow *row = [self rowAtIndexPath: indexPath];
 	return [row isEditable];
 }
 
 - (NSString *) cellReuseIdentifierAtIndexPath: (NSIndexPath *)indexPath
 {
-	return [[self rowAtIndexPath:indexPath] cellReuseIdentifier];
+	return [[self rowAtIndexPath: indexPath] cellReuseIdentifier];
 }
 
 - (UITableViewCell *) cellForRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	RCSTableRow *row = [self rowAtIndexPath:indexPath];
+	RCSTableRow *row = [self rowAtIndexPath: indexPath];
 	return [row cell];
 	
 }
