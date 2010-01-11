@@ -7,9 +7,14 @@
 //
 
 #import "RootViewController.h"
-
+#import "RCSTableKit/RCSTableKit.h"
 
 @implementation RootViewController
+
+- (NSString *) text: (RCSTableRow *)row
+{
+	return [row.indexPath description];
+}
 
 @end
 

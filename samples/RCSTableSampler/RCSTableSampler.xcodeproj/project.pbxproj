@@ -25,14 +25,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 387DED2510E1D24700F918B1 /* RCSTableKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libRCSTableKit.a */;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = RCSTableKit;
 		};
 		387DED2F10E1D25F00F918B1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 387DED2510E1D24700F918B1 /* RCSTableKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D /* RCSTableKit */;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = RCSTableKit;
 		};
 /* End PBXContainerItemProxy section */

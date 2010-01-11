@@ -10,9 +10,9 @@
 			displayRowKeys = (helloWorld,);
 			rows = {
 				helloWorld = {
-					staticText = "Hello, World!";
+					textSelector = text:;
 					pushConfiguration = "Root";
-					accessoryType = disclosureIndicator;
+					staticAccessoryType = disclosureIndicator;
 				};
 			};
 		};
