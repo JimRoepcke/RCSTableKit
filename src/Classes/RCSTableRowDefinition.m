@@ -26,8 +26,11 @@
 
 @synthesize staticText=_staticText;
 @synthesize text=_text;
+@synthesize textSelector=_textSelector;
+
 @synthesize staticDetailText=_staticDetailText;
 @synthesize detailText=_detailText;
+@synthesize detailTextSelector=_detailTextSelector;
 
 @synthesize editingStyle=_editingStyle;
 @synthesize editingStyleAction=_editingStyleAction;
@@ -40,13 +43,19 @@
 @synthesize editAction=_editAction;
 @synthesize editPushConfiguration=_editPushConfiguration;
 
+@synthesize staticAccessoryType=_staticAccessoryType;
 @synthesize accessoryType=_accessoryType;
+@synthesize accessoryTypeSelector=_accessoryTypeSelector;
+
 @synthesize accessoryAction=_accessoryAction;
 @synthesize accessoryPushConfiguration=_accessoryPushConfiguration;
 @synthesize viewAccessoryAction=_viewAccessoryAction;
 @synthesize viewAccessoryPushConfiguration=_viewAccessoryPushConfiguration;
 
+@synthesize staticEditingAccessoryType=_staticEditingAccessoryType;
 @synthesize editingAccessoryType=_editingAccessoryType;
+@synthesize editingAccessoryTypeSelector=_editingAccessoryTypeSelector;
+
 @synthesize editAccessoryAction=_editAccessoryAction;
 @synthesize editAccessoryPushConfiguration=_editAccessoryPushConfiguration;	
 
@@ -60,10 +69,10 @@
 		self.list = [dictionary_ objectForKey: @"list"];
 		_cellClass = nil;
 
-		NSString *editingStyleString, *cellStyleString, *accessoryTypeString;
+		NSString *editingStyleString, *cellStyleString, *staticAccessoryTypeString;
 		UITableViewCellEditingStyle editingStyle;
 		UITableViewCellStyle cellStyle;
-		UITableViewCellAccessoryType accessoryType, editingAccessoryType;
+		UITableViewCellAccessoryType staticAccessoryType, staticEditingAccessoryType;
 		
 		// cellStyle
 		cellStyle = UITableViewCellStyleDefault;
@@ -75,6 +84,7 @@
 		} else if ([@"subtitle" isEqualToString: cellStyleString]) {
 			cellStyle = UITableViewCellStyleSubtitle;
 		}
+		
 		// editingStyle
 		editingStyle = UITableViewCellEditingStyleNone;
 		editingStyleString = [self stringForKey: @"editingStyle" withDefault: @"none" inDictionary: _dictionary];
@@ -83,32 +93,39 @@
 		} else if ([@"delete" isEqualToString: editingStyleString]) {
 			editingStyle = UITableViewCellEditingStyleDelete;
 		}
-		// accessoryType
-		accessoryType = UITableViewCellAccessoryNone;
-		accessoryTypeString = [self stringForKey: @"accessoryType" withDefault: @"none" inDictionary: _dictionary];
-		if ([@"disclosureIndicator" isEqualToString: accessoryTypeString]) {
-			accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		} else if ([@"detailDisclosureIndicator" isEqualToString: accessoryTypeString]) {
-			accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-		} else if ([@"checkmark" isEqualToString: accessoryTypeString]) {
-			accessoryType = UITableViewCellAccessoryCheckmark;
+		
+		// staticAccessoryType
+		staticAccessoryType = UITableViewCellAccessoryNone;
+		staticAccessoryTypeString = [self stringForKey: @"staticAccessoryType" withDefault: @"none" inDictionary: _dictionary];
+		if ([@"disclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
+			staticAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		} else if ([@"detailDisclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
+			staticAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		} else if ([@"checkmark" isEqualToString: staticAccessoryTypeString]) {
+			staticAccessoryType = UITableViewCellAccessoryCheckmark;
 		}
-		editingAccessoryType = UITableViewCellAccessoryNone;
-		accessoryTypeString = [self stringForKey: @"editingAccessoryType" withDefault: @"none" inDictionary: _dictionary];
-		if ([@"disclosureIndicator" isEqualToString: accessoryTypeString]) {
-			editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		} else if ([@"detailDisclosureIndicator" isEqualToString: accessoryTypeString]) {
-			editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-		} else if ([@"checkmark" isEqualToString: accessoryTypeString]) {
-			editingAccessoryType = UITableViewCellAccessoryCheckmark;
+
+		// staticEditingAccessoryType
+		staticEditingAccessoryType = UITableViewCellAccessoryNone;
+		staticAccessoryTypeString = [self stringForKey: @"staticEditingAccessoryType" withDefault: @"none" inDictionary: _dictionary];
+		if ([@"disclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
+			staticEditingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		} else if ([@"detailDisclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
+			staticEditingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		} else if ([@"checkmark" isEqualToString: staticAccessoryTypeString]) {
+			staticEditingAccessoryType = UITableViewCellAccessoryCheckmark;
 		}
 
 		self.cellStyle = cellStyle;
 		self.editingStyle = editingStyle;
-		self.accessoryType = accessoryType;
-		self.editingAccessoryType = editingAccessoryType;
 		
 		// TODO: rearrange these lines to match the order of the properties above
+		self.staticAccessoryType = staticAccessoryType;
+		self.accessoryType = [self stringForKey: @"accessoryType" withDefault: nil inDictionary: dictionary_];
+		self.accessoryTypeSelector = NSSelectorFromString([self stringForKey: @"accessoryTypeSelector" withDefault: nil inDictionary: dictionary_]);
+		self.staticEditingAccessoryType = staticEditingAccessoryType;
+		self.editingAccessoryType = [self stringForKey: @"editingAccessoryType" withDefault: nil inDictionary: dictionary_];
+		self.editingAccessoryTypeSelector = NSSelectorFromString([self stringForKey: @"editingAccessoryTypeSelector" withDefault: nil inDictionary: dictionary_]);
 		self.cellClassName = [self stringForKey: @"cell" withDefault: @"RCSTableViewCell" inDictionary: dictionary_];
 		self.staticText = [self stringForKey: @"staticText" withDefault: nil inDictionary: dictionary_];
 		self.staticDetailText = [self stringForKey: @"staticDetailText" withDefault: nil inDictionary: dictionary_];
@@ -119,7 +136,9 @@
 		self.editAccessoryPushConfiguration = [self stringForKey: @"editAccessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.viewAccessoryPushConfiguration = [self stringForKey: @"viewAccessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.text = [self stringForKey: @"text" withDefault: nil inDictionary: dictionary_];
+		self.textSelector = NSSelectorFromString([self stringForKey: @"textSelector" withDefault: nil inDictionary: dictionary_]);
 		self.detailText = [self stringForKey: @"detailText" withDefault: nil inDictionary: dictionary_];
+		self.detailTextSelector = NSSelectorFromString([self stringForKey: @"detailTextSelector" withDefault: nil inDictionary: dictionary_]);
 		self.backgroundColor = [self stringForKey: @"backgroundColor" withDefault: nil inDictionary: dictionary_];
 		self.becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
 		self.editingStyleAction = NSSelectorFromString([self stringForKey: @"editingStyleAction" withDefault: nil inDictionary: dictionary_]);
@@ -141,6 +160,8 @@
 	self.key = nil;
 	self.list = nil;
 	
+	self.accessoryType = nil;
+	self.editingAccessoryType = nil;
 	self.cellClassName = nil;
 	self.cellClass = nil;
 	self.backgroundColor = nil;

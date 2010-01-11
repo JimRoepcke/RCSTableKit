@@ -21,8 +21,11 @@
 	
 	NSString *_staticText;
 	NSString *_text;
+	SEL _textSelector;
+	
 	NSString *_staticDetailText;
 	NSString *_detailText;
+	SEL _detailTextSelector;
 	
 	UITableViewCellEditingStyle _editingStyle;
 	SEL _editingStyleAction;
@@ -35,13 +38,19 @@
 	SEL _editAction;
 	NSString *_editPushConfiguration;
 
-	UITableViewCellAccessoryType _accessoryType;
+	UITableViewCellAccessoryType _staticAccessoryType;
+	NSString *_accessoryType;
+	SEL _accessoryTypeSelector;
+	
 	SEL _accessoryAction;
 	NSString *_accessoryPushConfiguration;
 	SEL _viewAccessoryAction;
 	NSString *_viewAccessoryPushConfiguration;
 
-	UITableViewCellAccessoryType _editingAccessoryType;
+	UITableViewCellAccessoryType _staticEditingAccessoryType;
+	NSString *_editingAccessoryType;
+	SEL _editingAccessoryTypeSelector;
+	
 	SEL _editAccessoryAction;
 	NSString *_editAccessoryPushConfiguration;	
 }
@@ -67,8 +76,11 @@
 
 @property (nonatomic, retain) NSString *staticText;
 @property (nonatomic, retain) NSString *text;
+@property (nonatomic, assign) SEL textSelector;
+
 @property (nonatomic, retain) NSString *staticDetailText;
 @property (nonatomic, retain) NSString *detailText;
+@property (nonatomic, assign) SEL detailTextSelector;
 
 @property (nonatomic, assign) UITableViewCellEditingStyle editingStyle;
 @property (nonatomic, assign) SEL editingStyleAction;
@@ -81,13 +93,19 @@
 @property (nonatomic, assign) SEL editAction;
 @property (nonatomic, retain) NSString *editPushConfiguration;
 
-@property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
+@property (nonatomic, assign) UITableViewCellAccessoryType staticAccessoryType;
+@property (nonatomic, retain) NSString *accessoryType;
+@property (nonatomic, assign) SEL accessoryTypeSelector;
+
 @property (nonatomic, assign) SEL accessoryAction;
 @property (nonatomic, retain) NSString *accessoryPushConfiguration;
 @property (nonatomic, assign) SEL viewAccessoryAction;
 @property (nonatomic, retain) NSString *viewAccessoryPushConfiguration;
 
-@property (nonatomic, assign) UITableViewCellAccessoryType editingAccessoryType;
+@property (nonatomic, assign) UITableViewCellAccessoryType staticEditingAccessoryType;
+@property (nonatomic, retain) NSString *editingAccessoryType;
+@property (nonatomic, assign) SEL editingAccessoryTypeSelector;
+
 @property (nonatomic, assign) SEL editAccessoryAction;
 @property (nonatomic, retain) NSString *editAccessoryPushConfiguration;
 

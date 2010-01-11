@@ -76,6 +76,7 @@
 {
 	if (_definition.staticText != nil) return _definition.staticText;
 	else if (_definition.text != nil) return [_object valueForKeyPath: _definition.text];
+	else if (_definition.textSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.textSelector withObject: self];
 	return nil;
 }
 
@@ -83,23 +84,39 @@
 {
 	if (_definition.staticDetailText != nil) return _definition.staticDetailText;
 	else if (_definition.detailText != nil) return [_object valueForKeyPath: _definition.detailText];
+	else if (_definition.detailTextSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.detailTextSelector withObject: self];
 	return nil;
 }
 
 - (UITableViewCellAccessoryType) accessoryType
 {
-	if (_definition.editingAccessoryType != UITableViewCellAccessoryNone) {
-		RCSTableViewController *controller = _section.table.controller;
-		if (controller.editing && (_definition.editingStyle == UITableViewCellEditingStyleNone)) {
-			return _definition.editingAccessoryType;
-		}
+	RCSTableViewController *controller = _section.table.controller;
+	if (controller.editing) return [self editingAccessoryType];
+
+	if (_definition.accessoryTypeSelector != (SEL)0) {
+		NSNumber *type = [controller performSelector: _definition.accessoryTypeSelector withObject: self];
+		return (UITableViewCellAccessoryType)[type intValue];
+	} else if (_definition.accessoryType != nil) {
+		NSNumber *type = [_object valueForKeyPath: _definition.accessoryType];
+		return (UITableViewCellAccessoryType)[type intValue];
 	}
-	return _definition.accessoryType;
+	
+	return _definition.staticAccessoryType;
 }
 
 - (UITableViewCellAccessoryType) editingAccessoryType
 {
-	return _definition.editingAccessoryType;
+	RCSTableViewController *controller = _section.table.controller;
+	
+	if (_definition.editingAccessoryTypeSelector != (SEL)0) {
+		NSNumber *type = [controller performSelector: _definition.editingAccessoryTypeSelector withObject: self];
+		return (UITableViewCellAccessoryType)[type intValue];
+	} else if (_definition.editingAccessoryType != nil) {
+		NSNumber *type = [_object valueForKeyPath: _definition.editingAccessoryType];
+		return (UITableViewCellAccessoryType)[type intValue];
+	}
+	
+	return _definition.staticEditingAccessoryType;
 }
 
 - (CGFloat) heightWithDefault: (CGFloat)defaultHeight
