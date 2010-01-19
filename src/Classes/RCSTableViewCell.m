@@ -22,6 +22,7 @@
 - (BOOL) supportsText { return YES; }
 - (BOOL) supportsDetailText { return YES; }
 - (BOOL) supportsAccessories { return YES; }
+- (BOOL) supportsImages { return YES; }
 
 - (void) setRow: (RCSTableRow *)newRow
 {
@@ -42,6 +43,12 @@
 		if ([self supportsAccessories]) {
 			self.accessoryType = [newRow accessoryType];
 			self.editingAccessoryType = [newRow editingAccessoryType];
+		}
+		if ([self supportsImages]) {
+			UIImage *image = [newRow image];
+			if (image != nil) {
+				self.imageView.image = image;
+			}
 		}
 	}
 }

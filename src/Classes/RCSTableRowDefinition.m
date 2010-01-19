@@ -32,6 +32,10 @@
 @synthesize detailText=_detailText;
 @synthesize detailTextSelector=_detailTextSelector;
 
+@synthesize staticImageName=_staticImageName;
+@synthesize image=_image;
+@synthesize imageSelector=_imageSelector;
+
 @synthesize editingStyle=_editingStyle;
 @synthesize editingStyleAction=_editingStyleAction;
 @synthesize editingStylePushConfiguration=_editingStylePushConfiguration;
@@ -127,18 +131,21 @@
 		self.editingAccessoryType = [self stringForKey: @"editingAccessoryType" withDefault: nil inDictionary: dictionary_];
 		self.editingAccessoryTypeSelector = NSSelectorFromString([self stringForKey: @"editingAccessoryTypeSelector" withDefault: nil inDictionary: dictionary_]);
 		self.cellClassName = [self stringForKey: @"cell" withDefault: @"RCSTableViewCell" inDictionary: dictionary_];
-		self.staticText = [self stringForKey: @"staticText" withDefault: nil inDictionary: dictionary_];
-		self.staticDetailText = [self stringForKey: @"staticDetailText" withDefault: nil inDictionary: dictionary_];
 		self.editPushConfiguration = [self stringForKey: @"editPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.viewPushConfiguration = [self stringForKey: @"viewPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.pushConfiguration = [self stringForKey: @"pushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.accessoryPushConfiguration = [self stringForKey: @"accessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.editAccessoryPushConfiguration = [self stringForKey: @"editAccessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.viewAccessoryPushConfiguration = [self stringForKey: @"viewAccessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
+		self.staticText = [self stringForKey: @"staticText" withDefault: nil inDictionary: dictionary_];
 		self.text = [self stringForKey: @"text" withDefault: nil inDictionary: dictionary_];
 		self.textSelector = NSSelectorFromString([self stringForKey: @"textSelector" withDefault: nil inDictionary: dictionary_]);
+		self.staticDetailText = [self stringForKey: @"staticDetailText" withDefault: nil inDictionary: dictionary_];
 		self.detailText = [self stringForKey: @"detailText" withDefault: nil inDictionary: dictionary_];
 		self.detailTextSelector = NSSelectorFromString([self stringForKey: @"detailTextSelector" withDefault: nil inDictionary: dictionary_]);
+		self.staticImageName = [self stringForKey: @"staticImageName" withDefault: nil inDictionary: dictionary_];		
+		self.image = [self stringForKey: @"image" withDefault: nil inDictionary: dictionary_];
+		self.imageSelector = NSSelectorFromString([self stringForKey: @"imageSelector" withDefault: nil inDictionary: dictionary_]);
 		self.backgroundColor = [self stringForKey: @"backgroundColor" withDefault: nil inDictionary: dictionary_];
 		self.becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
 		self.editingStyleAction = NSSelectorFromString([self stringForKey: @"editingStyleAction" withDefault: nil inDictionary: dictionary_]);
@@ -169,6 +176,8 @@
 	self.text = nil;
 	self.staticDetailText = nil;
 	self.detailText = nil;
+	self.staticImageName = nil;
+	self.image = nil;
 	self.editingStylePushConfiguration = nil;
 	self.pushConfiguration = nil;
 	self.viewPushConfiguration = nil;

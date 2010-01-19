@@ -40,6 +40,7 @@
 - (BOOL) supportsText { return NO; }
 - (BOOL) supportsDetailText { return NO; }
 - (BOOL) supportsAccessories { return NO; }
+- (BOOL) supportsImages { return NO; }
 
 - (void) setRow: (RCSTableRow *)newRow
 {

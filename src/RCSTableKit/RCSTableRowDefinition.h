@@ -27,6 +27,10 @@
 	NSString *_detailText;
 	SEL _detailTextSelector;
 	
+	NSString *_staticImageName;
+	NSString *_image;
+	SEL _imageSelector;
+	
 	UITableViewCellEditingStyle _editingStyle;
 	SEL _editingStyleAction;
 	NSString *_editingStylePushConfiguration;
@@ -81,6 +85,10 @@
 @property (nonatomic, retain) NSString *staticDetailText;
 @property (nonatomic, retain) NSString *detailText;
 @property (nonatomic, assign) SEL detailTextSelector;
+
+@property (nonatomic, retain) NSString *staticImageName;
+@property (nonatomic, retain) NSString *image;
+@property (nonatomic, assign) SEL imageSelector;
 
 @property (nonatomic, assign) UITableViewCellEditingStyle editingStyle;
 @property (nonatomic, assign) SEL editingStyleAction;

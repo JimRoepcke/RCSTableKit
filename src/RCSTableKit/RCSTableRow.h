@@ -38,6 +38,7 @@
 - (UITableViewCellEditingStyle) editingStyle;
 - (NSString *) text;
 - (NSString *) detailText;
+- (UIImage *) image;
 - (UITableViewCellAccessoryType) accessoryType;
 - (UITableViewCellAccessoryType) editingAccessoryType;
 

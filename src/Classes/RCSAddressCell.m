@@ -69,6 +69,8 @@
 - (NSString *) string: (NSString *)s { return s == nil ? @"" : s; }
 + (NSString *) string: (NSString *)s { return s == nil ? @"" : s; }
 
+- (BOOL) supportsImages { return NO; }
+
 - (void) setRow: (RCSTableRow *)newRow
 {
 	[super setRow: newRow];

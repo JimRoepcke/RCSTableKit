@@ -88,6 +88,14 @@
 	return nil;
 }
 
+- (UIImage *) image
+{
+	if (_definition.staticImageName != nil) return [UIImage imageNamed: _definition.staticDetailText];
+	else if (_definition.image != nil) return [_object valueForKeyPath: _definition.detailText];
+	else if (_definition.imageSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.imageSelector withObject: self];
+	return nil;
+}
+
 - (UITableViewCellAccessoryType) accessoryType
 {
 	RCSTableViewController *controller = _section.table.controller;
