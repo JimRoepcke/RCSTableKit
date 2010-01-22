@@ -45,10 +45,7 @@
 			self.editingAccessoryType = [newRow editingAccessoryType];
 		}
 		if ([self supportsImages]) {
-			UIImage *image = [newRow image];
-			if (image != nil) {
-				self.imageView.image = image;
-			}
+			self.imageView.image = [newRow image];
 		}
 	}
 }
