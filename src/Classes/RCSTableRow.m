@@ -90,8 +90,8 @@
 
 - (UIImage *) image
 {
-	if (_definition.staticImageName != nil) return [UIImage imageNamed: _definition.staticDetailText];
-	else if (_definition.image != nil) return [_object valueForKeyPath: _definition.detailText];
+	if (_definition.staticImageName != nil) return [UIImage imageNamed: _definition.staticImageName];
+	else if (_definition.image != nil) return [_object valueForKeyPath: _definition.image];
 	else if (_definition.imageSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.imageSelector withObject: self];
 	return nil;
 }
