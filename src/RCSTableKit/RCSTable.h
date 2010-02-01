@@ -30,7 +30,7 @@
 - (NSString *) cellReuseIdentifierAtIndexPath: (NSIndexPath *)indexPath;
 - (UITableViewCell *) cellForRowAtIndexPath: (NSIndexPath *)indexPath;
 
-
+- (NSString *) tableHeaderImagePath;
 
 @end
 

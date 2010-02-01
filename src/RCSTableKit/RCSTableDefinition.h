@@ -11,6 +11,8 @@
 	NSString *_key;
 	NSMutableArray *_displaySectionKeys;
 	NSMutableDictionary *_sectionDefinitions;
+	NSString *_tableHeaderImagePath;
+	SEL _tableHeaderImagePathSelector;
 }
 
 // the source dictionary that generated this definition
@@ -24,6 +26,9 @@
 
 // dictionary of definitions for the sections in tables with this definition
 @property (nonatomic, readonly, retain) NSMutableDictionary *sectionDefinitions;
+
+@property (nonatomic, retain) NSString *tableHeaderImagePath;
+@property (nonatomic, assign) SEL tableHeaderImagePathSelector;
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_;

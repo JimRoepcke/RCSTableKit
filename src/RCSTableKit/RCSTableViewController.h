@@ -14,6 +14,7 @@
 	NSDictionary *_configuration;
 	RCSTableViewDataSource *_dataSource;
 	RCSTableViewDelegate *_tableViewDelegate;
+	NSString *_tableHeaderImagePath;
 }
 
 @property (nonatomic, retain) IBOutlet  UITableView *tableView;

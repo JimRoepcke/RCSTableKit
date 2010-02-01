@@ -18,6 +18,8 @@
 @synthesize key=_key;
 @synthesize displaySectionKeys=_displaySectionKeys;
 @synthesize sectionDefinitions=_sectionDefinitions;
+@synthesize tableHeaderImagePath=_tableHeaderImagePath;
+@synthesize tableHeaderImagePathSelector=_tableHeaderImagePathSelector;
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_
@@ -32,6 +34,8 @@
 			self.displaySectionKeys = [[[NSMutableArray alloc] init] autorelease];
 		}
 		self.sectionDefinitions = [self _buildSectionDefinitions];
+		self.tableHeaderImagePath = [self stringForKey: @"tableHeaderImagePath" withDefault: nil inDictionary: _dictionary];
+		self.tableHeaderImagePathSelector = NSSelectorFromString([self stringForKey: @"tableHeaderImagePathSelector" withDefault: nil inDictionary: dictionary_]);
 	}
 	return self;
 }
@@ -42,6 +46,7 @@
 	self.key = nil;
 	self.displaySectionKeys = nil;
 	self.sectionDefinitions = nil;
+	self.tableHeaderImagePath = nil;
 	[super dealloc];
 }
 

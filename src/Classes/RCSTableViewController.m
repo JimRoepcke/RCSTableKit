@@ -7,6 +7,7 @@
 @interface RCSTableViewController ()
 @property (nonatomic, readwrite, copy)   NSString *configurationName;
 @property (nonatomic, readwrite, retain) NSDictionary *configuration;
+@property (nonatomic, retain) NSString *tableHeaderImagePath;
 - (void) configureEditButton;
 - (void) configureTitle;
 - (void) reloadData;
@@ -23,6 +24,7 @@
 @synthesize tableView=_tableView;
 @synthesize dataSource=_dataSource;
 @synthesize tableViewDelegate=_tableViewDelegate;
+@synthesize tableHeaderImagePath=_tableHeaderImagePath;
 
 - (id) initWithRootObject: (id)rootObject_
 			configuration: (NSDictionary *)configuration_
@@ -37,6 +39,7 @@
 	if (self = [super initWithNibName: nibName bundle: nil]) {
 		self.configurationName = name_;
 		self.configuration = configuration_;
+		self.tableHeaderImagePath = nil;
 		self.dataSource = [[[RCSTableViewDataSource alloc] initForViewController: self
 																  withRootObject: (rootObject_ == nil ? self : rootObject_)
 															  usingConfiguration: configuration_
@@ -50,8 +53,10 @@
 
 - (void) dealloc
 {
+	
 	self.configuration = nil;
 	self.configurationName = nil;
+	self.tableHeaderImagePath = nil;
 	self.dataSource = nil;
 	self.tableViewDelegate = nil;
 	self.tableView.delegate = nil;
@@ -113,11 +118,29 @@
 - (void) willReloadData {}
 - (void) didReloadData {}
 
+- (BOOL) string: (NSString *)s1 isEqualToString: (NSString *)s2
+{
+	if (s1 == nil) return s2 == nil;
+	return [s1 isEqualToString: s2];
+}
+
 - (void) reloadData
 {
 	[self willReloadData];
 	[self.dataSource reloadData];
 	[self.tableView reloadData];
+	NSString *path = [self.dataSource.table tableHeaderImagePath];
+	if (! [self string: path isEqualToString: self.tableHeaderImagePath]) {
+		self.tableHeaderImagePath = path;
+		if (self.tableHeaderImagePath == nil) {
+			self.tableView.tableHeaderView = nil;
+		} else {
+			UIImage *image = [UIImage imageWithContentsOfFile: self.tableHeaderImagePath];
+			UIImageView *imageView = [[UIImageView alloc] initWithImage: image];
+			self.tableView.tableHeaderView = imageView;
+			[imageView release];
+		}
+	}
 	[self didReloadData];
 }
 
