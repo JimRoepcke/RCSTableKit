@@ -31,11 +31,13 @@
 - (void) layoutSubviews
 {
 	[super layoutSubviews];
+	CGSize sz = self.contentView.bounds.size;
 	CGRect frame = self.textLabel.frame;
 	frame.origin.y = 15.0;
 	self.textLabel.frame = frame;
 	frame = self.detailTextLabel.frame;
 	frame.origin.y = 13.0;
+	frame.size.width = sz.width - frame.origin.x - 5.0;
 	NSEnumerator *labelEnumerator = [_labels objectEnumerator];
 	for (NSString *line in _lines) {
 		UILabel *label = [labelEnumerator nextObject];
