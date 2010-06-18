@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		386DA74611CC319F00F71D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386DA74511CC319F00F71D36 /* Foundation.framework */; };
+		386DA74811CC31A700F71D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386DA74711CC31A700F71D36 /* UIKit.framework */; };
 		387DEC0E10E1937A00F918B1 /* RCSAddressCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */; };
 		387DEC0F10E1937A00F918B1 /* RCSBaseDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */; };
 		387DEC1010E1937A00F918B1 /* RCSEditStringCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */; };
@@ -36,12 +38,12 @@
 		387DEC8710E196CC00F918B1 /* RCSTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8410E196CC00F918B1 /* RCSTableViewDataSource.m */; };
 		387DEC8810E196CC00F918B1 /* RCSTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8510E196CC00F918B1 /* RCSTableViewDelegate.m */; };
 		387DEC8A10E196D900F918B1 /* RCSTableUIViewControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8910E196D900F918B1 /* RCSTableUIViewControllerAdditions.m */; };
-		389EEF2610E17EBE00950925 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389EEF2510E17EBE00950925 /* UIKit.framework */; };
 		AA747D9F0F9514B9006C5449 /* RCSTableKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */; };
-		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		386DA74511CC319F00F71D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		386DA74711CC31A700F71D36 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSAddressCell.h; path = RCSTableKit/RCSAddressCell.h; sourceTree = "<group>"; };
 		387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSBaseDefinition.h; path = RCSTableKit/RCSBaseDefinition.h; sourceTree = "<group>"; };
 		387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSEditStringCell.h; path = RCSTableKit/RCSEditStringCell.h; sourceTree = "<group>"; };
@@ -74,9 +76,7 @@
 		387DEC9310E1973600F918B1 /* RCSTableViewGrouped.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RCSTableViewGrouped.xib; path = Resources/RCSTableViewGrouped.xib; sourceTree = "<group>"; };
 		387DEC9410E1973600F918B1 /* RCSTableViewPlain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RCSTableViewPlain.xib; path = Resources/RCSTableViewPlain.xib; sourceTree = "<group>"; };
 		387DECE510E1CB7200F918B1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = SOURCE_ROOT; };
-		389EEF2510E17EBE00950925 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSTableKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libRCSTableKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCSTableKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -85,8 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
-				389EEF2610E17EBE00950925 /* UIKit.framework in Frameworks */,
+				386DA74611CC319F00F71D36 /* Foundation.framework in Frameworks */,
+				386DA74811CC31A700F71D36 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,8 +118,8 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
-				389EEF2510E17EBE00950925 /* UIKit.framework */,
+				386DA74511CC319F00F71D36 /* Foundation.framework */,
+				386DA74711CC31A700F71D36 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -357,7 +357,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.1;
+				SDKROOT = iphonesimulator4.0;
 			};
 			name = Debug;
 		};
@@ -370,7 +370,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.1;
+				SDKROOT = iphonesimulator4.0;
 			};
 			name = Release;
 		};
