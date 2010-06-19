@@ -33,6 +33,12 @@
 - (void) reloadData;
 - (void) setEditing: (BOOL)editing animated: (BOOL)animated;
 
+- (BOOL) configurationBoolForKey: (id)key withDefault: (BOOL)value;
+- (NSInteger) configurationIntegerForKey: (id)key withDefault: (NSInteger)value;
+- (NSString *) configurationStringForKey: (id)key withDefault: (NSString *)value;
+
+- (RCSTableViewController *) configuration: (NSString *)name withRootObject: (NSObject *)object;
+
 @end
 
 /*

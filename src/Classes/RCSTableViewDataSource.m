@@ -125,6 +125,56 @@
 	[self reloadData: YES];
 }
 
+#pragma mark -
+#pragma mark Configuration Support
+
++ (NSDictionary *) configurationNamed: (NSString *)name inBundle: (NSBundle *)bundle
+{
+	NSDictionary *result = nil;
+	if (name == nil) {
+		result = [NSDictionary dictionaryWithObjectsAndKeys: [NSArray array], @"displaySectionKeys", [NSDictionary dictionary], @"sections", nil];
+		bundle = nil;
+	} else if (bundle == nil) {
+		bundle = [NSBundle mainBundle];
+	}
+	if (bundle != nil) {
+		result = [NSDictionary dictionaryWithContentsOfFile: [bundle pathForResource: name ofType: @"plist"]];
+	}
+	return result;
+}
+
++ (NSDictionary *) configurationNamed: (NSString *)name
+{
+	return [[self class] configurationNamed: name inBundle: nil];
+}
+
+- (RCSTableViewController *) configuration: (NSString *)name withRootObject: (NSObject *)object
+{
+	NSDictionary *conf = [[self class] configurationNamed: name];
+	NSString *controllerClassName = [conf objectForKey: @"controllerClassName"];
+	if (controllerClassName == nil) controllerClassName = NSStringFromClass([[self viewController] class]);
+	Class controllerClass = NSClassFromString(controllerClassName);
+	RCSTableViewController *c = [[controllerClass alloc] initWithRootObject: object
+															  configuration: nil
+																	  named: name];
+	return [c autorelease];
+}
+
+- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value {
+	NSNumber *num = [self.dictionary objectForKey: key_];
+	return num == nil ? value : [num boolValue];
+}
+
+- (NSInteger) configurationIntegerForKey: (id)key_ withDefault: (NSInteger)value {
+	NSNumber *num = [self.dictionary objectForKey: key_];
+	return num == nil ? value : [num integerValue];
+}
+
+- (NSString *) configurationStringForKey: (id)key_ withDefault: (NSString *)value {
+	NSString *s = [self.dictionary objectForKey: key_];
+	return s == nil ? value : s;
+}
+
 @end
 
 /*

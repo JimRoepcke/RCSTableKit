@@ -10,18 +10,14 @@
 
 @interface RCSTableViewController : UIViewController {
 	UITableView *_tableView;
-	NSString *_configurationName;
-	NSDictionary *_configuration;
-	RCSTableViewDataSource *_dataSource;
 	RCSTableViewDelegate *_tableViewDelegate;
+	RCSTableViewDataSource *_dataSource;
 	NSString *_tableHeaderImagePath;
 }
 
 @property (nonatomic, retain) IBOutlet  UITableView *tableView;
-@property (nonatomic, readonly, copy)   NSString *configurationName;
-@property (nonatomic, readonly, retain) NSDictionary *configuration;
-@property (nonatomic, retain) RCSTableViewDataSource *dataSource;
 @property (nonatomic, retain) RCSTableViewDelegate *tableViewDelegate;
+@property (nonatomic, retain) RCSTableViewDataSource *dataSource;
 
 - (id) initWithRootObject: (NSObject *)rootObject_
 			configuration: (NSDictionary *)configuration_

@@ -19,7 +19,6 @@
 		387DEC1510E1937A00F918B1 /* RCSTableRowDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0610E1937A00F918B1 /* RCSTableRowDefinition.h */; };
 		387DEC1610E1937A00F918B1 /* RCSTableSection.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0710E1937A00F918B1 /* RCSTableSection.h */; };
 		387DEC1710E1937A00F918B1 /* RCSTableSectionDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0810E1937A00F918B1 /* RCSTableSectionDefinition.h */; };
-		387DEC1810E1937A00F918B1 /* RCSTableUIViewControllerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0910E1937A00F918B1 /* RCSTableUIViewControllerAdditions.h */; };
 		387DEC1910E1937A00F918B1 /* RCSTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0A10E1937A00F918B1 /* RCSTableViewCell.h */; };
 		387DEC1A10E1937A00F918B1 /* RCSTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0B10E1937A00F918B1 /* RCSTableViewController.h */; };
 		387DEC1B10E1937A00F918B1 /* RCSTableViewDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0C10E1937A00F918B1 /* RCSTableViewDataSource.h */; };
@@ -37,13 +36,13 @@
 		387DEC8610E196CC00F918B1 /* RCSTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8310E196CC00F918B1 /* RCSTableViewController.m */; };
 		387DEC8710E196CC00F918B1 /* RCSTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8410E196CC00F918B1 /* RCSTableViewDataSource.m */; };
 		387DEC8810E196CC00F918B1 /* RCSTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8510E196CC00F918B1 /* RCSTableViewDelegate.m */; };
-		387DEC8A10E196D900F918B1 /* RCSTableUIViewControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC8910E196D900F918B1 /* RCSTableUIViewControllerAdditions.m */; };
 		AA747D9F0F9514B9006C5449 /* RCSTableKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		386DA74511CC319F00F71D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		386DA74711CC31A700F71D36 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		38719B9E11CC99EE0079EC94 /* RCSTableKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RCSTableKit.bundle; sourceTree = "<group>"; };
 		387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSAddressCell.h; path = RCSTableKit/RCSAddressCell.h; sourceTree = "<group>"; };
 		387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSBaseDefinition.h; path = RCSTableKit/RCSBaseDefinition.h; sourceTree = "<group>"; };
 		387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSEditStringCell.h; path = RCSTableKit/RCSEditStringCell.h; sourceTree = "<group>"; };
@@ -54,7 +53,6 @@
 		387DEC0610E1937A00F918B1 /* RCSTableRowDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableRowDefinition.h; path = RCSTableKit/RCSTableRowDefinition.h; sourceTree = "<group>"; };
 		387DEC0710E1937A00F918B1 /* RCSTableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableSection.h; path = RCSTableKit/RCSTableSection.h; sourceTree = "<group>"; };
 		387DEC0810E1937A00F918B1 /* RCSTableSectionDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableSectionDefinition.h; path = RCSTableKit/RCSTableSectionDefinition.h; sourceTree = "<group>"; };
-		387DEC0910E1937A00F918B1 /* RCSTableUIViewControllerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableUIViewControllerAdditions.h; path = RCSTableKit/RCSTableUIViewControllerAdditions.h; sourceTree = "<group>"; };
 		387DEC0A10E1937A00F918B1 /* RCSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableViewCell.h; path = RCSTableKit/RCSTableViewCell.h; sourceTree = "<group>"; };
 		387DEC0B10E1937A00F918B1 /* RCSTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableViewController.h; path = RCSTableKit/RCSTableViewController.h; sourceTree = "<group>"; };
 		387DEC0C10E1937A00F918B1 /* RCSTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableViewDataSource.h; path = RCSTableKit/RCSTableViewDataSource.h; sourceTree = "<group>"; };
@@ -72,9 +70,6 @@
 		387DEC8310E196CC00F918B1 /* RCSTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableViewController.m; path = Classes/RCSTableViewController.m; sourceTree = "<group>"; };
 		387DEC8410E196CC00F918B1 /* RCSTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableViewDataSource.m; path = Classes/RCSTableViewDataSource.m; sourceTree = "<group>"; };
 		387DEC8510E196CC00F918B1 /* RCSTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableViewDelegate.m; path = Classes/RCSTableViewDelegate.m; sourceTree = "<group>"; };
-		387DEC8910E196D900F918B1 /* RCSTableUIViewControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableUIViewControllerAdditions.m; path = Classes/RCSTableUIViewControllerAdditions.m; sourceTree = "<group>"; };
-		387DEC9310E1973600F918B1 /* RCSTableViewGrouped.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RCSTableViewGrouped.xib; path = Resources/RCSTableViewGrouped.xib; sourceTree = "<group>"; };
-		387DEC9410E1973600F918B1 /* RCSTableViewPlain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RCSTableViewPlain.xib; path = Resources/RCSTableViewPlain.xib; sourceTree = "<group>"; };
 		387DECE510E1CB7200F918B1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = SOURCE_ROOT; };
 		AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSTableKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		D2AAC07E0554694100DB518D /* libRCSTableKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCSTableKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +91,7 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				38719B9E11CC99EE0079EC94 /* RCSTableKit.bundle */,
 				D2AAC07E0554694100DB518D /* libRCSTableKit.a */,
 			);
 			name = Products;
@@ -108,7 +104,6 @@
 				387DEBFC10E1936F00F918B1 /* Headers */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
-				387DEB8F10E1918C00F918B1 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
@@ -188,18 +183,8 @@
 		387DEB8E10E1914600F918B1 /* UIKit Additions */ = {
 			isa = PBXGroup;
 			children = (
-				387DEC8910E196D900F918B1 /* RCSTableUIViewControllerAdditions.m */,
 			);
 			name = "UIKit Additions";
-			sourceTree = "<group>";
-		};
-		387DEB8F10E1918C00F918B1 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				387DEC9310E1973600F918B1 /* RCSTableViewGrouped.xib */,
-				387DEC9410E1973600F918B1 /* RCSTableViewPlain.xib */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		387DEBFC10E1936F00F918B1 /* Headers */ = {
@@ -215,7 +200,6 @@
 				387DEC0610E1937A00F918B1 /* RCSTableRowDefinition.h */,
 				387DEC0710E1937A00F918B1 /* RCSTableSection.h */,
 				387DEC0810E1937A00F918B1 /* RCSTableSectionDefinition.h */,
-				387DEC0910E1937A00F918B1 /* RCSTableUIViewControllerAdditions.h */,
 				387DEC0A10E1937A00F918B1 /* RCSTableViewCell.h */,
 				387DEC0B10E1937A00F918B1 /* RCSTableViewController.h */,
 				387DEC0C10E1937A00F918B1 /* RCSTableViewDataSource.h */,
@@ -242,7 +226,6 @@
 				387DEC1510E1937A00F918B1 /* RCSTableRowDefinition.h in Headers */,
 				387DEC1610E1937A00F918B1 /* RCSTableSection.h in Headers */,
 				387DEC1710E1937A00F918B1 /* RCSTableSectionDefinition.h in Headers */,
-				387DEC1810E1937A00F918B1 /* RCSTableUIViewControllerAdditions.h in Headers */,
 				387DEC1910E1937A00F918B1 /* RCSTableViewCell.h in Headers */,
 				387DEC1A10E1937A00F918B1 /* RCSTableViewController.h in Headers */,
 				387DEC1B10E1937A00F918B1 /* RCSTableViewDataSource.h in Headers */,
@@ -306,7 +289,6 @@
 				387DEC8610E196CC00F918B1 /* RCSTableViewController.m in Sources */,
 				387DEC8710E196CC00F918B1 /* RCSTableViewDataSource.m in Sources */,
 				387DEC8810E196CC00F918B1 /* RCSTableViewDelegate.m in Sources */,
-				387DEC8A10E196D900F918B1 /* RCSTableUIViewControllerAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

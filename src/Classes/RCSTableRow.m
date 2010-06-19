@@ -9,6 +9,7 @@
 @property (nonatomic, readwrite, assign) NSObject *object;
 @property (nonatomic, readwrite, retain) NSIndexPath *indexPath;
 @property (nonatomic, readwrite, assign) RCSTableSection *section; // parent
+- (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller;
 @end
 
 @implementation RCSTableRow
@@ -39,6 +40,11 @@
 	self.section = nil;
 	self.indexPath = nil;
 	[super dealloc];
+}
+
+- (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller
+{
+	[controller.navigationController pushViewController: [controller.dataSource configuration: name withRootObject: object] animated: YES];
 }
 
 #pragma mark -
@@ -170,7 +176,7 @@
 			[tableView reloadSections: [NSIndexSet indexSetWithIndex: [indexPath section]] withRowAnimation: UITableViewRowAnimationFade];
 		}*/
 	} else if (_definition.editingStylePushConfiguration != nil) {
-		[controller pushConfiguration: _definition.editingStylePushConfiguration withRootObject: _object];
+		[self pushConfiguration: _definition.editingStylePushConfiguration withRootObject: _object usingController: controller];
 	}
 }
 
@@ -203,18 +209,18 @@
 	if (_definition.action != (SEL)0) {
 		[controller performSelector: _definition.action withObject: self];
 	} else if (_definition.pushConfiguration != nil) {
-		[controller pushConfiguration: _definition.pushConfiguration withRootObject: _object];
+		[self pushConfiguration: _definition.pushConfiguration withRootObject: _object usingController: controller];
 	} else if (controller.editing) {
 		if (_definition.editAction != (SEL)0) {
 			[controller performSelector: _definition.editAction withObject: self];
 		} else if (_definition.editPushConfiguration != nil) {
-			[controller pushConfiguration: _definition.editPushConfiguration withRootObject: _object];
+			[self pushConfiguration: _definition.editPushConfiguration withRootObject: _object usingController: controller];
 		}
 	} else {
 		if (_definition.viewAction != (SEL)0) {
 			[controller performSelector: _definition.viewAction withObject: self];
 		} else if (_definition.viewPushConfiguration != nil) {
-			[controller pushConfiguration: _definition.viewPushConfiguration withRootObject: _object];
+			[self pushConfiguration: _definition.viewPushConfiguration withRootObject: _object usingController: controller];
 		}
 	}
 }
@@ -225,18 +231,18 @@
 	if (_definition.accessoryAction != (SEL)0) {
 		[controller performSelector: _definition.accessoryAction withObject: _object];
 	} else if (_definition.accessoryPushConfiguration != nil) {
-		[controller pushConfiguration: _definition.accessoryPushConfiguration withRootObject: _object];
+		[self pushConfiguration: _definition.accessoryPushConfiguration withRootObject: _object usingController: controller];
 	} else if (controller.editing) {
 		if (_definition.editAccessoryAction != (SEL)0) {
 			[controller performSelector: _definition.editAccessoryAction withObject: _object];
 		} else if (_definition.editAccessoryPushConfiguration != nil) {
-			[controller pushConfiguration: _definition.editAccessoryPushConfiguration withRootObject: _object];
+			[self pushConfiguration: _definition.editAccessoryPushConfiguration withRootObject: _object usingController: controller];
 		}
 	} else {
 		if (_definition.viewAccessoryAction != (SEL)0) {
 			[controller performSelector: _definition.viewAccessoryAction withObject: _object];
 		} else if (_definition.viewAccessoryPushConfiguration != nil) {
-			[controller pushConfiguration: _definition.viewAccessoryPushConfiguration withRootObject: _object];
+			[self pushConfiguration: _definition.viewAccessoryPushConfiguration withRootObject: _object usingController: controller];
 		}
 	}
 }

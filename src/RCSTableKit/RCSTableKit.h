@@ -4,7 +4,6 @@
 //  See license below.
 //
 
-#import "RCSTableKit/RCSTableUIViewControllerAdditions.h"
 #import "RCSTableKit/RCSBaseDefinition.h"
 #import "RCSTableKit/RCSTableDefinition.h"
 #import "RCSTableKit/RCSTableSectionDefinition.h"
