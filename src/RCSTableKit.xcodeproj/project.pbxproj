@@ -42,7 +42,6 @@
 /* Begin PBXFileReference section */
 		386DA74511CC319F00F71D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		386DA74711CC31A700F71D36 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		38719B9E11CC99EE0079EC94 /* RCSTableKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RCSTableKit.bundle; sourceTree = "<group>"; };
 		387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSAddressCell.h; path = RCSTableKit/RCSAddressCell.h; sourceTree = "<group>"; };
 		387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSBaseDefinition.h; path = RCSTableKit/RCSBaseDefinition.h; sourceTree = "<group>"; };
 		387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSEditStringCell.h; path = RCSTableKit/RCSEditStringCell.h; sourceTree = "<group>"; };
@@ -71,6 +70,8 @@
 		387DEC8410E196CC00F918B1 /* RCSTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableViewDataSource.m; path = Classes/RCSTableViewDataSource.m; sourceTree = "<group>"; };
 		387DEC8510E196CC00F918B1 /* RCSTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableViewDelegate.m; path = Classes/RCSTableViewDelegate.m; sourceTree = "<group>"; };
 		387DECE510E1CB7200F918B1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = SOURCE_ROOT; };
+		3896CD7311D5ECEB0098CEF4 /* RCSTableViewGrouped.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RCSTableViewGrouped.xib; sourceTree = "<group>"; };
+		3896CD7411D5ECEB0098CEF4 /* RCSTableViewPlain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RCSTableViewPlain.xib; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSTableKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		D2AAC07E0554694100DB518D /* libRCSTableKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCSTableKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -91,7 +92,6 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				38719B9E11CC99EE0079EC94 /* RCSTableKit.bundle */,
 				D2AAC07E0554694100DB518D /* libRCSTableKit.a */,
 			);
 			name = Products;
@@ -101,6 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				387DECE510E1CB7200F918B1 /* README.txt */,
+				3896CD7311D5ECEB0098CEF4 /* RCSTableViewGrouped.xib */,
+				3896CD7411D5ECEB0098CEF4 /* RCSTableViewPlain.xib */,
 				387DEBFC10E1936F00F918B1 /* Headers */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
@@ -335,8 +337,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = (
+					"-Xclang",
+					"-fobjc-nonfragile-abi2",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator4.0;
@@ -348,8 +355,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = (
+					"-Xclang",
+					"-fobjc-nonfragile-abi2",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator4.0;
