@@ -23,6 +23,9 @@
 @property (nonatomic, readonly, retain) RCSTableDefinition *tableDefinition;
 @property (nonatomic, readonly, retain) RCSTable *table;
 
++ (NSDictionary *) configurationNamed: (NSString *)name inBundle: (NSBundle *)bundle;
++ (NSDictionary *) configurationNamed: (NSString *)name;
+
 - (id) initForViewController: (RCSTableViewController *)viewController_
 			  withRootObject: (NSObject *)rootObject_
 		  usingConfiguration: (NSDictionary *)configuration_

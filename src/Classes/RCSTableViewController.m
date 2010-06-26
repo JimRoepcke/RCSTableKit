@@ -22,6 +22,16 @@
 @synthesize dataSource=_dataSource;
 @synthesize tableHeaderImagePath=_tableHeaderImagePath;
 
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+	if (self = [super initWithCoder: aDecoder]) {
+		_tableViewDelegate = nil;
+		_dataSource = nil;
+		_tableHeaderImagePath = nil;
+	}
+	return self;
+}
+
 - (id) initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
 {
 	if (self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil]) {
@@ -42,10 +52,6 @@
 	NSString *nibName_ = [ds configurationStringForKey: @"nibName" withDefault: nil];
 	NSString *nibBundleName_ = [ds configurationStringForKey: @"nibBundleName" withDefault: nil];
 	NSBundle *nibBundle_ = nil;
-	if (nibName_ == nil) {
-		nibName_ = @"RCSTableViewPlain";
-		nibBundleName_ = @"RCSTableKit.bundle";
-	}
 	if (nibBundleName_ != nil) {
 		NSString* path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nibBundleName_];
 		nibBundle_ = [NSBundle bundleWithPath: path];

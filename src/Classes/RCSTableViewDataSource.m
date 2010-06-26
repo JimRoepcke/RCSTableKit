@@ -26,6 +26,10 @@
 			  withRootObject: (NSObject *)rootObject_
 		  usingConfiguration: (NSDictionary *)configuration_
 					   named: (NSString *)name_ {
+	if (!(configuration_ = configuration_ ? configuration_ :
+		  (name_ ? [[self class] configurationNamed: name_] : nil))) {
+		return nil;
+	}
 	self = [super init];
 	if (self != nil) {
 		self.viewController = viewController_;
