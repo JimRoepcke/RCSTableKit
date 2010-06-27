@@ -236,20 +236,20 @@
 {
 	RCSTableViewController *controller = self.section.table.controller;
 	if (_definition.accessoryAction != (SEL)0) {
-		[controller performSelector: _definition.accessoryAction withObject: _object];
+		[controller performSelector: _definition.accessoryAction withObject: self];
 	} else if (_definition.accessoryPushConfiguration != nil) {
-		[self pushConfiguration: _definition.accessoryPushConfiguration withRootObject: _object usingController: controller];
+		[self pushConfiguration: _definition.accessoryPushConfiguration withRootObject: self usingController: controller];
 	} else if (controller.editing) {
 		if (_definition.editAccessoryAction != (SEL)0) {
-			[controller performSelector: _definition.editAccessoryAction withObject: _object];
+			[controller performSelector: _definition.editAccessoryAction withObject: self];
 		} else if (_definition.editAccessoryPushConfiguration != nil) {
-			[self pushConfiguration: _definition.editAccessoryPushConfiguration withRootObject: _object usingController: controller];
+			[self pushConfiguration: _definition.editAccessoryPushConfiguration withRootObject: self usingController: controller];
 		}
 	} else {
 		if (_definition.viewAccessoryAction != (SEL)0) {
-			[controller performSelector: _definition.viewAccessoryAction withObject: _object];
+			[controller performSelector: _definition.viewAccessoryAction withObject: self];
 		} else if (_definition.viewAccessoryPushConfiguration != nil) {
-			[self pushConfiguration: _definition.viewAccessoryPushConfiguration withRootObject: _object usingController: controller];
+			[self pushConfiguration: _definition.viewAccessoryPushConfiguration withRootObject: self usingController: controller];
 		}
 	}
 }
