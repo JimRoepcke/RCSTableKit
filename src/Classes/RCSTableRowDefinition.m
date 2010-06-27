@@ -16,6 +16,7 @@
 @synthesize key=_key;
 @synthesize list=_list;
 
+@synthesize cellNibName=_cellNibName;
 @synthesize cellClassName=_cellClassName;
 @synthesize cellClass=_cellClass;
 
@@ -130,6 +131,7 @@
 		self.staticEditingAccessoryType = staticEditingAccessoryType;
 		self.editingAccessoryType = [self stringForKey: @"editingAccessoryType" withDefault: nil inDictionary: dictionary_];
 		self.editingAccessoryTypeSelector = NSSelectorFromString([self stringForKey: @"editingAccessoryTypeSelector" withDefault: nil inDictionary: dictionary_]);
+		self.cellNibName = [self stringForKey: @"cellNibName" withDefault: nil inDictionary: dictionary_];
 		self.cellClassName = [self stringForKey: @"cell" withDefault: @"RCSTableViewCell" inDictionary: dictionary_];
 		self.editPushConfiguration = [self stringForKey: @"editPushConfiguration" withDefault: nil inDictionary: dictionary_];
 		self.viewPushConfiguration = [self stringForKey: @"viewPushConfiguration" withDefault: nil inDictionary: dictionary_];
@@ -169,6 +171,7 @@
 	
 	self.accessoryType = nil;
 	self.editingAccessoryType = nil;
+	self.cellNibName = nil;
 	self.cellClassName = nil;
 	self.cellClass = nil;
 	self.backgroundColor = nil;

@@ -67,10 +67,17 @@
 
 - (UITableViewCell *) cell
 {
-	UITableViewCell *cell = [[_definition.cellClass alloc] initWithStyle: _definition.cellStyle
-														 reuseIdentifier: [self cellReuseIdentifier]];
+	NSString *nibName = _definition.cellNibName;
+	UITableViewCell *cell = nil;
+	if (nibName) {
+		// FIXME: use UINib instead, perhaps data source holds the UINib instances?
+		cell = (UITableViewCell *)[[[NSBundle mainBundle] loadNibNamed: nibName owner: self options: nil] objectAtIndex: 0];
+	} else {
+		cell = [[[_definition.cellClass alloc] initWithStyle: _definition.cellStyle
+											 reuseIdentifier: [self cellReuseIdentifier]] autorelease];
+	}
 	
-	return [cell autorelease];
+	return cell;
 }
 
 - (UITableViewCellEditingStyle) editingStyle

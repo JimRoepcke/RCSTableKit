@@ -11,6 +11,7 @@
 	NSString *_key;
 	NSString *_list;
 	
+	NSString *_cellNibName;
 	NSString *_cellClassName;
 	Class _cellClass;
 	
@@ -70,6 +71,7 @@
 @property (nonatomic, readonly, retain) NSString *list;
 
 
+@property (nonatomic, retain) NSString *cellNibName;
 @property (nonatomic, retain) NSString *cellClassName;
 @property (nonatomic, assign) Class     cellClass;
 
