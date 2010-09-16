@@ -10,7 +10,7 @@
 
 - (void) dealloc
 {
-	self.row = nil;
+	[row release]; row = nil;
     [super dealloc];
 }
 
