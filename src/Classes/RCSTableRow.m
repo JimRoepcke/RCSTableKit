@@ -14,6 +14,7 @@
 
 @implementation RCSTableRow
 
+@synthesize cell=_cell;
 @synthesize definition=_definition;
 @synthesize indexPath=_indexPath;
 @synthesize object=_object;
@@ -25,6 +26,7 @@
 			  atIndexPath: (NSIndexPath *)indexPath_
 {
 	if (self = [super init]) {
+		_cell = nil;
 		self.definition = definition_;
 		self.object = object_;
 		self.section = section_;
@@ -35,10 +37,11 @@
 
 - (void) dealloc
 {
-	self.definition = nil;
-	self.object = nil;
-	self.section = nil;
-	self.indexPath = nil;
+	_cell = nil;
+	[_definition release]; _definition = nil;
+	_object = nil;
+	_section = nil;
+	[_indexPath release]; _indexPath = nil;
 	[super dealloc];
 }
 
@@ -65,7 +68,7 @@
 	return [NSString stringWithFormat: @"%d", (int)(_definition.dictionary)];
 }
 
-- (UITableViewCell *) cell
+- (UITableViewCell *) createCell
 {
 	NSString *nibName = _definition.cellNibName;
 	UITableViewCell *cell = nil;

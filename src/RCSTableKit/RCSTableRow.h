@@ -7,12 +7,14 @@
 @class RCSTableRowDefinition, RCSTableSectionDefinition, RCSTableSection;
 
 @interface RCSTableRow : NSObject {
+	UITableViewCell *_cell;
 	RCSTableRowDefinition *_definition;
 	NSObject *_object;
 	RCSTableSection *_section; // parent
 	NSIndexPath *_indexPath;
 }
 
+@property (nonatomic, readwrite, assign) UITableViewCell *cell;
 @property (nonatomic, readonly, retain) RCSTableRowDefinition *definition;
 @property (nonatomic, readonly, assign) NSObject *object;
 @property (nonatomic, readonly, retain) NSIndexPath *indexPath;
@@ -27,7 +29,7 @@
 
 - (BOOL) isEditable;
 - (NSString *) cellReuseIdentifier;
-- (UITableViewCell *) cell;
+- (UITableViewCell *) createCell;
 - (CGFloat) heightWithDefault: (CGFloat)defaultHeight;
 - (void) willDisplayCell: (UITableViewCell *)cell;
 - (void) commitEditingStyle: (UITableViewCellEditingStyle)editingStyle;

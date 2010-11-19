@@ -24,16 +24,26 @@
 - (BOOL) supportsAccessories { return YES; }
 - (BOOL) supportsImages { return YES; }
 
+- (void) didMoveToSuperview
+{
+	[super didMoveToSuperview];
+	if (![self superview]) {
+		[self setRow: nil];
+	}
+}
+
 - (void) setRow: (RCSTableRow *)newRow
 {
 	if (row != newRow) {
 		[self willChangeValueForKey: @"row"];
-		if (newRow != nil) [newRow retain];
-		if (row != nil) [row release];
+		[newRow retain];
+		[row release];
 		row = newRow;
 		[self didChangeValueForKey: @"row"];
+		[row setCell: nil];
 	}
 	if (newRow != nil) {
+		[newRow setCell: self];
 		if ([self supportsText]) {
 			self.textLabel.text = [newRow text];
 		}

@@ -76,7 +76,7 @@
 - (UITableViewCell *) cellForRowAtIndexPath: (NSIndexPath *)indexPath
 {
 	RCSTableRow *row = [self rowAtIndexPath: indexPath];
-	return [row cell];
+	return [row createCell];
 	
 }
 
