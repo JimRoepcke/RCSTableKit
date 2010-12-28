@@ -20,7 +20,10 @@
 @synthesize cellClassName=_cellClassName;
 @synthesize cellClass=_cellClass;
 
+@synthesize staticCellStyle=_staticCellStyle;
 @synthesize cellStyle=_cellStyle;
+@synthesize cellStyleSelector=_cellStyleSelector;
+
 @synthesize becomeFirstResponder=_becomeFirstResponder;
 @synthesize rowHeight=_rowHeight;	
 @synthesize backgroundColor=_backgroundColor;
@@ -64,6 +67,8 @@
 @synthesize editAccessoryAction=_editAccessoryAction;
 @synthesize editAccessoryPushConfiguration=_editAccessoryPushConfiguration;	
 
+// FIXME: instead of explicitly setting each property here, make each accessor
+// method lazily pull the value from dictionary_
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_
 {
@@ -74,90 +79,93 @@
 		self.list = [dictionary_ objectForKey: @"list"];
 		_cellClass = nil;
 
-		NSString *editingStyleString, *cellStyleString, *staticAccessoryTypeString;
+		NSString *s;
 		UITableViewCellEditingStyle editingStyle;
-		UITableViewCellStyle cellStyle;
 		UITableViewCellAccessoryType staticAccessoryType, staticEditingAccessoryType;
 		
 		// cellStyle
-		cellStyle = UITableViewCellStyleDefault;
-		cellStyleString = [self stringForKey: @"cellStyle" withDefault: @"default" inDictionary: _dictionary];
-		if ([@"value1" isEqualToString: cellStyleString]) {
-			cellStyle = UITableViewCellStyleValue1;
-		} else if ([@"value2" isEqualToString: cellStyleString]) {
-			cellStyle = UITableViewCellStyleValue2;
-		} else if ([@"subtitle" isEqualToString: cellStyleString]) {
-			cellStyle = UITableViewCellStyleSubtitle;
+		if (s = [_dictionary objectForKey: @"cellStyle"]) {
+			if ([@"value1" isEqualToString: s]) {
+				self.staticCellStyle = UITableViewCellStyleValue1;
+			} else if ([@"value2" isEqualToString: s]) {
+				self.staticCellStyle = UITableViewCellStyleValue2;
+			} else if ([@"subtitle" isEqualToString: s]) {
+				self.staticCellStyle = UITableViewCellStyleSubtitle;
+			}
+		} else {
+			self.staticCellStyle = UITableViewCellStyleDefault;
 		}
 		
 		// editingStyle
-		editingStyle = UITableViewCellEditingStyleNone;
-		editingStyleString = [self stringForKey: @"editingStyle" withDefault: @"none" inDictionary: _dictionary];
-		if ([@"insert" isEqualToString: editingStyleString]) {
-			editingStyle = UITableViewCellEditingStyleInsert;
-		} else if ([@"delete" isEqualToString: editingStyleString]) {
-			editingStyle = UITableViewCellEditingStyleDelete;
+		if (s = [_dictionary objectForKey: @"editingStyle"]) {
+			if ([@"insert" isEqualToString: s]) {
+				self.editingStyle = UITableViewCellEditingStyleInsert;
+			} else if ([@"delete" isEqualToString: s]) {
+				self.editingStyle = UITableViewCellEditingStyleDelete;
+			}
+		} else {
+			self.editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
 		// staticAccessoryType
-		staticAccessoryType = UITableViewCellAccessoryNone;
-		staticAccessoryTypeString = [self stringForKey: @"staticAccessoryType" withDefault: @"none" inDictionary: _dictionary];
-		if ([@"disclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
-			staticAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		} else if ([@"detailDisclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
-			staticAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-		} else if ([@"checkmark" isEqualToString: staticAccessoryTypeString]) {
-			staticAccessoryType = UITableViewCellAccessoryCheckmark;
+		if (s = [_dictionary objectForKey: @"staticAccessoryType"]) {
+			if ([@"disclosureIndicator" isEqualToString: s]) {
+				self.staticAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
+				self.staticAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+			} else if ([@"checkmark" isEqualToString: s]) {
+				self.staticAccessoryType = UITableViewCellAccessoryCheckmark;
+			}
+		} else {
+			self.staticAccessoryType = UITableViewCellAccessoryNone;
 		}
 
 		// staticEditingAccessoryType
-		staticEditingAccessoryType = UITableViewCellAccessoryNone;
-		staticAccessoryTypeString = [self stringForKey: @"staticEditingAccessoryType" withDefault: @"none" inDictionary: _dictionary];
-		if ([@"disclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
-			staticEditingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		} else if ([@"detailDisclosureIndicator" isEqualToString: staticAccessoryTypeString]) {
-			staticEditingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-		} else if ([@"checkmark" isEqualToString: staticAccessoryTypeString]) {
-			staticEditingAccessoryType = UITableViewCellAccessoryCheckmark;
+		if (s = [_dictionary objectForKey: @"staticEditingAccessoryType"]) {
+			if ([@"disclosureIndicator" isEqualToString: s]) {
+				self.staticEditingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
+				self.staticEditingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+			} else if ([@"checkmark" isEqualToString: s]) {
+				self.staticEditingAccessoryType = UITableViewCellAccessoryCheckmark;
+			}
+		} else {
+			self.staticEditingAccessoryType = UITableViewCellAccessoryNone;
 		}
-
-		self.cellStyle = cellStyle;
-		self.editingStyle = editingStyle;
 		
-		// TODO: rearrange these lines to match the order of the properties above
-		self.staticAccessoryType = staticAccessoryType;
-		self.accessoryType = [self stringForKey: @"accessoryType" withDefault: nil inDictionary: dictionary_];
-		self.accessoryTypeSelector = NSSelectorFromString([self stringForKey: @"accessoryTypeSelector" withDefault: nil inDictionary: dictionary_]);
-		self.staticEditingAccessoryType = staticEditingAccessoryType;
-		self.editingAccessoryType = [self stringForKey: @"editingAccessoryType" withDefault: nil inDictionary: dictionary_];
-		self.editingAccessoryTypeSelector = NSSelectorFromString([self stringForKey: @"editingAccessoryTypeSelector" withDefault: nil inDictionary: dictionary_]);
-		self.cellNibName = [self stringForKey: @"cellNibName" withDefault: nil inDictionary: dictionary_];
+		self.cellStyle = [dictionary_ objectForKey: @"cellStyle"];
+		self.cellStyleSelector = NSSelectorFromString([dictionary_ objectForKey: @"cellStyleSelector"]);
+		self.accessoryType = [dictionary_ objectForKey: @"accessoryType"];
+		self.accessoryTypeSelector = NSSelectorFromString([dictionary_ objectForKey: @"accessoryTypeSelector"]);
+		self.editingAccessoryType = [dictionary_ objectForKey: @"editingAccessoryType"];
+		self.editingAccessoryTypeSelector = NSSelectorFromString([dictionary_ objectForKey: @"editingAccessoryTypeSelector"]);
+		self.cellNibName = [dictionary_ objectForKey: @"cellNibName"];
 		self.cellClassName = [self stringForKey: @"cell" withDefault: @"RCSTableViewCell" inDictionary: dictionary_];
-		self.editPushConfiguration = [self stringForKey: @"editPushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.viewPushConfiguration = [self stringForKey: @"viewPushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.pushConfiguration = [self stringForKey: @"pushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.accessoryPushConfiguration = [self stringForKey: @"accessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.editAccessoryPushConfiguration = [self stringForKey: @"editAccessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.viewAccessoryPushConfiguration = [self stringForKey: @"viewAccessoryPushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.staticText = [self stringForKey: @"staticText" withDefault: nil inDictionary: dictionary_];
-		self.text = [self stringForKey: @"text" withDefault: nil inDictionary: dictionary_];
-		self.textSelector = NSSelectorFromString([self stringForKey: @"textSelector" withDefault: nil inDictionary: dictionary_]);
-		self.staticDetailText = [self stringForKey: @"staticDetailText" withDefault: nil inDictionary: dictionary_];
-		self.detailText = [self stringForKey: @"detailText" withDefault: nil inDictionary: dictionary_];
-		self.detailTextSelector = NSSelectorFromString([self stringForKey: @"detailTextSelector" withDefault: nil inDictionary: dictionary_]);
-		self.staticImageName = [self stringForKey: @"staticImageName" withDefault: nil inDictionary: dictionary_];		
-		self.image = [self stringForKey: @"image" withDefault: nil inDictionary: dictionary_];
-		self.imageSelector = NSSelectorFromString([self stringForKey: @"imageSelector" withDefault: nil inDictionary: dictionary_]);
-		self.backgroundColor = [self stringForKey: @"backgroundColor" withDefault: nil inDictionary: dictionary_];
+		self.editPushConfiguration = [dictionary_ objectForKey: @"editPushConfiguration"];
+		self.viewPushConfiguration = [dictionary_ objectForKey: @"viewPushConfiguration"];
+		self.pushConfiguration = [dictionary_ objectForKey: @"pushConfiguration"];
+		self.accessoryPushConfiguration = [dictionary_ objectForKey: @"accessoryPushConfiguration"];
+		self.editAccessoryPushConfiguration = [dictionary_ objectForKey: @"editAccessoryPushConfiguration"];
+		self.viewAccessoryPushConfiguration = [dictionary_ objectForKey: @"viewAccessoryPushConfiguration"];
+		self.staticText = [dictionary_ objectForKey: @"staticText"];
+		self.text = [dictionary_ objectForKey: @"text"];
+		self.textSelector = NSSelectorFromString([dictionary_ objectForKey: @"textSelector"]);
+		self.staticDetailText = [dictionary_ objectForKey: @"staticDetailText"];
+		self.detailText = [dictionary_ objectForKey: @"detailText"];
+		self.detailTextSelector = NSSelectorFromString([dictionary_ objectForKey: @"detailTextSelector"]);
+		self.staticImageName = [dictionary_ objectForKey: @"staticImageName"];		
+		self.image = [dictionary_ objectForKey: @"image"];
+		self.imageSelector = NSSelectorFromString([dictionary_ objectForKey: @"imageSelector"]);
+		self.backgroundColor = [dictionary_ objectForKey: @"backgroundColor"];
 		self.becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
-		self.editingStyleAction = NSSelectorFromString([self stringForKey: @"editingStyleAction" withDefault: nil inDictionary: dictionary_]);
-		self.editingStylePushConfiguration = [self stringForKey: @"editingStylePushConfiguration" withDefault: nil inDictionary: dictionary_];
-		self.editAction = NSSelectorFromString([self stringForKey: @"editAction" withDefault: nil inDictionary: dictionary_]);
-		self.viewAction = NSSelectorFromString([self stringForKey: @"viewAction" withDefault: nil inDictionary: dictionary_]);
-		self.action = NSSelectorFromString([self stringForKey: @"action" withDefault: nil inDictionary: dictionary_]);
-		self.editAccessoryAction = NSSelectorFromString([self stringForKey: @"editAccessoryAction" withDefault: nil inDictionary: dictionary_]);
-		self.viewAccessoryAction = NSSelectorFromString([self stringForKey: @"viewAccessoryAction" withDefault: nil inDictionary: dictionary_]);
-		self.accessoryAction = NSSelectorFromString([self stringForKey: @"accessoryAction" withDefault: nil inDictionary: dictionary_]);
+		self.editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: @"editingStyleAction"]);
+		self.editingStylePushConfiguration = [dictionary_ objectForKey: @"editingStylePushConfiguration"];
+		self.editAction = NSSelectorFromString([dictionary_ objectForKey: @"editAction"]);
+		self.viewAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAction"]);
+		self.action = NSSelectorFromString([dictionary_ objectForKey: @"action"]);
+		self.editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"editAccessoryAction"]);
+		self.viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAccessoryAction"]);
+		self.accessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"accessoryAction"]);
 		self.rowHeight = (CGFloat)[self floatForKey: @"rowHeight" withDefault: -1.0 inDictionary: dictionary_];
 	}
 	return self;

@@ -15,7 +15,10 @@
 	NSString *_cellClassName;
 	Class _cellClass;
 	
-	UITableViewCellStyle _cellStyle;
+	UITableViewCellStyle _staticCellStyle;
+	NSString *_cellStyle;
+	SEL _cellStyleSelector;
+	
 	BOOL _becomeFirstResponder;
 	CGFloat _rowHeight;	
 	NSString *_backgroundColor;
@@ -75,7 +78,10 @@
 @property (nonatomic, retain) NSString *cellClassName;
 @property (nonatomic, assign) Class     cellClass;
 
-@property (nonatomic, assign) UITableViewCellStyle cellStyle;
+@property (nonatomic, assign) UITableViewCellStyle staticCellStyle;
+@property (nonatomic, retain) NSString *cellStyle;
+@property (nonatomic, assign) SEL cellStyleSelector;
+
 @property (nonatomic, assign) BOOL becomeFirstResponder;
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, retain) NSString *backgroundColor;

@@ -76,7 +76,7 @@
 		// FIXME: use UINib instead, perhaps data source holds the UINib instances?
 		cell = (UITableViewCell *)[[[NSBundle mainBundle] loadNibNamed: nibName owner: self options: nil] objectAtIndex: 0];
 	} else {
-		cell = [[[_definition.cellClass alloc] initWithStyle: _definition.cellStyle
+		cell = [[[_definition.cellClass alloc] initWithStyle: [self cellStyle]
 											 reuseIdentifier: [self cellReuseIdentifier]] autorelease];
 	}
 	
@@ -86,6 +86,13 @@
 - (UITableViewCellEditingStyle) editingStyle
 {
 	return _definition.editingStyle;
+}
+
+- (UITableViewCellStyle) cellStyle
+{
+	if (_definition.cellStyle != nil) return [_object valueForKeyPath: _definition.cellStyle];
+	else if (_definition.cellStyleSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.cellStyleSelector withObject: self];
+	else return _definition.staticCellStyle;
 }
 
 - (NSString *) text
