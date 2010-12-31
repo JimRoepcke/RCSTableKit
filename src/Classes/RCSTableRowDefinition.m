@@ -80,54 +80,59 @@
 		_cellClass = nil;
 
 		NSString *s;
-		UITableViewCellEditingStyle editingStyle;
-		UITableViewCellAccessoryType staticAccessoryType, staticEditingAccessoryType;
-		
 		// cellStyle
-		if (s = [_dictionary objectForKey: @"cellStyle"]) {
+		if ((s = [_dictionary objectForKey: @"cellStyle"])) {
 			if ([@"value1" isEqualToString: s]) {
 				self.staticCellStyle = UITableViewCellStyleValue1;
 			} else if ([@"value2" isEqualToString: s]) {
 				self.staticCellStyle = UITableViewCellStyleValue2;
 			} else if ([@"subtitle" isEqualToString: s]) {
 				self.staticCellStyle = UITableViewCellStyleSubtitle;
+			} else {
+				self.staticCellStyle = UITableViewCellStyleDefault;
 			}
 		} else {
 			self.staticCellStyle = UITableViewCellStyleDefault;
 		}
 		
 		// editingStyle
-		if (s = [_dictionary objectForKey: @"editingStyle"]) {
+		if ((s = [_dictionary objectForKey: @"editingStyle"])) {
 			if ([@"insert" isEqualToString: s]) {
 				self.editingStyle = UITableViewCellEditingStyleInsert;
 			} else if ([@"delete" isEqualToString: s]) {
 				self.editingStyle = UITableViewCellEditingStyleDelete;
+			} else {
+				self.editingStyle = UITableViewCellEditingStyleNone;
 			}
 		} else {
 			self.editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
 		// staticAccessoryType
-		if (s = [_dictionary objectForKey: @"staticAccessoryType"]) {
+		if ((s = [_dictionary objectForKey: @"staticAccessoryType"])) {
 			if ([@"disclosureIndicator" isEqualToString: s]) {
 				self.staticAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
 				self.staticAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			} else if ([@"checkmark" isEqualToString: s]) {
 				self.staticAccessoryType = UITableViewCellAccessoryCheckmark;
+			} else {
+				self.staticAccessoryType = UITableViewCellAccessoryNone;
 			}
 		} else {
 			self.staticAccessoryType = UITableViewCellAccessoryNone;
 		}
 
 		// staticEditingAccessoryType
-		if (s = [_dictionary objectForKey: @"staticEditingAccessoryType"]) {
+		if ((s = [_dictionary objectForKey: @"staticEditingAccessoryType"])) {
 			if ([@"disclosureIndicator" isEqualToString: s]) {
 				self.staticEditingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
 				self.staticEditingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			} else if ([@"checkmark" isEqualToString: s]) {
 				self.staticEditingAccessoryType = UITableViewCellAccessoryCheckmark;
+			} else {
+				self.staticEditingAccessoryType = UITableViewCellAccessoryNone;
 			}
 		} else {
 			self.staticEditingAccessoryType = UITableViewCellAccessoryNone;

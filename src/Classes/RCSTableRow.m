@@ -10,6 +10,7 @@
 @property (nonatomic, readwrite, retain) NSIndexPath *indexPath;
 @property (nonatomic, readwrite, assign) RCSTableSection *section; // parent
 - (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller;
+- (UITableViewCellStyle) cellStyle;
 @end
 
 @implementation RCSTableRow
@@ -90,9 +91,23 @@
 
 - (UITableViewCellStyle) cellStyle
 {
-	if (_definition.cellStyle != nil) return [_object valueForKeyPath: _definition.cellStyle];
-	else if (_definition.cellStyleSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.cellStyleSelector withObject: self];
+	NSString *s = nil;
+	if (_definition.cellStyle != nil) s = [[_object valueForKeyPath: _definition.cellStyle] description];
+	else if (_definition.cellStyleSelector != (SEL)0) s = [[self.section.table.controller performSelector: _definition.cellStyleSelector withObject: self] description];
 	else return _definition.staticCellStyle;
+	if (s) {
+		if ([@"value1" isEqualToString: s]) {
+			return UITableViewCellStyleValue1;
+		} else if ([@"value2" isEqualToString: s]) {
+			return UITableViewCellStyleValue2;
+		} else if ([@"subtitle" isEqualToString: s]) {
+			return UITableViewCellStyleSubtitle;
+		} else {
+			return UITableViewCellStyleDefault;
+		}
+	} else {
+		return UITableViewCellStyleDefault;
+	}
 }
 
 - (NSString *) text
