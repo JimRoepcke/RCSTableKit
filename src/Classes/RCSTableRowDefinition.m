@@ -80,8 +80,8 @@
 		_cellClass = nil;
 
 		NSString *s;
-		// cellStyle
-		if ((s = [_dictionary objectForKey: @"cellStyle"])) {
+		// staticCellStyle
+		if ((s = [_dictionary objectForKey: @"staticCellStyle"])) {
 			if ([@"value1" isEqualToString: s]) {
 				self.staticCellStyle = UITableViewCellStyleValue1;
 			} else if ([@"value2" isEqualToString: s]) {
