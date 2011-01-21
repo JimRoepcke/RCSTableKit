@@ -38,6 +38,7 @@
 - (void) accessoryButtonTapped;
 
 - (UITableViewCellEditingStyle) editingStyle;
+- (UIColor *) backgroundColor;
 - (NSString *) text;
 - (NSString *) detailText;
 - (UIImage *) image;

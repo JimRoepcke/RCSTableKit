@@ -7,13 +7,18 @@
 //
 
 #import "RootViewController.h"
-#import "RCSTableKit/RCSTableKit.h"
+#import "RCSTableKit.h"
 
 @implementation RootViewController
 
 - (NSString *) text: (RCSTableRow *)row
 {
 	return [row.indexPath description];
+}
+
+- (UIColor *) subBackgroundColor
+{
+	return [UIColor cyanColor];
 }
 
 @end

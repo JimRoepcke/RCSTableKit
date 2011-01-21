@@ -21,7 +21,9 @@
 	
 	BOOL _becomeFirstResponder;
 	CGFloat _rowHeight;	
+
 	NSString *_backgroundColor;
+	SEL _backgroundColorSelector;
 	
 	NSString *_staticText;
 	NSString *_text;
@@ -85,6 +87,7 @@
 @property (nonatomic, assign) BOOL becomeFirstResponder;
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, retain) NSString *backgroundColor;
+@property (nonatomic, assign) SEL backgroundColorSelector;
 
 @property (nonatomic, retain) NSString *staticText;
 @property (nonatomic, retain) NSString *text;

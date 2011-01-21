@@ -4,19 +4,19 @@
 //  See license below.
 //
 
-#import "RCSTableKit/RCSBaseDefinition.h"
-#import "RCSTableKit/RCSTableDefinition.h"
-#import "RCSTableKit/RCSTableSectionDefinition.h"
-#import "RCSTableKit/RCSTableRowDefinition.h"
-#import "RCSTableKit/RCSTable.h"
-#import "RCSTableKit/RCSTableSection.h"
-#import "RCSTableKit/RCSTableRow.h"
-#import "RCSTableKit/RCSTableViewDataSource.h"
-#import "RCSTableKit/RCSTableViewDelegate.h"
-#import "RCSTableKit/RCSTableViewController.h"
-#import "RCSTableKit/RCSTableViewCell.h"
-#import "RCSTableKit/RCSAddressCell.h"
-#import "RCSTableKit/RCSEditStringCell.h"
+#import "RCSBaseDefinition.h"
+#import "RCSTableDefinition.h"
+#import "RCSTableSectionDefinition.h"
+#import "RCSTableRowDefinition.h"
+#import "RCSTable.h"
+#import "RCSTableSection.h"
+#import "RCSTableRow.h"
+#import "RCSTableViewDataSource.h"
+#import "RCSTableViewDelegate.h"
+#import "RCSTableViewController.h"
+#import "RCSTableViewCell.h"
+#import "RCSAddressCell.h"
+#import "RCSEditStringCell.h"
 
 /*
  * Copyright (c) 2009 Jim Roepcke <jim@roepcke.com>

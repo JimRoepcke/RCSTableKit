@@ -26,7 +26,9 @@
 
 @synthesize becomeFirstResponder=_becomeFirstResponder;
 @synthesize rowHeight=_rowHeight;	
+
 @synthesize backgroundColor=_backgroundColor;
+@synthesize backgroundColorSelector=_backgroundColorSelector;
 
 @synthesize staticText=_staticText;
 @synthesize text=_text;
@@ -162,6 +164,7 @@
 		self.image = [dictionary_ objectForKey: @"image"];
 		self.imageSelector = NSSelectorFromString([dictionary_ objectForKey: @"imageSelector"]);
 		self.backgroundColor = [dictionary_ objectForKey: @"backgroundColor"];
+		self.backgroundColorSelector = NSSelectorFromString([dictionary_ objectForKey: @"backgroundColorSelector"]);
 		self.becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
 		self.editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: @"editingStyleAction"]);
 		self.editingStylePushConfiguration = [dictionary_ objectForKey: @"editingStylePushConfiguration"];

@@ -6,7 +6,7 @@
 //  Copyright Roepcke Computing Solutions 2009. All rights reserved.
 //
 
-#import "RCSTableKit/RCSTableKit.h"
+#import "RCSTableKit.h"
 
 @interface RootViewController : RCSTableViewController {
 }

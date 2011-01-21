@@ -152,9 +152,8 @@
 
 - (UITableViewCellAccessoryType) editingAccessoryType
 {
-	RCSTableViewController *controller = _section.table.controller;
-	
 	if (_definition.editingAccessoryTypeSelector != (SEL)0) {
+		RCSTableViewController *controller = _section.table.controller;
 		NSNumber *type = [controller performSelector: _definition.editingAccessoryTypeSelector withObject: self];
 		return (UITableViewCellAccessoryType)[type intValue];
 	} else if (_definition.editingAccessoryType != nil) {
@@ -178,22 +177,29 @@
 	return _definition.rowHeight;
 }
 
+- (UIColor *) backgroundColor
+{
+	id result = nil;
+	if (_definition.backgroundColorSelector != (SEL)0) result = [self.section.table.controller performSelector: _definition.backgroundColorSelector withObject: self];
+	else if (_definition.backgroundColor != nil) result = [_object valueForKeyPath: _definition.backgroundColor];
+	if ([result isKindOfClass: [UIColor class]]) return result;
+	return nil;
+}
+
+- (void) applyBackgroundColorToCell: (UITableViewCell *)cell
+{
+	UIColor *c = [self backgroundColor];
+	if (c) {
+		[cell setBackgroundColor: c];
+	}
+}
+
 - (void) willDisplayCell: (UITableViewCell *)cell
 {
 	if (_definition.becomeFirstResponder) {
 		[cell becomeFirstResponder];
 	}
-	if (_definition.backgroundColor != nil) {
-		UIColor *c = [_object valueForKeyPath: _definition.backgroundColor];
-		if (c != nil) {
-			cell.backgroundView = [[[UIView alloc] initWithFrame: CGRectZero] autorelease];
-			cell.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			cell.backgroundView.frame = cell.bounds;
-			cell.backgroundView.backgroundColor = c;
-			cell.textLabel.backgroundColor = [UIColor clearColor];
-			cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-		}
-	}
+	[self applyBackgroundColorToCell: cell];
 }
 
 // FIXME: committing deletes not yet functional

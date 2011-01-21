@@ -47,7 +47,7 @@
 		387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSEditStringCell.h; path = RCSTableKit/RCSEditStringCell.h; sourceTree = "<group>"; };
 		387DEC0210E1937A00F918B1 /* RCSTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTable.h; path = RCSTableKit/RCSTable.h; sourceTree = "<group>"; };
 		387DEC0310E1937A00F918B1 /* RCSTableDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableDefinition.h; path = RCSTableKit/RCSTableDefinition.h; sourceTree = "<group>"; };
-		387DEC0410E1937A00F918B1 /* RCSTableKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSTableKit.h; sourceTree = "<group>"; };
+		387DEC0410E1937A00F918B1 /* RCSTableKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableKit.h; path = RCSTableKit/RCSTableKit.h; sourceTree = "<group>"; };
 		387DEC0510E1937A00F918B1 /* RCSTableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableRow.h; path = RCSTableKit/RCSTableRow.h; sourceTree = "<group>"; };
 		387DEC0610E1937A00F918B1 /* RCSTableRowDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableRowDefinition.h; path = RCSTableKit/RCSTableRowDefinition.h; sourceTree = "<group>"; };
 		387DEC0710E1937A00F918B1 /* RCSTableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableSection.h; path = RCSTableKit/RCSTableSection.h; sourceTree = "<group>"; };

@@ -8,7 +8,7 @@
 
 #import "RCSTableSamplerAppDelegate.h"
 #import "RootViewController.h"
-#import "RCSTableKit/RCSTableKit.h"
+#import "RCSTableKit.h"
 
 @implementation RCSTableSamplerAppDelegate
 

@@ -1,18 +1,42 @@
 {
+	nibName = RCSTableViewPlain;
 	controllerClassName = RootViewController;
+	allowsSelection = YES;
 	
 	staticTitle = "RCSTable Sampler";
 	
-	displaySectionKeys = (hello,);
+	displaySectionKeys = (hello,world);
 	
 	sections = {
 		hello = {
-			displayRowKeys = (helloWorld,);
+			displayRowKeys = (sub,helloWorld,);
 			rows = {
+				sub = {
+					backgroundColor = subBackgroundColor;
+					staticCellStyle = "subtitle";
+					staticText = "RCSTableKit";
+					staticDetailText = "Sample app";
+				};
 				helloWorld = {
 					textSelector = text:;
 					pushConfiguration = "Root";
 					staticAccessoryType = disclosureIndicator;
+				};
+			};
+		};
+		world = {
+			displayRowKeys = (first, last);
+			staticTitle = "Person";
+			rows = {
+				first = {
+					staticCellStyle = "value2";
+					staticText = "First Name";
+					staticDetailText = "John";
+				};
+				last = {
+					staticCellStyle = "value2";
+					staticText = "Last Name";
+					staticDetailText = "Appleseed";
 				};
 			};
 		};
