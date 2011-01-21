@@ -32,10 +32,8 @@
 }
 
 - (void) dealloc {
-	self.definition = nil;
-	self.object = nil;
-	self.controller = nil;
-	self.sections = nil;
+	[_definition release]; _definition = nil;
+	[_sections release]; _sections = nil;
 	[super dealloc];
 }
 

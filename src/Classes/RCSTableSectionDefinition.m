@@ -43,12 +43,13 @@
 
 - (void) dealloc
 {
-	self.dictionary = nil;
-	self.key = nil;
-	self.list = nil;
-	self.rowDefinitions = nil;
-	self.staticTitle = nil;
-	self.title = nil;
+	[_dictionary release]; _dictionary = nil;
+	[_key release]; _key = nil;
+	[_list release]; _list = nil;
+	[_displayRowKeys release]; _displayRowKeys = nil;
+	[_rowDefinitions release]; _rowDefinitions = nil;
+	[_staticTitle release]; _staticTitle = nil;
+	[_title release]; _title = nil;
 	[super dealloc];
 }
 

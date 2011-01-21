@@ -37,10 +37,8 @@
 
 - (void) dealloc
 {
-	self.definition = nil;
-	self.object = nil;
-	self.table = nil;
-	self.rows = nil;
+	[_definition release]; _definition = nil;
+	[_rows release]; _rows = nil;
 	[super dealloc];
 }
 

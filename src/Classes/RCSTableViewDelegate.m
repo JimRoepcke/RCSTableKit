@@ -19,13 +19,6 @@
 	return self;
 }
 
-- (void) dealloc
-{
-	self.dataSource = nil;
-	self.viewController = nil;
-	[super dealloc];
-}
-
 - (void) tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath
 {
 	[[self.dataSource rowAtIndexPath: indexPath] willDisplayCell: cell];

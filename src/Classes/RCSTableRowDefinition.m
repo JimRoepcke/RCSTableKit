@@ -181,29 +181,28 @@
 
 - (void) dealloc
 {
-	self.dictionary = nil;
-	self.key = nil;
-	self.list = nil;
+	[_dictionary release]; _dictionary = nil;
+	[_key release]; _key = nil;
+	[_list release]; _list = nil;
 	
-	self.accessoryType = nil;
-	self.editingAccessoryType = nil;
-	self.cellNibName = nil;
-	self.cellClassName = nil;
-	self.cellClass = nil;
-	self.backgroundColor = nil;
-	self.staticText = nil;
-	self.text = nil;
-	self.staticDetailText = nil;
-	self.detailText = nil;
-	self.staticImageName = nil;
-	self.image = nil;
-	self.editingStylePushConfiguration = nil;
-	self.pushConfiguration = nil;
-	self.viewPushConfiguration = nil;
-	self.editPushConfiguration = nil;
-	self.accessoryPushConfiguration = nil;
-	self.viewAccessoryPushConfiguration = nil;
-	self.editAccessoryPushConfiguration = nil;
+	[_accessoryType release]; _accessoryType = nil;
+	[_editingAccessoryType release]; _editingAccessoryType = nil;
+	[_cellNibName release]; _cellNibName = nil;
+	[_cellClassName release]; _cellClassName = nil;
+	[_backgroundColor release]; _backgroundColor = nil;
+	[_staticText release]; _staticText = nil;
+	[_text release]; _text = nil;
+	[_staticDetailText release]; _staticDetailText = nil;
+	[_detailText release]; _detailText = nil;
+	[_staticImageName release]; _staticImageName = nil;
+	[_image release]; _image = nil;
+	[_editingStylePushConfiguration release]; _editingStylePushConfiguration = nil;
+	[_pushConfiguration release]; _pushConfiguration = nil;
+	[_viewPushConfiguration release]; _viewPushConfiguration = nil;
+	[_editPushConfiguration release]; _editPushConfiguration = nil;
+	[_accessoryPushConfiguration release]; _accessoryPushConfiguration = nil;
+	[_viewAccessoryPushConfiguration release]; _viewAccessoryPushConfiguration = nil;
+	[_editAccessoryPushConfiguration release]; _editAccessoryPushConfiguration = nil;
 	[super dealloc];
 }
 

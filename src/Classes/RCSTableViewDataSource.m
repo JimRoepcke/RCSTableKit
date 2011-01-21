@@ -45,12 +45,11 @@
 
 - (void) dealloc
 {
-	self.viewController = nil;
-	self.rootObject = nil;
-	self.key = nil;
-	self.table = nil;
-	self.tableDefinition = nil;
-	self.dictionary = nil;
+	[_rootObject release]; _rootObject = nil;
+	[_key release]; _key = nil;
+	[_table release]; _table = nil;
+	[_tableDefinition release]; _tableDefinition = nil;
+	[_dictionary release]; _dictionary = nil;
 	[super dealloc];
 }
 

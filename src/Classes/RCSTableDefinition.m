@@ -42,11 +42,11 @@
 
 - (void) dealloc
 {
-	self.dictionary = nil;
-	self.key = nil;
-	self.displaySectionKeys = nil;
-	self.sectionDefinitions = nil;
-	self.tableHeaderImagePath = nil;
+	[_dictionary release]; _dictionary = nil;
+	[_key release]; _key = nil;
+	[_displaySectionKeys release]; _displaySectionKeys = nil;
+	[_sectionDefinitions release]; _sectionDefinitions = nil;
+	[_tableHeaderImagePath release]; _tableHeaderImagePath = nil;
 	[super dealloc];
 }
 
