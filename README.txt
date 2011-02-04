@@ -1,1 +1,1 @@
-Remember to copy the .xib files into your iPhone application project
+Remember to copy the .xib files into your application project

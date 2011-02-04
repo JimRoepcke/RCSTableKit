@@ -76,16 +76,17 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-	[self.tableView setDataSource: self.dataSource];
-	self.tableView.allowsSelectionDuringEditing = [self.dataSource configurationBoolForKey: @"allowsSelectionDuringEditing" withDefault: self.tableView.allowsSelectionDuringEditing];
-	self.tableView.allowsSelection = [self.dataSource configurationBoolForKey: @"allowsSelection" withDefault: self.tableView.allowsSelection];
+	UITableView *tv = [self tableView];
+	[tv setDataSource: [self dataSource]];
+	tv.allowsSelectionDuringEditing = [[self dataSource] configurationBoolForKey: @"allowsSelectionDuringEditing" withDefault: tv.allowsSelectionDuringEditing];
+	tv.allowsSelection = [[self dataSource] configurationBoolForKey: @"allowsSelection" withDefault: tv.allowsSelection];
 }
 
 - (void) viewDidUnload
 {
 	[super viewDidUnload];
-	self.tableView.dataSource = nil;
-	self.tableView = nil;
+	[[self tableView] setDataSource: nil];
+	[self setTableView: nil];
 }
 
 - (void) viewWillAppear: (BOOL)animated
@@ -117,32 +118,31 @@
 - (void) setDataSource: (RCSTableViewDataSource *)ds
 {
 	if (ds != _dataSource) {
-		[_dataSource release];
-		_dataSource = [ds retain];
-		self.tableViewDelegate = [[[RCSTableViewDelegate alloc] initForViewController: self withDataSource: ds] autorelease];
+		[self setDataSource: ds];
+		[self setTableViewDelegate: [[[RCSTableViewDelegate alloc] initForViewController: self withDataSource: ds] autorelease]];
 	}
 }
 
-- (NSObject *) rootObject { return self.dataSource.rootObject; }
+- (NSObject *) rootObject { return [[self dataSource] rootObject]; }
 
 - (void) configureEditButton
 {
-	if ([self.dataSource configurationBoolForKey: @"isEditable" withDefault: NO]) {
-		self.navigationItem.rightBarButtonItem = [self editButtonItem];
+	if ([[self dataSource] configurationBoolForKey: @"isEditable" withDefault: NO]) {
+		[[self navigationItem] setRightBarButtonItem: [self editButtonItem]];
 	}
 }
 
 - (void) configureTitle
 {
-	NSString *title = [self.dataSource configurationStringForKey: @"staticTitle" withDefault: nil];
+	NSString *title = [[self dataSource] configurationStringForKey: @"staticTitle" withDefault: nil];
 	if (title == nil) {
-		title = [self.dataSource configurationStringForKey: @"title" withDefault: nil];
+		title = [[self dataSource] configurationStringForKey: @"title" withDefault: nil];
 		if (title != nil) {
 			title = [self valueForKeyPath: title];
 		}
 	}
 	if (title != nil) {
-		self.title = title;
+		[self setTitle: title];
 	}
 }
 
@@ -158,17 +158,17 @@
 - (void) reloadData
 {
 	[self willReloadData];
-	[self.dataSource reloadData];
-	[self.tableView reloadData];
-	NSString *path = [self.dataSource.table tableHeaderImagePath];
-	if (! [self string: path isEqualToString: self.tableHeaderImagePath]) {
-		self.tableHeaderImagePath = path;
-		if (self.tableHeaderImagePath == nil) {
-			self.tableView.tableHeaderView = nil;
+	[[self dataSource] reloadData];
+	[[self tableView] reloadData];
+	NSString *path = [[[self dataSource] table] tableHeaderImagePath];
+	if (! [self string: path isEqualToString: [self tableHeaderImagePath]]) {
+		[self setTableHeaderImagePath: path];
+		if (path == nil) {
+			[[self tableView] setTableHeaderView: nil];
 		} else {
-			UIImage *image = [UIImage imageWithContentsOfFile: self.tableHeaderImagePath];
+			UIImage *image = [UIImage imageWithContentsOfFile: [self tableHeaderImagePath]];
 			UIImageView *imageView = [[UIImageView alloc] initWithImage: image];
-			self.tableView.tableHeaderView = imageView;
+			[[self tableView]  setTableHeaderView: imageView];
 			[imageView release];
 		}
 	}
@@ -180,18 +180,18 @@
 
 - (void) setEditing: (BOOL)editing animated: (BOOL)animated
 {
-	BOOL oldEditing = self.editing;
+	BOOL oldEditing = [self isEditing];
 	if (editing != oldEditing) {
 		if (NO) { // set to NO to disable animations if it's still buggy
-			[self.tableView beginUpdates];
+			[[self tableView] beginUpdates];
 			[super setEditing: editing animated: animated];
-			[self.dataSource setEditing: editing animated: animated];
-			[self.tableView endUpdates];
+			[[self dataSource] setEditing: editing animated: animated];
+			[[self tableView] endUpdates];
 			if (!animated)
 				[self reloadData];
 		} else {
 			[super setEditing: editing animated: animated];
-			[self.dataSource reloadData];
+			[[self dataSource] reloadData];
 			[self reloadData];
 		}
 	}
@@ -212,37 +212,37 @@
 	NSMutableDictionary *state = [[NSMutableDictionary alloc] initWithCapacity: 2];
 	// FIXME: i don't think this actually works in general, what about the nibName and the nibBundleName etc?
 	[state setObject: NSStringFromClass([self class]) forKey: @"viewControllerClassName"];
-	[state setObject: self.dataSource.key forKey: @"configurationName"];
+	[state setObject: [[self dataSource] key] forKey: @"configurationName"];
 	return [state autorelease];
 }
 
 #pragma mark -
 #pragma mark Table View Delegate Methods
 
-// delegate methods are forwarded to self.tableViewDelegate
+// delegate methods are forwarded to [self tableViewDelegate]
 
 - (void) tableView: (UITableView *)tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath {
-	[self.tableViewDelegate tableView: tableView willDisplayCell: cell forRowAtIndexPath: indexPath];
+	[[self tableViewDelegate] tableView: tableView willDisplayCell: cell forRowAtIndexPath: indexPath];
 }
 
 - (void) tableView: (UITableView *)tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath {
-	[self.tableViewDelegate tableView: tableView accessoryButtonTappedForRowWithIndexPath: indexPath];
+	[[self tableViewDelegate] tableView: tableView accessoryButtonTappedForRowWithIndexPath: indexPath];
 }
 
 - (UITableViewCellEditingStyle) tableView: (UITableView *)tableView editingStyleForRowAtIndexPath: (NSIndexPath *)indexPath {
-    return [self.tableViewDelegate tableView: tableView editingStyleForRowAtIndexPath: indexPath];
+    return [[self tableViewDelegate] tableView: tableView editingStyleForRowAtIndexPath: indexPath];
 }
 
 - (CGFloat) tableView: (UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath {
-	return [self.tableViewDelegate tableView: tableView heightForRowAtIndexPath: indexPath];
+	return [[self tableViewDelegate] tableView: tableView heightForRowAtIndexPath: indexPath];
 }
 
 - (NSIndexPath *)tableView: (UITableView *)tableView willSelectRowAtIndexPath: (NSIndexPath *)indexPath {
-	return [self.tableViewDelegate tableView: tableView willSelectRowAtIndexPath: indexPath];
+	return [[self tableViewDelegate] tableView: tableView willSelectRowAtIndexPath: indexPath];
 }
 
 - (void) tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
-	[self.tableViewDelegate tableView: tableView didSelectRowAtIndexPath: indexPath];
+	[[self tableViewDelegate] tableView: tableView didSelectRowAtIndexPath: indexPath];
 }
 
 @end

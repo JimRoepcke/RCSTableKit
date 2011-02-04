@@ -13,40 +13,40 @@
 {
 	self = [super init];
 	if (self != nil) {
-		self.dataSource = dataSource_;
-		self.viewController = viewController_;
+		_dataSource = dataSource_;
+		_viewController = viewController_;
 	}
 	return self;
 }
 
 - (void) tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	[[self.dataSource rowAtIndexPath: indexPath] willDisplayCell: cell];
+	[[_dataSource rowAtIndexPath: indexPath] willDisplayCell: cell];
 }
 
 - (UITableViewCellEditingStyle) tableView: (UITableView *)tableView editingStyleForRowAtIndexPath: (NSIndexPath *)indexPath
 {
-    return [((RCSTableRow *)[self.dataSource rowAtIndexPath: indexPath]) editingStyle];
+    return [((RCSTableRow *)[_dataSource rowAtIndexPath: indexPath]) editingStyle];
 }
 
 - (void) tableView: (UITableView *)tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath
 {
-    [[self.dataSource rowAtIndexPath: indexPath] accessoryButtonTapped];
+    [[_dataSource rowAtIndexPath: indexPath] accessoryButtonTapped];
 }
 
 - (CGFloat) tableView: (UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	return [((RCSTableRow *)[self.dataSource rowAtIndexPath: indexPath]) heightWithDefault: tableView.rowHeight];
+	return [((RCSTableRow *)[_dataSource rowAtIndexPath: indexPath]) heightWithDefault: tableView.rowHeight];
 }
 
 - (NSIndexPath *) tableView: (UITableView *)tableView willSelectRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	return [[self.dataSource rowAtIndexPath: indexPath] willSelect: indexPath];
+	return [[_dataSource rowAtIndexPath: indexPath] willSelect: indexPath];
 }
 
 - (void) tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	[[self.dataSource rowAtIndexPath: indexPath] didSelect];
+	[[_dataSource rowAtIndexPath: indexPath] didSelect];
 }
 
 @end
