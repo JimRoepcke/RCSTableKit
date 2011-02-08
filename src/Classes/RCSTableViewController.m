@@ -118,7 +118,9 @@
 - (void) setDataSource: (RCSTableViewDataSource *)ds
 {
 	if (ds != _dataSource) {
-		[self setDataSource: ds];
+		[ds retain];
+		[_dataSource release];
+		_dataSource = ds;
 		[self setTableViewDelegate: [[[RCSTableViewDelegate alloc] initForViewController: self withDataSource: ds] autorelease]];
 	}
 }
