@@ -5,6 +5,7 @@
 //
 
 @class RCSTableSection;
+@class RCSTableRow;
 
 @interface RCSTableRowDefinition : RCSBaseDefinition {
 	NSDictionary *_dictionary;
@@ -62,7 +63,9 @@
 	SEL _editingAccessoryTypeSelector;
 	
 	SEL _editAccessoryAction;
-	NSString *_editAccessoryPushConfiguration;	
+	NSString *_editAccessoryPushConfiguration;
+
+	NSIndexPath *(^_willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
 }
 
 // the source dictionary that generated this definition
@@ -136,6 +139,8 @@
 
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section
 					   startAtIndex: (NSUInteger)startIndex;
+
+- (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath;
 
 @end
 

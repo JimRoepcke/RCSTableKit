@@ -181,6 +181,8 @@
 
 - (void) dealloc
 {
+	[_willSelectBlock release]; _willSelectBlock = nil;
+
 	[_dictionary release]; _dictionary = nil;
 	[_key release]; _key = nil;
 	[_list release]; _list = nil;
@@ -265,6 +267,31 @@
 		}
 	}
 	return _cellClass;
+}
+
+- (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath
+{
+	// yeah yeah this is crazy, but it's fun and cool
+	// this class is a flyweight so this computation will
+	// be re-used for every row
+	if (_willSelectBlock == nil) {
+		if (_action || _pushConfiguration) {
+			_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return input; } copy];
+		} else {
+			BOOL indexPathWhenEditing = _editAction || _editPushConfiguration;
+			BOOL indexPathWhenViewing = _viewAction || _viewPushConfiguration;
+			if (indexPathWhenEditing && indexPathWhenViewing) {
+				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return input; } copy];
+			} else if (indexPathWhenEditing) {
+				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.section.table.controller.editing ? input : nil; } copy];
+			} else if (indexPathWhenViewing) {
+				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.section.table.controller.editing ? nil : input; } copy];
+			} else {
+				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return nil; } copy];
+			}
+		}
+	}
+	return _willSelectBlock(aRow, anIndexPath);
 }
 
 @end

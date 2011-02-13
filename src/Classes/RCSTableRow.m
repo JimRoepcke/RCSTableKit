@@ -220,25 +220,15 @@
 
 - (NSIndexPath *) willSelect: (NSIndexPath *)indexPath
 {
-	RCSTableViewController *controller = self.section.table.controller;
-	if (_definition.action != (SEL)0) {
+	return [_definition row: self willSelect: indexPath];	
+	// old version
+	/*if (_definition.action || _definition.pushConfiguration) {
 		return indexPath;
-	} else if (_definition.pushConfiguration != nil) {
-		return indexPath;
-	} else if (controller.editing) {
-		if (_definition.editAction != (SEL)0) {
-			return indexPath;
-		} else if (_definition.editPushConfiguration != nil) {
-			return indexPath;
-		}
+	} else if () {
+		return (_definition.editAction || _definition.editPushConfiguration) ? indexPath : nil;
 	} else {
-		if (_definition.viewAction != (SEL)0) {
-			return indexPath;
-		} else if (_definition.viewPushConfiguration != nil) {
-			return indexPath;
-		}
-	}
-	return nil;
+		return (_definition.viewAction || _definition.viewPushConfiguration) ? indexPath : nil;
+	}*/
 }
 
 - (void) didSelect
