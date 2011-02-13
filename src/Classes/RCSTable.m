@@ -81,7 +81,7 @@
 - (NSString *) tableHeaderImagePath
 {
 	NSString *result = nil;
-	if (_definition.tableHeaderImagePathSelector != (SEL)0) {
+	if (_definition.tableHeaderImagePathSelector) {
 		result = [self.controller performSelector: _definition.tableHeaderImagePathSelector withObject: self];
 	} else if (_definition.tableHeaderImagePath != nil) {
 		result = [_object valueForKeyPath: _definition.tableHeaderImagePath];
