@@ -227,25 +227,32 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSArray *objects = [self objectsForRowsInSection: section];
-	NSPredicate *rowPredicate = [NSPredicate predicateWithFormat: [self stringForKey: @"predicate"
-																		 withDefault: @"TRUEPREDICATE"
-																		inDictionary: self.dictionary]];
+	NSString *predicate = [_dictionary objectForKey: @"predicate"];
+	NSPredicate *rowPredicate = nil;
+	BOOL (^rowTest)(NSObject *);
+	if (predicate) {
+		rowPredicate = [NSPredicate predicateWithFormat: predicate];
+		rowTest = ^(NSObject *ro) { return [rowPredicate evaluateWithObject: ro]; };
+	} else {
+		rowTest = ^(NSObject *ro) { return YES; };
+	}
 	NSObject *rowObject;
 	RCSTableRow *row;
 	NSUInteger i = startIndex;
+	NSUInteger sectionIndex = section.index;
+	NSObject *sectionObject = section.object;
 	for (NSObject *obj in objects) {
-		rowObject = obj == nullValue ? section.object : obj;
-		if ([rowPredicate evaluateWithObject: rowObject]) {
+		rowObject = obj == nullValue ? sectionObject : obj;
+		if (rowTest(rowObject)) {
 			row = [[RCSTableRow alloc] initUsingDefintion: self
 										   withRootObject: rowObject
 											   forSection: section
 											  atIndexPath: [NSIndexPath indexPathForRow: i++
-																			  inSection: section.index]];
+																			  inSection: sectionIndex]];
 			[result addObject: row];
 			[row release];
 		}
 	}
-	
 	return [result autorelease];
 }
 
