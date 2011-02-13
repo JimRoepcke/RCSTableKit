@@ -76,105 +76,105 @@
 {
 	self = [super init];
 	if (self != nil) {
-		self.dictionary = dictionary_;
-		self.key = key_;
-		self.list = [dictionary_ objectForKey: @"list"];
+		_dictionary = [dictionary_ retain];
+		_key = [key_ retain];
+		_list = [[dictionary_ objectForKey: @"list"] retain];
 		_cellClass = nil;
 
 		NSString *s;
 		// staticCellStyle
 		if ((s = [_dictionary objectForKey: @"staticCellStyle"])) {
 			if ([@"value1" isEqualToString: s]) {
-				self.staticCellStyle = UITableViewCellStyleValue1;
+				_staticCellStyle = UITableViewCellStyleValue1;
 			} else if ([@"value2" isEqualToString: s]) {
-				self.staticCellStyle = UITableViewCellStyleValue2;
+				_staticCellStyle = UITableViewCellStyleValue2;
 			} else if ([@"subtitle" isEqualToString: s]) {
-				self.staticCellStyle = UITableViewCellStyleSubtitle;
+				_staticCellStyle = UITableViewCellStyleSubtitle;
 			} else {
-				self.staticCellStyle = UITableViewCellStyleDefault;
+				_staticCellStyle = UITableViewCellStyleDefault;
 			}
 		} else {
-			self.staticCellStyle = UITableViewCellStyleDefault;
+			_staticCellStyle = UITableViewCellStyleDefault;
 		}
 		
 		// editingStyle
 		if ((s = [_dictionary objectForKey: @"editingStyle"])) {
 			if ([@"insert" isEqualToString: s]) {
-				self.editingStyle = UITableViewCellEditingStyleInsert;
+				_editingStyle = UITableViewCellEditingStyleInsert;
 			} else if ([@"delete" isEqualToString: s]) {
-				self.editingStyle = UITableViewCellEditingStyleDelete;
+				_editingStyle = UITableViewCellEditingStyleDelete;
 			} else {
-				self.editingStyle = UITableViewCellEditingStyleNone;
+				_editingStyle = UITableViewCellEditingStyleNone;
 			}
 		} else {
-			self.editingStyle = UITableViewCellEditingStyleNone;
+			_editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
 		// staticAccessoryType
 		if ((s = [_dictionary objectForKey: @"staticAccessoryType"])) {
 			if ([@"disclosureIndicator" isEqualToString: s]) {
-				self.staticAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				_staticAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
-				self.staticAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+				_staticAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			} else if ([@"checkmark" isEqualToString: s]) {
-				self.staticAccessoryType = UITableViewCellAccessoryCheckmark;
+				_staticAccessoryType = UITableViewCellAccessoryCheckmark;
 			} else {
-				self.staticAccessoryType = UITableViewCellAccessoryNone;
+				_staticAccessoryType = UITableViewCellAccessoryNone;
 			}
 		} else {
-			self.staticAccessoryType = UITableViewCellAccessoryNone;
+			_staticAccessoryType = UITableViewCellAccessoryNone;
 		}
 
 		// staticEditingAccessoryType
 		if ((s = [_dictionary objectForKey: @"staticEditingAccessoryType"])) {
 			if ([@"disclosureIndicator" isEqualToString: s]) {
-				self.staticEditingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				_staticEditingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
-				self.staticEditingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+				_staticEditingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			} else if ([@"checkmark" isEqualToString: s]) {
-				self.staticEditingAccessoryType = UITableViewCellAccessoryCheckmark;
+				_staticEditingAccessoryType = UITableViewCellAccessoryCheckmark;
 			} else {
-				self.staticEditingAccessoryType = UITableViewCellAccessoryNone;
+				_staticEditingAccessoryType = UITableViewCellAccessoryNone;
 			}
 		} else {
-			self.staticEditingAccessoryType = UITableViewCellAccessoryNone;
+			_staticEditingAccessoryType = UITableViewCellAccessoryNone;
 		}
 		
-		self.cellStyle = [dictionary_ objectForKey: @"cellStyle"];
-		self.cellStyleSelector = NSSelectorFromString([dictionary_ objectForKey: @"cellStyleSelector"]);
-		self.accessoryType = [dictionary_ objectForKey: @"accessoryType"];
-		self.accessoryTypeSelector = NSSelectorFromString([dictionary_ objectForKey: @"accessoryTypeSelector"]);
-		self.editingAccessoryType = [dictionary_ objectForKey: @"editingAccessoryType"];
-		self.editingAccessoryTypeSelector = NSSelectorFromString([dictionary_ objectForKey: @"editingAccessoryTypeSelector"]);
-		self.cellNibName = [dictionary_ objectForKey: @"cellNibName"];
-		self.cellClassName = [self stringForKey: @"cell" withDefault: @"RCSTableViewCell" inDictionary: dictionary_];
-		self.editPushConfiguration = [dictionary_ objectForKey: @"editPushConfiguration"];
-		self.viewPushConfiguration = [dictionary_ objectForKey: @"viewPushConfiguration"];
-		self.pushConfiguration = [dictionary_ objectForKey: @"pushConfiguration"];
-		self.accessoryPushConfiguration = [dictionary_ objectForKey: @"accessoryPushConfiguration"];
-		self.editAccessoryPushConfiguration = [dictionary_ objectForKey: @"editAccessoryPushConfiguration"];
-		self.viewAccessoryPushConfiguration = [dictionary_ objectForKey: @"viewAccessoryPushConfiguration"];
-		self.staticText = [dictionary_ objectForKey: @"staticText"];
-		self.text = [dictionary_ objectForKey: @"text"];
-		self.textSelector = NSSelectorFromString([dictionary_ objectForKey: @"textSelector"]);
-		self.staticDetailText = [dictionary_ objectForKey: @"staticDetailText"];
-		self.detailText = [dictionary_ objectForKey: @"detailText"];
-		self.detailTextSelector = NSSelectorFromString([dictionary_ objectForKey: @"detailTextSelector"]);
-		self.staticImageName = [dictionary_ objectForKey: @"staticImageName"];		
-		self.image = [dictionary_ objectForKey: @"image"];
-		self.imageSelector = NSSelectorFromString([dictionary_ objectForKey: @"imageSelector"]);
-		self.backgroundColor = [dictionary_ objectForKey: @"backgroundColor"];
-		self.backgroundColorSelector = NSSelectorFromString([dictionary_ objectForKey: @"backgroundColorSelector"]);
-		self.becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
-		self.editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: @"editingStyleAction"]);
-		self.editingStylePushConfiguration = [dictionary_ objectForKey: @"editingStylePushConfiguration"];
-		self.editAction = NSSelectorFromString([dictionary_ objectForKey: @"editAction"]);
-		self.viewAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAction"]);
-		self.action = NSSelectorFromString([dictionary_ objectForKey: @"action"]);
-		self.editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"editAccessoryAction"]);
-		self.viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAccessoryAction"]);
-		self.accessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"accessoryAction"]);
-		self.rowHeight = (CGFloat)[self floatForKey: @"rowHeight" withDefault: -1.0 inDictionary: dictionary_];
+		_cellStyle = [[dictionary_ objectForKey: @"cellStyle"] retain];
+		_cellStyleSelector = NSSelectorFromString([dictionary_ objectForKey: @"cellStyleSelector"]);
+		_accessoryType = [[dictionary_ objectForKey: @"accessoryType"] retain];
+		_accessoryTypeSelector = NSSelectorFromString([dictionary_ objectForKey: @"accessoryTypeSelector"]);
+		_editingAccessoryType = [[dictionary_ objectForKey: @"editingAccessoryType"] retain];
+		_editingAccessoryTypeSelector = NSSelectorFromString([dictionary_ objectForKey: @"editingAccessoryTypeSelector"]);
+		_cellNibName = [[dictionary_ objectForKey: @"cellNibName"] retain];
+		_cellClassName = [[self stringForKey: @"cell" withDefault: @"RCSTableViewCell" inDictionary: dictionary_] retain];
+		_editPushConfiguration = [[dictionary_ objectForKey: @"editPushConfiguration"] retain];
+		_viewPushConfiguration = [[dictionary_ objectForKey: @"viewPushConfiguration"] retain];
+		_pushConfiguration = [[dictionary_ objectForKey: @"pushConfiguration"] retain];
+		_accessoryPushConfiguration = [[dictionary_ objectForKey: @"accessoryPushConfiguration"] retain];
+		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: @"editAccessoryPushConfiguration"] retain];
+		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: @"viewAccessoryPushConfiguration"] retain];
+		_staticText = [[dictionary_ objectForKey: @"staticText"] retain];
+		_text = [[dictionary_ objectForKey: @"text"] retain];
+		_textSelector = NSSelectorFromString([dictionary_ objectForKey: @"textSelector"]);
+		_staticDetailText = [[dictionary_ objectForKey: @"staticDetailText"] retain];
+		_detailText = [[dictionary_ objectForKey: @"detailText"] retain];
+		_detailTextSelector = NSSelectorFromString([dictionary_ objectForKey: @"detailTextSelector"]);
+		_staticImageName = [[dictionary_ objectForKey: @"staticImageName"] retain];
+		_image = [[dictionary_ objectForKey: @"image"] retain];
+		_imageSelector = NSSelectorFromString([dictionary_ objectForKey: @"imageSelector"]);
+		_backgroundColor = [[dictionary_ objectForKey: @"backgroundColor"] retain];
+		_backgroundColorSelector = NSSelectorFromString([dictionary_ objectForKey: @"backgroundColorSelector"]);
+		_becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
+		_editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: @"editingStyleAction"]);
+		_editingStylePushConfiguration = [[dictionary_ objectForKey: @"editingStylePushConfiguration"] retain];
+		_editAction = NSSelectorFromString([dictionary_ objectForKey: @"editAction"]);
+		_viewAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAction"]);
+		_action = NSSelectorFromString([dictionary_ objectForKey: @"action"]);
+		_editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"editAccessoryAction"]);
+		_viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAccessoryAction"]);
+		_accessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"accessoryAction"]);
+		_rowHeight = (CGFloat)[self floatForKey: @"rowHeight" withDefault: -1.0 inDictionary: dictionary_];
 	}
 	return self;
 }
