@@ -30,10 +30,6 @@
 @synthesize backgroundColor=_backgroundColor;
 @synthesize backgroundColorSelector=_backgroundColorSelector;
 
-@synthesize staticText=_staticText;
-@synthesize text=_text;
-@synthesize textSelector=_textSelector;
-
 @synthesize staticDetailText=_staticDetailText;
 @synthesize detailText=_detailText;
 @synthesize detailTextSelector=_detailTextSelector;
@@ -154,9 +150,6 @@
 		_accessoryPushConfiguration = [[dictionary_ objectForKey: @"accessoryPushConfiguration"] retain];
 		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: @"editAccessoryPushConfiguration"] retain];
 		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: @"viewAccessoryPushConfiguration"] retain];
-		_staticText = [[dictionary_ objectForKey: @"staticText"] retain];
-		_text = [[dictionary_ objectForKey: @"text"] retain];
-		_textSelector = NSSelectorFromString([dictionary_ objectForKey: @"textSelector"]);
 		_staticDetailText = [[dictionary_ objectForKey: @"staticDetailText"] retain];
 		_detailText = [[dictionary_ objectForKey: @"detailText"] retain];
 		_detailTextSelector = NSSelectorFromString([dictionary_ objectForKey: @"detailTextSelector"]);
@@ -182,6 +175,7 @@
 - (void) dealloc
 {
 	[_willSelectBlock release]; _willSelectBlock = nil;
+	[_textBlock release]; _textBlock = nil;
 
 	[_dictionary release]; _dictionary = nil;
 	[_key release]; _key = nil;
@@ -192,8 +186,6 @@
 	[_cellNibName release]; _cellNibName = nil;
 	[_cellClassName release]; _cellClassName = nil;
 	[_backgroundColor release]; _backgroundColor = nil;
-	[_staticText release]; _staticText = nil;
-	[_text release]; _text = nil;
 	[_staticDetailText release]; _staticDetailText = nil;
 	[_detailText release]; _detailText = nil;
 	[_staticImageName release]; _staticImageName = nil;
@@ -292,6 +284,24 @@
 		}
 	}
 	return _willSelectBlock(aRow, anIndexPath);
+}
+
+- (NSString *) text: (RCSTableRow *)aRow
+{
+	if (_textBlock == nil) {
+		NSString *s = [_dictionary objectForKey: @"staticText"];
+		if (s) _textBlock = [^(RCSTableRow *r) { return s; } copy];
+		else {
+			s = [_dictionary objectForKey: @"text"];
+			if (s) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			else {
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"textSelector"]);
+				if (sel) _textBlock = [^(RCSTableRow *r) { return [r.section.table.controller performSelector: sel withObject: r]; } copy];
+				else _textBlock = [^(RCSTableRow *r) { return nil; } copy];
+			}
+		}
+	}
+	return _textBlock(aRow);
 }
 
 @end

@@ -110,13 +110,7 @@
 	}
 }
 
-- (NSString *) text
-{
-	if (_definition.staticText != nil) return _definition.staticText;
-	else if (_definition.text != nil) return [_object valueForKeyPath: _definition.text];
-	else if (_definition.textSelector != (SEL)0) return [self.section.table.controller performSelector: _definition.textSelector withObject: self];
-	return nil;
-}
+- (NSString *) text { return [_definition text: self]; }
 
 - (NSString *) detailText
 {

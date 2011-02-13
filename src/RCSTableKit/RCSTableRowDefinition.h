@@ -26,10 +26,6 @@
 	NSString *_backgroundColor;
 	SEL _backgroundColorSelector;
 	
-	NSString *_staticText;
-	NSString *_text;
-	SEL _textSelector;
-	
 	NSString *_staticDetailText;
 	NSString *_detailText;
 	SEL _detailTextSelector;
@@ -63,9 +59,10 @@
 	SEL _editingAccessoryTypeSelector;
 	
 	SEL _editAccessoryAction;
-	NSString *_editAccessoryPushConfiguration;
-
+	NSString *_editAccessoryPushConfiguration;	
+	
 	NSIndexPath *(^_willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
+	NSString *(^_textBlock)(RCSTableRow *row);
 }
 
 // the source dictionary that generated this definition
@@ -91,10 +88,6 @@
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, retain) NSString *backgroundColor;
 @property (nonatomic, assign) SEL backgroundColorSelector;
-
-@property (nonatomic, retain) NSString *staticText;
-@property (nonatomic, retain) NSString *text;
-@property (nonatomic, assign) SEL textSelector;
 
 @property (nonatomic, retain) NSString *staticDetailText;
 @property (nonatomic, retain) NSString *detailText;
@@ -141,6 +134,8 @@
 					   startAtIndex: (NSUInteger)startIndex;
 
 - (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath;
+
+- (NSString *) text: (RCSTableRow *)aRow;
 
 @end
 
