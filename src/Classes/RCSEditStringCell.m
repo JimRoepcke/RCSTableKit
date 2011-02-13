@@ -11,12 +11,12 @@
     if (self = [super initWithStyle: style reuseIdentifier: reuseIdentifier]) {
         // Initialization code
 		_editStringTextField = [[UITextField alloc] initWithFrame: CGRectZero];
-		_editStringTextField.delegate = self;
-		_editStringTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		for (UIView *view in self.contentView.subviews) {
+		[_editStringTextField setDelegate: self];
+		[_editStringTextField setAutoresizingMask: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+		for (UIView *view in [[self contentView] subviews]) {
 			[view removeFromSuperview];
 		}
-		[self.contentView addSubview: _editStringTextField];
+		[[self contentView] addSubview: _editStringTextField];
     }
     return self;
 }
@@ -24,7 +24,7 @@
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
-	[_editStringTextField release];
+	[_editStringTextField release]; _editStringTextField = nil;
     [super dealloc];
 }
 
@@ -34,7 +34,7 @@
 	CGRect boundsFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
 	CGRect textFieldFrame = CGRectInset(boundsFrame, 10.0, 5.0);
 	textFieldFrame.origin.y += 2.0;
-	_editStringTextField.frame = textFieldFrame;
+	[_editStringTextField setFrame: textFieldFrame];
 }
 
 - (BOOL) supportsText { return NO; }
