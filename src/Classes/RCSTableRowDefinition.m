@@ -202,17 +202,11 @@
 
 - (NSArray *) objectsForRowsInSection: (RCSTableSection *)section
 {
-	NSNull *nullValue = [NSNull null];
-	if (self.list == nil) {
-		NSString *objectKeyPath = [self stringForKey: @"object"
-										 withDefault: nil
-										inDictionary: self.dictionary];
-		if (objectKeyPath == nil) {
-			return [NSArray arrayWithObject: nullValue];
-		}
-		return [NSArray arrayWithObject: [section.object valueForKeyPath: objectKeyPath]];
+	if (_list == nil) {
+		NSString *objectKeyPath = [_dictionary objectForKey: @"object"];
+		return [NSArray arrayWithObject: objectKeyPath ? [section.object valueForKeyPath: objectKeyPath] : [NSNull null]];
 	}
-	return [section.object valueForKeyPath: self.list];
+	return [section.object valueForKeyPath: _list];
 }
 
 #pragma mark -
