@@ -8,7 +8,6 @@
 
 #import "RCSTableKit.h"
 
-@interface RootViewController : RCSTableViewController {
-}
+@interface RootViewController : RCSTableViewController
 
 @end
