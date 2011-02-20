@@ -14,11 +14,6 @@
     [super dealloc];
 }
 
-- (void) layoutSubviews
-{
-	[super layoutSubviews];
-}
-
 - (BOOL) supportsText { return YES; }
 - (BOOL) supportsDetailText { return YES; }
 - (BOOL) supportsAccessories { return YES; }
