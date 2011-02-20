@@ -276,9 +276,9 @@
 			if (indexPathWhenEditing && indexPathWhenViewing) {
 				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return input; } copy];
 			} else if (indexPathWhenEditing) {
-				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.section.table.controller.editing ? input : nil; } copy];
+				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.controller.editing ? input : nil; } copy];
 			} else if (indexPathWhenViewing) {
-				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.section.table.controller.editing ? nil : input; } copy];
+				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.controller.editing ? nil : input; } copy];
 			} else {
 				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return nil; } copy];
 			}
@@ -297,7 +297,7 @@
 			if (s) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"textSelector"]);
-				if (sel) _textBlock = [^(RCSTableRow *r) { return [r.section.table.controller performSelector: sel withObject: r]; } copy];
+				if (sel) _textBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
 				else _textBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
 		}

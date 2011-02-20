@@ -25,6 +25,8 @@
 			   forSection: (RCSTableSection *)section_
 			  atIndexPath: (NSIndexPath *)indexPath_;
 
+- (RCSTableViewController *) controller;
+
 - (NSString *)stringForDictionaryKey: (id)key;
 
 - (BOOL) isEditable;

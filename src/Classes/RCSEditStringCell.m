@@ -49,7 +49,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(viewWillDisappear:)
 													 name: @"RCSTableViewControllerViewWillDisappear"
-												   object: newRow.section.table.controller];
+												   object: newRow.controller];
 		_editStringTextField.font = [UIFont boldSystemFontOfSize: 24.0];
 		_editStringTextField.adjustsFontSizeToFitWidth = YES;
 		_editStringTextField.minimumFontSize = 16.0;
