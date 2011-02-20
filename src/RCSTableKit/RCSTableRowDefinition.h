@@ -7,7 +7,8 @@
 @class RCSTableSection;
 @class RCSTableRow;
 
-@interface RCSTableRowDefinition : RCSBaseDefinition {
+@interface RCSTableRowDefinition : RCSBaseDefinition
+{
 	NSDictionary *_dictionary;
 	NSString *_key;
 	NSString *_list;

@@ -6,7 +6,8 @@
 
 @class RCSTableViewDataSource;
 
-@interface RCSTableViewDelegate : NSObject <UITableViewDelegate> {
+@interface RCSTableViewDelegate : NSObject <UITableViewDelegate>
+{
 	RCSTableViewDataSource *_dataSource;
 	UIViewController *_viewController;
 }

@@ -6,7 +6,8 @@
 
 @class RCSTableRowDefinition, RCSTableSectionDefinition, RCSTableSection;
 
-@interface RCSTableRow : NSObject {
+@interface RCSTableRow : NSObject
+{
 	UITableViewCell *_cell;
 	RCSTableRowDefinition *_definition;
 	NSObject *_object;

@@ -4,7 +4,8 @@
 //  See license below.
 //
 
-@interface RCSEditStringCell : RCSTableViewCell <UITextFieldDelegate> {
+@interface RCSEditStringCell : RCSTableViewCell <UITextFieldDelegate>
+{
 	UITextField *_editStringTextField;
 }
 

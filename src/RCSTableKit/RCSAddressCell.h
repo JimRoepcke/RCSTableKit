@@ -4,7 +4,8 @@
 //  See license below.
 //
 
-@interface RCSAddressCell : RCSTableViewCell {
+@interface RCSAddressCell : RCSTableViewCell
+{
 	NSMutableArray *_lines;
 	NSArray *_labels;
 }

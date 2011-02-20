@@ -6,7 +6,8 @@
 
 @class RCSTable, RCSTableSection;
 
-@interface RCSTableSectionDefinition : RCSBaseDefinition {
+@interface RCSTableSectionDefinition : RCSBaseDefinition
+{
 	NSDictionary *_dictionary;
 	NSString *_key;
 	NSString *_list;

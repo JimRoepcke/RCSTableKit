@@ -7,7 +7,8 @@
 @class RCSTableViewController;
 @class RCSTableDefinition, RCSTable, RCSTableRow;
 
-@interface RCSTableViewDataSource : NSObject <UITableViewDataSource> {
+@interface RCSTableViewDataSource : NSObject <UITableViewDataSource>
+{
 	RCSTableViewController *_viewController;
 	NSObject *_rootObject;
 	NSDictionary *_dictionary;

@@ -4,9 +4,7 @@
 //  See license below.
 //
 
-@interface RCSBaseDefinition : NSObject {
-
-}
+@interface RCSBaseDefinition : NSObject
 
 #pragma mark -
 #pragma mark Configuration methods

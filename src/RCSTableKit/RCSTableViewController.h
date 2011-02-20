@@ -8,7 +8,8 @@
 
 @class RCSTableViewDataSource, RCSTableViewDelegate;
 
-@interface RCSTableViewController : UIViewController {
+@interface RCSTableViewController : UIViewController
+{
 	UITableView *_tableView;
 	RCSTableViewDelegate *_tableViewDelegate;
 	RCSTableViewDataSource *_dataSource;

@@ -8,8 +8,9 @@
 
 @class RCSTableRow;
 
-@interface RCSTableViewCell : UITableViewCell {
 	RCSTableRow *row;
+@interface RCSTableViewCell : UITableViewCell
+{
 }
 
 @property (nonatomic, retain) RCSTableRow *row;
