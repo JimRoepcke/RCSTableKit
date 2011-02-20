@@ -4,7 +4,7 @@
 //  See license below.
 //
 
-@class RCSTableRowDefinition, RCSTableSectionDefinition, RCSTableSection;
+@class RCSTableViewController, RCSTableRowDefinition, RCSTableSectionDefinition, RCSTableSection;
 
 @interface RCSTableRow : NSObject
 {

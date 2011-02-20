@@ -6,11 +6,11 @@
 
 @implementation RCSTableViewCell
 
-@synthesize row;
+@synthesize row=_row;
 
 - (void) dealloc
 {
-	[row release]; row = nil;
+	[_row release]; _row = nil;
     [super dealloc];
 }
 
@@ -29,13 +29,13 @@
 
 - (void) setRow: (RCSTableRow *)newRow
 {
-	if (row != newRow) {
+	if (_row != newRow) {
 		[self willChangeValueForKey: @"row"];
 		[newRow retain];
-		[row release];
-		row = newRow;
+		[_row release];
+		_row = newRow;
 		[self didChangeValueForKey: @"row"];
-		[row setCell: nil];
+		[_row setCell: nil];
 	}
 	if (newRow != nil) {
 		[newRow setCell: self];
