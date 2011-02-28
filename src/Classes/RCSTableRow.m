@@ -77,8 +77,8 @@
 		// FIXME: use UINib instead, perhaps data source holds the UINib instances?
 		cell = (UITableViewCell *)[[[NSBundle mainBundle] loadNibNamed: nibName owner: self options: nil] objectAtIndex: 0];
 	} else {
-		cell = [[[_definition.cellClass alloc] initWithStyle: [self cellStyle]
-											 reuseIdentifier: [self cellReuseIdentifier]] autorelease];
+		cell = [[[[self cellClass] alloc] initWithStyle: [self cellStyle]
+										reuseIdentifier: [self cellReuseIdentifier]] autorelease];
 	}
 	
 	return cell;
@@ -89,81 +89,20 @@
 	return _definition.editingStyle;
 }
 
-- (UITableViewCellStyle) cellStyle
-{
-	NSString *s = nil;
-	if (_definition.cellStyle != nil) s = [[_object valueForKeyPath: _definition.cellStyle] description];
-	else if (_definition.cellStyleSelector) s = [[[self controller] performSelector: _definition.cellStyleSelector withObject: self] description];
-	else return _definition.staticCellStyle;
-	if (s) {
-		if ([@"value1" isEqualToString: s]) {
-			return UITableViewCellStyleValue1;
-		} else if ([@"value2" isEqualToString: s]) {
-			return UITableViewCellStyleValue2;
-		} else if ([@"subtitle" isEqualToString: s]) {
-			return UITableViewCellStyleSubtitle;
-		} else {
-			return UITableViewCellStyleDefault;
-		}
-	} else {
-		return UITableViewCellStyleDefault;
-	}
-}
-
 - (RCSTableViewController *) controller { return [[_section table] controller]; }
 
 - (NSString *) text { return [_definition text: self]; }
-
-- (NSString *) detailText
-{
-	if (_definition.staticDetailText != nil) return _definition.staticDetailText;
-	else if (_definition.detailText != nil) return [_object valueForKeyPath: _definition.detailText];
-	else if (_definition.detailTextSelector) return [[self controller] performSelector: _definition.detailTextSelector withObject: self];
-	return nil;
-}
-
-- (UIImage *) image
-{
-	if (_definition.staticImageName != nil) return [UIImage imageNamed: _definition.staticImageName];
-	else if (_definition.image != nil) return [_object valueForKeyPath: _definition.image];
-	else if (_definition.imageSelector) return [[self controller] performSelector: _definition.imageSelector withObject: self];
-	return nil;
-}
-
-- (UITableViewCellAccessoryType) accessoryType
-{
-	RCSTableViewController *controller = [self controller];
-	if (controller.editing) return [self editingAccessoryType];
-
-	if (_definition.accessoryTypeSelector) {
-		NSNumber *type = [controller performSelector: _definition.accessoryTypeSelector withObject: self];
-		return (UITableViewCellAccessoryType)[type intValue];
-	} else if (_definition.accessoryType != nil) {
-		NSNumber *type = [_object valueForKeyPath: _definition.accessoryType];
-		return (UITableViewCellAccessoryType)[type intValue];
-	}
-	
-	return _definition.staticAccessoryType;
-}
-
-- (UITableViewCellAccessoryType) editingAccessoryType
-{
-	if (_definition.editingAccessoryTypeSelector) {
-		RCSTableViewController *controller = [self controller];
-		NSNumber *type = [controller performSelector: _definition.editingAccessoryTypeSelector withObject: self];
-		return (UITableViewCellAccessoryType)[type intValue];
-	} else if (_definition.editingAccessoryType != nil) {
-		NSNumber *type = [_object valueForKeyPath: _definition.editingAccessoryType];
-		return (UITableViewCellAccessoryType)[type intValue];
-	}
-	
-	return _definition.staticEditingAccessoryType;
-}
+- (NSString *) detailText { return [_definition detailText: self]; }
+- (UIImage *) image { return [_definition image: self]; }
+- (UITableViewCellAccessoryType) accessoryType { return [_definition accessoryType: self]; }
+- (UITableViewCellAccessoryType) editingAccessoryType { return [_definition editingAccessoryType: self]; }
+- (UITableViewCellStyle) cellStyle { return [_definition cellStyle: self]; }
+- (Class) cellClass { return [_definition cellClass: self]; }
 
 - (CGFloat) heightWithDefault: (CGFloat)defaultHeight
 {
 	if (_definition.rowHeight == -1.0) {
-		Class CellClass = _definition.cellClass;
+		Class CellClass = [self cellClass];
 		if ([CellClass respondsToSelector: @selector(calculateHeightForRCSTableRow:)]) {
 			NSNumber *result = [CellClass performSelector: @selector(calculateHeightForRCSTableRow:) withObject: self];
 			return result == nil ? defaultHeight : [result doubleValue];
@@ -214,18 +153,7 @@
 	}
 }
 
-- (NSIndexPath *) willSelect: (NSIndexPath *)indexPath
-{
-	return [_definition row: self willSelect: indexPath];	
-	// old version
-	/*if (_definition.action || _definition.pushConfiguration) {
-		return indexPath;
-	} else if () {
-		return (_definition.editAction || _definition.editPushConfiguration) ? indexPath : nil;
-	} else {
-		return (_definition.viewAction || _definition.viewPushConfiguration) ? indexPath : nil;
-	}*/
-}
+- (NSIndexPath *) willSelect: (NSIndexPath *)indexPath { return [_definition row: self willSelect: indexPath]; }
 
 - (void) didSelect
 {

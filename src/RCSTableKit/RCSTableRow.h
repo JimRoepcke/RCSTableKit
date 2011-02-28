@@ -47,6 +47,7 @@
 - (UIImage *) image;
 - (UITableViewCellAccessoryType) accessoryType;
 - (UITableViewCellAccessoryType) editingAccessoryType;
+- (Class) cellClass;
 
 @end
 

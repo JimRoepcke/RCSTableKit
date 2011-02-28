@@ -14,26 +14,11 @@
 	NSString *_list;
 	
 	NSString *_cellNibName;
-	NSString *_cellClassName;
-	Class _cellClass;
-	
-	UITableViewCellStyle _staticCellStyle;
-	NSString *_cellStyle;
-	SEL _cellStyleSelector;
-	
 	BOOL _becomeFirstResponder;
 	CGFloat _rowHeight;	
 
 	NSString *_backgroundColor;
 	SEL _backgroundColorSelector;
-	
-	NSString *_staticDetailText;
-	NSString *_detailText;
-	SEL _detailTextSelector;
-	
-	NSString *_staticImageName;
-	NSString *_image;
-	SEL _imageSelector;
 	
 	UITableViewCellEditingStyle _editingStyle;
 	SEL _editingStyleAction;
@@ -46,24 +31,22 @@
 	SEL _editAction;
 	NSString *_editPushConfiguration;
 
-	UITableViewCellAccessoryType _staticAccessoryType;
-	NSString *_accessoryType;
-	SEL _accessoryTypeSelector;
-	
 	SEL _accessoryAction;
 	NSString *_accessoryPushConfiguration;
 	SEL _viewAccessoryAction;
 	NSString *_viewAccessoryPushConfiguration;
 
-	UITableViewCellAccessoryType _staticEditingAccessoryType;
-	NSString *_editingAccessoryType;
-	SEL _editingAccessoryTypeSelector;
-	
 	SEL _editAccessoryAction;
 	NSString *_editAccessoryPushConfiguration;	
 	
 	NSIndexPath *(^_willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
 	NSString *(^_textBlock)(RCSTableRow *row);
+	NSString *(^_detailTextBlock)(RCSTableRow *row);
+	UIImage *(^_imageBlock)(RCSTableRow *row);
+	UITableViewCellAccessoryType (^_accessoryTypeBlock)(RCSTableRow *row);
+	UITableViewCellAccessoryType (^_editingAccessoryTypeBlock)(RCSTableRow *row);
+	UITableViewCellStyle (^_cellStyleBlock)(RCSTableRow *row);
+	Class (^_cellClassBlock)(RCSTableRow *row);
 }
 
 // the source dictionary that generated this definition
@@ -78,25 +61,11 @@
 
 
 @property (nonatomic, retain) NSString *cellNibName;
-@property (nonatomic, retain) NSString *cellClassName;
-@property (nonatomic, assign) Class     cellClass;
-
-@property (nonatomic, assign) UITableViewCellStyle staticCellStyle;
-@property (nonatomic, retain) NSString *cellStyle;
-@property (nonatomic, assign) SEL cellStyleSelector;
 
 @property (nonatomic, assign) BOOL becomeFirstResponder;
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, retain) NSString *backgroundColor;
 @property (nonatomic, assign) SEL backgroundColorSelector;
-
-@property (nonatomic, retain) NSString *staticDetailText;
-@property (nonatomic, retain) NSString *detailText;
-@property (nonatomic, assign) SEL detailTextSelector;
-
-@property (nonatomic, retain) NSString *staticImageName;
-@property (nonatomic, retain) NSString *image;
-@property (nonatomic, assign) SEL imageSelector;
 
 @property (nonatomic, assign) UITableViewCellEditingStyle editingStyle;
 @property (nonatomic, assign) SEL editingStyleAction;
@@ -109,18 +78,10 @@
 @property (nonatomic, assign) SEL editAction;
 @property (nonatomic, retain) NSString *editPushConfiguration;
 
-@property (nonatomic, assign) UITableViewCellAccessoryType staticAccessoryType;
-@property (nonatomic, retain) NSString *accessoryType;
-@property (nonatomic, assign) SEL accessoryTypeSelector;
-
 @property (nonatomic, assign) SEL accessoryAction;
 @property (nonatomic, retain) NSString *accessoryPushConfiguration;
 @property (nonatomic, assign) SEL viewAccessoryAction;
 @property (nonatomic, retain) NSString *viewAccessoryPushConfiguration;
-
-@property (nonatomic, assign) UITableViewCellAccessoryType staticEditingAccessoryType;
-@property (nonatomic, retain) NSString *editingAccessoryType;
-@property (nonatomic, assign) SEL editingAccessoryTypeSelector;
 
 @property (nonatomic, assign) SEL editAccessoryAction;
 @property (nonatomic, retain) NSString *editAccessoryPushConfiguration;
@@ -129,14 +90,18 @@
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_;
 
-- (Class) cellClass;
-
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section
 					   startAtIndex: (NSUInteger)startIndex;
 
 - (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath;
 
 - (NSString *) text: (RCSTableRow *)aRow;
+- (NSString *) detailText: (RCSTableRow *)aRow;
+- (UIImage *) image: (RCSTableRow *)aRow;
+- (UITableViewCellAccessoryType) accessoryType: (RCSTableRow *)aRow;
+- (UITableViewCellAccessoryType) editingAccessoryType: (RCSTableRow *)aRow;
+- (UITableViewCellStyle) cellStyle: (RCSTableRow *)aRow;
+- (Class) cellClass: (RCSTableRow *)aRow;
 
 @end
 
