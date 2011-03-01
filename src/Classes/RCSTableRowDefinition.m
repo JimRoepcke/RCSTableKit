@@ -172,13 +172,23 @@
 {
 	if (_cellClassBlock == nil) {
 		NSString *s = [_dictionary objectForKey: @"staticCell"];
-		if (s) _cellClassBlock = [^(RCSTableRow *r) { return NSClassFromString(s); } copy];
+		if (s) _cellClassBlock = [^(RCSTableRow *r) {
+			Class c = NSClassFromString(s);
+			return c ? c : [RCSTableViewCell class];
+		} copy];
 		else {
 			s = [_dictionary objectForKey: @"cell"];
-			if (s) _cellClassBlock = [^(RCSTableRow *r) { return NSClassFromString([[r object] valueForKeyPath: s]); } copy];
+			if (s) _cellClassBlock = [^(RCSTableRow *r) {
+				NSString *cs = [[r object] valueForKeyPath: s];
+				Class c = cs ? NSClassFromString(cs) : nil;
+				return c ? c : [RCSTableViewCell class];
+			} copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"cellSelector"]);
-				if (sel) _cellClassBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+				if (sel) _cellClassBlock = [^(RCSTableRow *r) {
+					Class c = [[r controller] performSelector: sel withObject: r];
+					return c ? c : [RCSTableViewCell class];
+				} copy];
 				else _cellClassBlock = [^(RCSTableRow *r) { return [RCSTableViewCell class]; } copy];
 			}
 		}
