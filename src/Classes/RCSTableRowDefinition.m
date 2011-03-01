@@ -101,7 +101,8 @@
 	[_accessoryTypeBlock release]; _accessoryTypeBlock = nil;
 	[_editingAccessoryTypeBlock release]; _editingAccessoryTypeBlock = nil;
 	[_cellStyleBlock release]; _cellStyleBlock = nil;
-	
+	[_cellClassBlock release]; _cellClassBlock = nil;
+
 	[_dictionary release]; _dictionary = nil;
 	[_key release]; _key = nil;
 	[_list release]; _list = nil;
