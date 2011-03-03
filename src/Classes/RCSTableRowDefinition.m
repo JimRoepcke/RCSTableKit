@@ -296,8 +296,11 @@
 		} else {
 			s = [_dictionary objectForKey: @"editingAccessoryType"];
 			if (s) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
-				NSNumber *type = [[r object] valueForKeyPath: s];
-				return [type intValue];
+				NSString *typeString = [[r object] valueForKeyPath: s];
+				if ([@"disclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
+				else if ([@"detailDisclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
+				else if ([@"checkmark" isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
+				else { return UITableViewCellAccessoryNone; }
 			} copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"editingAccessoryTypeSelector"]);
@@ -330,8 +333,11 @@
 		} else {
 			s = [_dictionary objectForKey: @"accessoryType"];
 			if (s) _accessoryTypeBlock = [^(RCSTableRow *r) {
-				NSNumber *type = [[r object] valueForKeyPath: s];
-				return (UITableViewCellAccessoryType)[type intValue];
+				NSString *typeString = [[r object] valueForKeyPath: s];
+				if ([@"disclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
+				else if ([@"detailDisclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
+				else if ([@"checkmark" isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
+				else { return UITableViewCellAccessoryNone; }
 			} copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"accessoryTypeSelector"]);
@@ -364,8 +370,11 @@
 		} else {
 			s = [_dictionary objectForKey: @"cellStyle"];
 			if (s) _cellStyleBlock = [^(RCSTableRow *r) {
-				NSNumber *type = [[r object] valueForKeyPath: s];
-				return (UITableViewCellStyle)[type intValue];
+				NSString *styleString = [[r object] valueForKeyPath: s];
+				if ([@"value1" isEqualToString: styleString]) { return UITableViewCellStyleValue1; }
+				else if ([@"value2" isEqualToString: styleString]) { return UITableViewCellStyleValue2; }
+				else if ([@"subtitle" isEqualToString: styleString]) { return UITableViewCellStyleSubtitle; }
+				else { return UITableViewCellStyleDefault; }
 			} copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"cellStyleSelector"]);
