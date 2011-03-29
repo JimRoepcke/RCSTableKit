@@ -11,20 +11,17 @@
 	RCSTableSectionDefinition *_definition;
 	NSObject *_object;
 	RCSTable *_table; // parent
-	NSUInteger _index;
 	NSMutableArray *_rows; // children (RCSTableRow)
 }
 
 @property (nonatomic, readonly, retain) RCSTableSectionDefinition *definition;
 @property (nonatomic, readonly, assign) NSObject *object;
-@property (nonatomic, readonly, assign) NSUInteger index;
 @property (nonatomic, readonly, retain) NSMutableArray *rows;
 @property (nonatomic, readonly, assign) RCSTable *table; // parent
 
 - (id) initUsingDefintion: (RCSTableSectionDefinition *)definition_
 		   withRootObject: (NSObject *)object_
-				 forTable: (RCSTable *)table_
-				  atIndex: (NSUInteger)index_;
+				 forTable: (RCSTable *)table_;
 
 - (NSUInteger) numberOfRows;
 

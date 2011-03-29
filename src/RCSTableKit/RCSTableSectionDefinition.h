@@ -40,8 +40,7 @@
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_;
 
-- (NSMutableArray *) sectionsForTable: (RCSTable *)table
-						 startAtIndex: (NSUInteger)startIndex;
+- (NSMutableArray *) sectionsForTable: (RCSTable *)table;
 
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section;
 

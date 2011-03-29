@@ -78,11 +78,10 @@
 {
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
-	RCSTableSectionDefinition *def = nil;
+	RCSTableSectionDefinition *secDef = nil;
 	for (NSString *sectionKey in self.displaySectionKeys) {
-		def = [self.sectionDefinitions objectForKey: sectionKey];
-		[result addObjectsFromArray: [def sectionsForTable: table
-											  startAtIndex: [result count]]];
+		secDef = [self.sectionDefinitions objectForKey: sectionKey];
+		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}
 	return [result autorelease];
 }

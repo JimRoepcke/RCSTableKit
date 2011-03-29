@@ -13,7 +13,7 @@
 
 - (NSString *) text: (RCSTableRow *)row
 {
-	return [row.indexPath description];
+	return [row description];
 }
 
 - (UIColor *) subBackgroundColor

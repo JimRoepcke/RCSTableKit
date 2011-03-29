@@ -134,7 +134,6 @@
 // called by RCSTableSectionDefinition's rowsForSection:
 // returns an array of RCSTableRow objects
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section
-					   startAtIndex: (NSUInteger)startIndex
 {
 	NSNull *nullValue = [NSNull null];
 	NSMutableArray *result = [[NSMutableArray alloc] init];
@@ -143,7 +142,7 @@
 	NSString *predicate = [_dictionary objectForKey: @"predicate"];
 	NSPredicate *rowPredicate = nil;
 	BOOL (^rowTest)(NSObject *);
-	if (predicate) {
+	if ([predicate length] > 0) {
 		rowPredicate = [NSPredicate predicateWithFormat: predicate];
 		rowTest = ^(NSObject *ro) { return [rowPredicate evaluateWithObject: ro]; };
 	} else {
@@ -151,17 +150,13 @@
 	}
 	NSObject *rowObject;
 	RCSTableRow *row;
-	NSUInteger i = startIndex;
-	NSUInteger sectionIndex = section.index;
 	NSObject *sectionObject = section.object;
 	for (NSObject *obj in objects) {
 		rowObject = obj == nullValue ? sectionObject : obj;
 		if (rowTest(rowObject)) {
 			row = [[RCSTableRow alloc] initUsingDefintion: self
 										   withRootObject: rowObject
-											   forSection: section
-											  atIndexPath: [NSIndexPath indexPathForRow: i++
-																			  inSection: sectionIndex]];
+											   forSection: section];
 			[result addObject: row];
 			[row release];
 		}

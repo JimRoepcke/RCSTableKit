@@ -12,19 +12,16 @@
 	RCSTableRowDefinition *_definition;
 	NSObject *_object;
 	RCSTableSection *_section; // parent
-	NSIndexPath *_indexPath;
 }
 
 @property (nonatomic, readwrite, assign) UITableViewCell *cell;
 @property (nonatomic, readonly, retain) RCSTableRowDefinition *definition;
 @property (nonatomic, readonly, assign) NSObject *object;
-@property (nonatomic, readonly, retain) NSIndexPath *indexPath;
 @property (nonatomic, readonly, assign) RCSTableSection *section; // parent
 
 - (id) initUsingDefintion: (RCSTableRowDefinition *)definition_
 		   withRootObject: (NSObject *)object_
-			   forSection: (RCSTableSection *)section_
-			  atIndexPath: (NSIndexPath *)indexPath_;
+			   forSection: (RCSTableSection *)section_;
 
 - (RCSTableViewController *) controller;
 

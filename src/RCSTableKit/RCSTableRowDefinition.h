@@ -90,8 +90,7 @@
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_;
 
-- (NSMutableArray *) rowsForSection: (RCSTableSection *)section
-					   startAtIndex: (NSUInteger)startIndex;
+- (NSMutableArray *) rowsForSection: (RCSTableSection *)section;
 
 - (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath;
 

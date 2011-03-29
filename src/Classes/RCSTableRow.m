@@ -7,7 +7,6 @@
 @interface RCSTableRow ()
 @property (nonatomic, readwrite, retain) RCSTableRowDefinition *definition;
 @property (nonatomic, readwrite, assign) NSObject *object;
-@property (nonatomic, readwrite, retain) NSIndexPath *indexPath;
 @property (nonatomic, readwrite, assign) RCSTableSection *section; // parent
 - (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller;
 - (UITableViewCellStyle) cellStyle;
@@ -17,21 +16,18 @@
 
 @synthesize cell=_cell;
 @synthesize definition=_definition;
-@synthesize indexPath=_indexPath;
 @synthesize object=_object;
 @synthesize section=_section;
 
 - (id) initUsingDefintion: (RCSTableRowDefinition *)definition_
 		   withRootObject: (NSObject *)object_
 			   forSection: (RCSTableSection *)section_
-			  atIndexPath: (NSIndexPath *)indexPath_
 {
 	if (self = [super init]) {
 		_cell = nil;
 		self.definition = definition_;
 		self.object = object_;
 		self.section = section_;
-		self.indexPath = indexPath_;
 	}
 	return self;
 }
@@ -42,7 +38,6 @@
 	[_definition release]; _definition = nil;
 	_object = nil;
 	_section = nil;
-	[_indexPath release]; _indexPath = nil;
 	[super dealloc];
 }
 

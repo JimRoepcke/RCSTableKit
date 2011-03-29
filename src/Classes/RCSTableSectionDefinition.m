@@ -93,25 +93,28 @@
 // called by RCSTableDefinition's sectionForTable:
 // returns an array of RCSTableSection objects
 - (NSMutableArray *) sectionsForTable: (RCSTable *)table
-						 startAtIndex: (NSUInteger)startIndex
 {
 	NSNull *nullValue = [NSNull null];
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 
 	NSArray *objects = [self objectsForSectionsInTable: table];
-	NSPredicate *sectionPredicate = [NSPredicate predicateWithFormat: [self stringForKey: @"predicate"
-																			 withDefault: @"TRUEPREDICATE"
-																			inDictionary: self.dictionary]];
+	NSString *predicate = [_dictionary objectForKey: @"predicate"];
+	NSPredicate *sectionPredicate = nil;
+	BOOL (^sectionTest)(NSObject *);
+	if ([predicate length] > 0) {
+		sectionPredicate = [NSPredicate predicateWithFormat: predicate];
+		sectionTest = ^(NSObject *so) { return [sectionPredicate evaluateWithObject: so]; };
+	} else {
+		sectionTest = ^(NSObject *so) { return YES; };
+	}
 	NSObject *sectionObject;
 	RCSTableSection *section;
-	NSUInteger i = startIndex;
 	for (NSObject *obj in objects) {
 		sectionObject = obj == nullValue ? table.object : obj;
-		if ([sectionPredicate evaluateWithObject: sectionObject]) {
+		if (sectionTest(sectionObject)) {
 			section = [[RCSTableSection alloc] initUsingDefintion: self
 												   withRootObject: sectionObject
-														 forTable: table
-														  atIndex: i++];
+														 forTable: table];
 			[result addObject: section];
 			[section release];
 		}
@@ -126,11 +129,10 @@
 {
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 
-	RCSTableRowDefinition *def = nil;
-	for (NSString *rowKey in self.displayRowKeys) {
-		def = [self.rowDefinitions objectForKey: rowKey];
-		[result addObjectsFromArray: [def rowsForSection: section
-											startAtIndex: [result count]]];
+	RCSTableRowDefinition *rowDef = nil;
+	for (NSString *rowKey in _displayRowKeys) {
+		rowDef = [_rowDefinitions objectForKey: rowKey];
+		[result addObjectsFromArray: [rowDef rowsForSection: section]];
 	}
 	return [result autorelease];
 }

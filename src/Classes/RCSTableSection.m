@@ -7,7 +7,6 @@
 @interface RCSTableSection ()
 @property (nonatomic, readwrite, retain) RCSTableSectionDefinition *definition;
 @property (nonatomic, readwrite, assign) NSObject *object;
-@property (nonatomic, readwrite, assign) NSUInteger index;
 @property (nonatomic, readwrite, retain) NSMutableArray *rows;
 @property (nonatomic, readwrite, assign) RCSTable *table; // parent
 @end
@@ -15,7 +14,6 @@
 @implementation RCSTableSection
 
 @synthesize definition=_definition;
-@synthesize index=_index;
 @synthesize rows=_rows;
 @synthesize object=_object;
 @synthesize table=_table;
@@ -23,13 +21,11 @@
 - (id) initUsingDefintion: (RCSTableSectionDefinition *)definition_
 		   withRootObject: (NSObject *)object_
 				 forTable: (RCSTable *)table_
-				  atIndex: (NSUInteger)index_
 {
 	if (self = [super init]) {
 		self.definition = definition_;
 		self.object = object_;
 		self.table = table_;
-		self.index = index_;
 		self.rows = [self.definition rowsForSection: self];
 	}
 	return self;
