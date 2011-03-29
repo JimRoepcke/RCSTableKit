@@ -111,9 +111,9 @@
 - (void) reloadData: (BOOL)animated
 {
 	self.table = nil;
-	RCSTable *newTable = [[RCSTable alloc] initUsingDefintion: self.tableDefinition
-											   withRootObject: self.rootObject
-											forViewController: self.viewController];
+	RCSTable *newTable = [[RCSTable alloc] initUsingDefintion: [self tableDefinition]
+											   withRootObject: [self rootObject]
+											forViewController: [self viewController]];
 	self.table = newTable;
 	[newTable release];
 }
