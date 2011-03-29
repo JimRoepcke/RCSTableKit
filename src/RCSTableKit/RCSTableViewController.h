@@ -28,8 +28,6 @@
 
 - (void) reloadData;
 
-- (NSDictionary *) relaunchRestorationState;
-
 @end
 
 /*

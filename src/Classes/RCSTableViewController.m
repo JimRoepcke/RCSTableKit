@@ -207,17 +207,6 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark Relaunch Restoration Support
-
-- (NSDictionary *) relaunchRestorationState
-{
-	NSMutableDictionary *state = [[NSMutableDictionary alloc] initWithCapacity: 2];
-	// FIXME: i don't think this actually works in general, what about the nibName and the nibBundleName etc?
-	[state setObject: NSStringFromClass([self class]) forKey: @"viewControllerClassName"];
-	[state setObject: [[self dataSource] key] forKey: @"configurationName"];
-	return [state autorelease];
-}
-
 #pragma mark -
 #pragma mark Table View Delegate Methods
 
