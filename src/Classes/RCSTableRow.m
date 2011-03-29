@@ -43,7 +43,11 @@
 
 - (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller
 {
-	[controller.navigationController pushViewController: [controller.dataSource configuration: name withRootObject: object] animated: YES];
+	// FIXME: avoid creating a new RCSTableDefinition here if possible
+	// TODO: support pulling the bundle from the same bundle as the current definition came from
+	RCSTableDefinition *def = [RCSTableDefinition tableDefinitionNamed: name inBundle: nil];
+	UIViewController *vc = [def viewControllerWithRootObject: object];
+	[controller.navigationController pushViewController: vc animated: YES];
 }
 
 #pragma mark -

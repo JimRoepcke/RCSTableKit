@@ -23,6 +23,7 @@
 		   withRootObject: (NSObject *)object_
 		forViewController: (RCSTableViewController *)controller_;
 
+- (NSString *) title;
 - (NSUInteger) numberOfSections;
 - (RCSTableSection *) sectionAtIndex: (NSUInteger)section;
 - (NSUInteger) numberOfRowsInSection: (NSUInteger)section_;

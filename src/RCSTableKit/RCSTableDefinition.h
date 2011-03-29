@@ -4,23 +4,22 @@
 //  See license below.
 //
 
-@class RCSTable;
+@class RCSTable, RCSTableViewController;
 
 @interface RCSTableDefinition : RCSBaseDefinition
 {
 	NSDictionary *_dictionary;
-	NSString *_key;
 	NSMutableArray *_displaySectionKeys;
 	NSMutableDictionary *_sectionDefinitions;
 	NSString *_tableHeaderImagePath;
 	SEL _tableHeaderImagePathSelector;
+	NSString *_nibName;
+	NSString *_nibBundleName;
+	NSString *_controllerClassName;
 }
 
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, retain) NSDictionary *dictionary;
-
-// The name (key) of this definition (probably the name of the plist containing the dictionary)
-@property (nonatomic, readonly, retain) NSString *key;
 
 // list of section definitions to display, in the order they should appear
 @property (nonatomic, readonly, retain) NSMutableArray *displaySectionKeys;
@@ -31,10 +30,21 @@
 @property (nonatomic, retain) NSString *tableHeaderImagePath;
 @property (nonatomic, assign) SEL tableHeaderImagePathSelector;
 
-- (id) initWithDictionary: (NSDictionary *)dictionary_
-				   forKey: (NSString *)key_;
+@property (nonatomic, readonly, retain) NSString *nibName;
+@property (nonatomic, readonly, retain) NSString *nibBundleName;
+@property (nonatomic, readonly, retain) NSString *controllerClassName;
+
++ (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle;
+
+- (id) initWithDictionary: (NSDictionary *)dictionary_;
 
 - (NSMutableArray *) sectionsForTable: (RCSTable *)table;
+
+- (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object;
+
+- (NSString *) title: (RCSTable *)aTable;
+
+- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value;
 
 @end
 

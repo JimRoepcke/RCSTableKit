@@ -6,27 +6,22 @@
 
 #import <UIKit/UIKit.h>
 
-@class RCSTableViewDataSource, RCSTableViewDelegate;
-
-@interface RCSTableViewController : UIViewController
+@interface RCSTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
+	NSObject *_rootObject;
+	RCSTableDefinition *_tableDefinition;
+	RCSTable *_table;
 	UITableView *_tableView;
-	RCSTableViewDelegate *_tableViewDelegate;
-	RCSTableViewDataSource *_dataSource;
 	NSString *_tableHeaderImagePath;
 }
 
+@property (nonatomic, retain) NSObject *rootObject;
+@property (nonatomic, retain) RCSTableDefinition *tableDefinition;
+@property (nonatomic, readonly, retain) RCSTable *table;
 @property (nonatomic, retain) IBOutlet  UITableView *tableView;
-@property (nonatomic, retain) RCSTableViewDelegate *tableViewDelegate;
-@property (nonatomic, retain) RCSTableViewDataSource *dataSource;
-
-- (id) initWithRootObject: (NSObject *)rootObject_
-			configuration: (NSDictionary *)configuration_
-					named: (NSString *) name_;
-
-- (NSObject *) rootObject;
 
 - (void) reloadData;
+- (void) setEditing: (BOOL)editing animated: (BOOL)animated;
 
 @end
 

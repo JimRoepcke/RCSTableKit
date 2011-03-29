@@ -6,70 +6,31 @@
 
 @interface RCSTableViewController ()
 @property (nonatomic, retain) NSString *tableHeaderImagePath;
-+ (Class) dataSourceClass;
-- (RCSTableViewDataSource *) dataSourceWithRootObject: (id)rootObject_
-								   usingConfiguration: (NSDictionary *)configuration_
-												named: (NSString *)name_;
 - (void) configureEditButton;
 - (void) configureTitle;
 - (void) reloadData;
+@property (nonatomic, readwrite, retain) RCSTable *table;
 @end
 
 @implementation RCSTableViewController
 
 @synthesize tableView=_tableView;
-@synthesize tableViewDelegate=_tableViewDelegate;
-@synthesize dataSource=_dataSource;
 @synthesize tableHeaderImagePath=_tableHeaderImagePath;
-
-- (id) initWithCoder:(NSCoder *)aDecoder
-{
-	if (self = [super initWithCoder: aDecoder]) {
-		_tableViewDelegate = nil;
-		_dataSource = nil;
-		_tableHeaderImagePath = nil;
-	}
-	return self;
-}
-
-- (id) initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
-{
-	if (self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil]) {
-		_tableViewDelegate = nil;
-		_dataSource = nil;
-		_tableHeaderImagePath = nil;
-	}
-	return self;
-}
-
-- (id) initWithRootObject: (id)rootObject_
-			configuration: (NSDictionary *)configuration_
-					named: (NSString *)name_
-{
-	// need the data source here so we can find out what nibName/nibBundleName are
-	// because these must be passed to -[UIViewController initWithNibName:bundle:].
-	RCSTableViewDataSource *ds = [self dataSourceWithRootObject: rootObject_ usingConfiguration: configuration_ named: name_];
-	NSString *nibName_ = [ds configurationStringForKey: @"nibName" withDefault: nil];
-	NSString *nibBundleName_ = [ds configurationStringForKey: @"nibBundleName" withDefault: nil];
-	NSBundle *nibBundle_ = nil;
-	if (nibBundleName_ != nil) {
-		NSString* path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nibBundleName_];
-		nibBundle_ = [NSBundle bundleWithPath: path];
-	}
-	if (self = [self initWithNibName: nibName_ bundle: nibBundle_]) {
-		[self setDataSource: ds];
-    }
-    return self;
-}
+@synthesize rootObject=_rootObject;
+@synthesize tableDefinition=_tableDefinition;
+@synthesize table=_table;
 
 - (void) dealloc
 {
 	[_tableHeaderImagePath release]; _tableHeaderImagePath = nil;
-	[_dataSource release]; _dataSource = nil;
-	[_tableViewDelegate release]; _tableViewDelegate = nil;
 	[_tableView setDelegate: nil];
 	[_tableView setDataSource: nil];
 	[_tableView release]; _tableView = nil;
+
+	[_rootObject release]; _rootObject = nil;
+	[_table release]; _table = nil;
+	[_tableDefinition release]; _tableDefinition = nil;
+	
     [super dealloc];
 }
 
@@ -77,9 +38,10 @@
 {
     [super viewDidLoad];
 	UITableView *tv = [self tableView];
-	[tv setDataSource: [self dataSource]];
-	tv.allowsSelectionDuringEditing = [[self dataSource] configurationBoolForKey: @"allowsSelectionDuringEditing" withDefault: tv.allowsSelectionDuringEditing];
-	tv.allowsSelection = [[self dataSource] configurationBoolForKey: @"allowsSelection" withDefault: tv.allowsSelection];
+	[tv setDataSource: self];
+	
+	tv.allowsSelectionDuringEditing = [[self tableDefinition] configurationBoolForKey: @"allowsSelectionDuringEditing" withDefault: tv.allowsSelectionDuringEditing];
+	tv.allowsSelection = [[self tableDefinition] configurationBoolForKey: @"allowsSelection" withDefault: tv.allowsSelection];
 }
 
 - (void) viewDidUnload
@@ -103,47 +65,17 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName: @"RCSTableViewControllerViewWillDisappear" object: self];
 }
 
-+ (Class) dataSourceClass { return [RCSTableViewDataSource class]; }
-
-- (RCSTableViewDataSource *) dataSourceWithRootObject: (id)rootObject_
-								   usingConfiguration: (NSDictionary *)configuration_
-												named: (NSString *)name_
-{
-	return [[[[[self class] dataSourceClass] alloc] initForViewController: self
-														   withRootObject: (rootObject_ == nil ? self : rootObject_)
-													   usingConfiguration: configuration_
-																	named: name_] autorelease];
-}
-
-- (void) setDataSource: (RCSTableViewDataSource *)ds
-{
-	if (ds != _dataSource) {
-		[ds retain];
-		[_dataSource release];
-		_dataSource = ds;
-		[self setTableViewDelegate: [[[RCSTableViewDelegate alloc] initForViewController: self withDataSource: ds] autorelease]];
-	}
-}
-
-- (NSObject *) rootObject { return [[self dataSource] rootObject]; }
-
 - (void) configureEditButton
 {
-	if ([[self dataSource] configurationBoolForKey: @"isEditable" withDefault: NO]) {
+	if ([[self tableDefinition] configurationBoolForKey: @"isEditable" withDefault: NO]) {
 		[[self navigationItem] setRightBarButtonItem: [self editButtonItem]];
 	}
 }
 
 - (void) configureTitle
 {
-	NSString *title = [[self dataSource] configurationStringForKey: @"staticTitle" withDefault: nil];
-	if (title == nil) {
-		title = [[self dataSource] configurationStringForKey: @"title" withDefault: nil];
-		if (title != nil) {
-			title = [self valueForKeyPath: title];
-		}
-	}
-	if (title != nil) {
+	NSString *title = [[self table] title];
+	if (title) {
 		[self setTitle: title];
 	}
 }
@@ -157,12 +89,29 @@
 	return [s1 isEqualToString: s2];
 }
 
+- (NSInteger) numberOfSections { return [self.table numberOfSections]; }
+- (NSInteger) numberOfRowsInSection: (NSInteger)sec { return [self.table numberOfRowsInSection: sec]; }
+
+- (RCSTableRow *) rowAtIndexPath: (NSIndexPath *)indexPath {
+	return [_table rowAtIndexPath: indexPath];
+}
+
+- (NSObject *) rootObject
+{
+	return _rootObject ? _rootObject : self;
+}
+
 - (void) reloadData
 {
 	[self willReloadData];
-	[[self dataSource] reloadData];
+	self.table = nil;
+	RCSTable *newTable = [[RCSTable alloc] initUsingDefintion: [self tableDefinition]
+											   withRootObject: [self rootObject]
+											forViewController: self];
+	self.table = newTable;
+	[newTable release];
 	[[self tableView] reloadData];
-	NSString *path = [[[self dataSource] table] tableHeaderImagePath];
+	NSString *path = [[self table] tableHeaderImagePath];
 	if (! [self string: path isEqualToString: [self tableHeaderImagePath]]) {
 		[self setTableHeaderImagePath: path];
 		if (path == nil) {
@@ -183,19 +132,9 @@
 - (void) setEditing: (BOOL)editing animated: (BOOL)animated
 {
 	BOOL oldEditing = [self isEditing];
+	[super setEditing: editing animated: animated];
 	if (editing != oldEditing) {
-		if (NO) { // set to NO to disable animations if it's still buggy
-			[[self tableView] beginUpdates];
-			[super setEditing: editing animated: animated];
-			[[self dataSource] setEditing: editing animated: animated];
-			[[self tableView] endUpdates];
-			if (!animated)
-				[self reloadData];
-		} else {
-			[super setEditing: editing animated: animated];
-			[[self dataSource] reloadData];
-			[self reloadData];
-		}
+		[self reloadData];
 	}
 }
 
@@ -210,30 +149,73 @@
 #pragma mark -
 #pragma mark Table View Delegate Methods
 
-// delegate methods are forwarded to [self tableViewDelegate]
-
 - (void) tableView: (UITableView *)tableView willDisplayCell: (UITableViewCell *)cell forRowAtIndexPath: (NSIndexPath *)indexPath {
-	[[self tableViewDelegate] tableView: tableView willDisplayCell: cell forRowAtIndexPath: indexPath];
+	[[self rowAtIndexPath: indexPath] willDisplayCell: cell];
 }
 
 - (void) tableView: (UITableView *)tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath {
-	[[self tableViewDelegate] tableView: tableView accessoryButtonTappedForRowWithIndexPath: indexPath];
+    [[self rowAtIndexPath: indexPath] accessoryButtonTapped];
 }
 
 - (UITableViewCellEditingStyle) tableView: (UITableView *)tableView editingStyleForRowAtIndexPath: (NSIndexPath *)indexPath {
-    return [[self tableViewDelegate] tableView: tableView editingStyleForRowAtIndexPath: indexPath];
+    return [((RCSTableRow *)[self rowAtIndexPath: indexPath]) editingStyle];
 }
 
 - (CGFloat) tableView: (UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath {
-	return [[self tableViewDelegate] tableView: tableView heightForRowAtIndexPath: indexPath];
+	return [((RCSTableRow *)[self rowAtIndexPath: indexPath]) heightWithDefault: tableView.rowHeight];
 }
 
 - (NSIndexPath *)tableView: (UITableView *)tableView willSelectRowAtIndexPath: (NSIndexPath *)indexPath {
-	return [[self tableViewDelegate] tableView: tableView willSelectRowAtIndexPath: indexPath];
+	return [[self rowAtIndexPath: indexPath] willSelect: indexPath];
 }
 
 - (void) tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
-	[[self tableViewDelegate] tableView: tableView didSelectRowAtIndexPath: indexPath];
+	[[self rowAtIndexPath: indexPath] didSelect];
+}
+
+#pragma mark -
+#pragma mark Table View Data Source Methods
+
+
+- (NSInteger) numberOfSectionsInTableView: (UITableView *)tableView
+{
+	return [self numberOfSections];
+}
+
+- (NSString *) tableView: (UITableView *)tableView titleForHeaderInSection: (NSInteger)section {
+	return [[self.table sectionAtIndex: (NSUInteger)section] title];
+}
+
+- (NSInteger) tableView: (UITableView *)tableView numberOfRowsInSection: (NSInteger)section
+{
+	return [self numberOfRowsInSection: section];
+}
+
+- (BOOL) tableView: (UITableView *)tableView canEditRowAtIndexPath: (NSIndexPath *)indexPath
+{
+	return [self.table isEditableAtIndexPath: indexPath];
+}
+
+- (UITableViewCell *) tableView: (UITableView *)tableView cellForRowAtIndexPath: (NSIndexPath *)indexPath
+{
+	NSString *identifier = [self.table cellReuseIdentifierAtIndexPath: indexPath];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: identifier];
+	if (cell == nil) {
+		cell = [self.table cellForRowAtIndexPath: indexPath];
+	}
+	
+	if ([cell isKindOfClass: [RCSTableViewCell class]]) {
+		RCSTableRow *row = [self.table rowAtIndexPath: indexPath];
+		((RCSTableViewCell *)cell).row = row;
+	}
+	
+    return cell;
+}
+
+- (void) tableView: (UITableView *)tableView commitEditingStyle: (UITableViewCellEditingStyle)editingStyle forRowAtIndexPath: (NSIndexPath *)indexPath
+{
+	RCSTableRow *row = [self.table rowAtIndexPath: indexPath];
+	[row commitEditingStyle: editingStyle];
 }
 
 @end

@@ -6,28 +6,33 @@
 
 @interface RCSTableDefinition ()
 @property (nonatomic, readwrite, retain) NSDictionary *dictionary;
-@property (nonatomic, readwrite, retain) NSString *key;
 @property (nonatomic, readwrite, retain) NSMutableArray *displaySectionKeys;
 @property (nonatomic, readwrite, retain) NSMutableDictionary *sectionDefinitions;
+@property (nonatomic, readwrite, retain) NSString *nibName;
+@property (nonatomic, readwrite, retain) NSString *nibBundleName;
+@property (nonatomic, readwrite, retain) NSString *controllerClassName;
 - (NSMutableDictionary *) _buildSectionDefinitions;
 @end
 
 @implementation RCSTableDefinition
 
 @synthesize dictionary=_dictionary;
-@synthesize key=_key;
 @synthesize displaySectionKeys=_displaySectionKeys;
 @synthesize sectionDefinitions=_sectionDefinitions;
 @synthesize tableHeaderImagePath=_tableHeaderImagePath;
 @synthesize tableHeaderImagePathSelector=_tableHeaderImagePathSelector;
+@synthesize nibName=_nibName;
+@synthesize nibBundleName=_nibBundleName;
+@synthesize controllerClassName=_controllerClassName;
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_
-				   forKey: (NSString *)key_
 {
 	self = [super init];
 	if (self != nil) {
 		self.dictionary = dictionary_;
-		self.key = key_;
+		self.nibName = [dictionary_ objectForKey: @"nibName"];
+		self.nibBundleName = [dictionary_ objectForKey: @"nibBundleName"];
+		self.controllerClassName = [dictionary_ objectForKey: @"controllerClassName"];
 		self.displaySectionKeys = [dictionary_ objectForKey: @"displaySectionKeys"];
 		if (self.displaySectionKeys == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
@@ -43,11 +48,51 @@
 - (void) dealloc
 {
 	[_dictionary release]; _dictionary = nil;
-	[_key release]; _key = nil;
 	[_displaySectionKeys release]; _displaySectionKeys = nil;
 	[_sectionDefinitions release]; _sectionDefinitions = nil;
 	[_tableHeaderImagePath release]; _tableHeaderImagePath = nil;
 	[super dealloc];
+}
+
++ (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle
+{
+	RCSTableDefinition *result = nil;
+	NSDictionary *dict = nil;
+	if (bundle == nil) { bundle = [NSBundle mainBundle]; }
+	if (name) {
+		dict = [NSDictionary dictionaryWithContentsOfFile: [bundle pathForResource: name ofType: @"plist"]];
+		if (dict) {
+			result = [[RCSTableDefinition alloc] initWithDictionary: dict];
+		}
+	}
+	return [result autorelease];
+}
+
+- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value
+{
+	NSNumber *num = [_dictionary objectForKey: key_];
+	return num == nil ? value : [num boolValue];
+}
+
+- (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
+{
+	NSBundle *bundle = nil;
+	NSString *nibBundleName = [self nibBundleName];
+	if ([nibBundleName length]) {
+		NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nibBundleName];
+		bundle = [NSBundle bundleWithPath: path];
+	}
+	NSString *nibName = [self nibName];
+
+	NSString *name = [self controllerClassName];
+	Class controllerClass = name ? NSClassFromString(name) : [RCSTableViewController class];
+	RCSTableViewController *c = nil;
+	if ([controllerClass isSubclassOfClass: [RCSTableViewController class]]) {
+		c = [[controllerClass alloc] initWithNibName: nibName bundle: bundle];
+		[c setRootObject: object];
+		[c setTableDefinition: self];
+	}
+	return [c autorelease];
 }
 
 - (NSMutableDictionary *) _buildSectionDefinitions
@@ -84,6 +129,18 @@
 		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}
 	return [result autorelease];
+}
+
+- (NSString *) title: (RCSTable *)aTable
+{
+	NSString *title = [_dictionary objectForKey: @"staticTitle"];
+	if (title == nil) {
+		title = [_dictionary objectForKey: @"title"];
+		if ([title length]) {
+			title = [[aTable object] valueForKeyPath: title];
+		}
+	}
+	return title;
 }
 
 @end

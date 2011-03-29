@@ -11,8 +11,6 @@
 #import "RCSTable.h"
 #import "RCSTableSection.h"
 #import "RCSTableRow.h"
-#import "RCSTableViewDataSource.h"
-#import "RCSTableViewDelegate.h"
 #import "RCSTableViewController.h"
 #import "RCSTableViewCell.h"
 #import "RCSAddressCell.h"

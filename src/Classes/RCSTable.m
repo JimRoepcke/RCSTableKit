@@ -40,6 +40,11 @@
 #pragma mark -
 #pragma mark Public API
 
+- (NSString *) title
+{
+	return [_definition title: self];
+}
+
 - (NSUInteger) numberOfSections
 {
 	return [self.sections count];

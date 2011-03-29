@@ -19,10 +19,10 @@
 #pragma mark Application lifecycle
 
 - (void) applicationDidFinishLaunching: (UIApplication *)application
-{    
-	UIViewController *c = [[RootViewController alloc] initWithRootObject: nil configuration: nil named: @"Root"];
+{
+	RCSTableDefinition *def = [RCSTableDefinition tableDefinitionNamed: @"Root" inBundle: nil];
+	UIViewController *c = [def viewControllerWithRootObject: nil];
 	[self.navigationController pushViewController: c animated: NO];
-	[c release];
 
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
