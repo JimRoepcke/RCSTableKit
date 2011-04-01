@@ -23,6 +23,7 @@
 @synthesize tableHeaderImagePathSelector=_tableHeaderImagePathSelector;
 @synthesize nibName=_nibName;
 @synthesize nibBundleName=_nibBundleName;
+@dynamic nibBundle;
 @synthesize controllerClassName=_controllerClassName;
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_
@@ -50,6 +51,7 @@
 	[_dictionary release]; _dictionary = nil;
 	[_nibName release]; _nibName = nil;
 	[_nibBundleName release]; _nibBundleName = nil;
+	[_nibBundle release]; _nibBundle = nil;
 	[_controllerClassName release]; _controllerClassName = nil;
 	[_displaySectionKeys release]; _displaySectionKeys = nil;
 	[_sectionDefinitions release]; _sectionDefinitions = nil;
@@ -71,21 +73,26 @@
 	return [result autorelease];
 }
 
+- (NSBundle *) nibBundle
+{
+	if (_nibBundle == nil) {
+		NSString *nibBundleName = [self nibBundleName];
+		if ([nibBundleName length]) {
+			NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nibBundleName];
+			_nibBundle = [[NSBundle bundleWithPath: path] retain];
+		}
+	}
+	return _nibBundle;
+}
+
 - (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
 {
-	NSBundle *bundle = nil;
-	NSString *nibBundleName = [self nibBundleName];
-	if ([nibBundleName length]) {
-		NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nibBundleName];
-		bundle = [NSBundle bundleWithPath: path];
-	}
-	NSString *nibName = [self nibName];
 
 	NSString *name = [self controllerClassName];
 	Class controllerClass = name ? NSClassFromString(name) : [RCSTableViewController class];
 	RCSTableViewController *c = nil;
 	if ([controllerClass isSubclassOfClass: [RCSTableViewController class]]) {
-		c = [[controllerClass alloc] initWithNibName: nibName bundle: bundle];
+		c = [[controllerClass alloc] initWithNibName: [self nibName] bundle: [self nibBundle]];
 		[c setRootObject: object];
 		[c setTableDefinition: self];
 	}

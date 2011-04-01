@@ -15,6 +15,7 @@
 	SEL _tableHeaderImagePathSelector;
 	NSString *_nibName;
 	NSString *_nibBundleName;
+	NSBundle *_nibBundle;
 	NSString *_controllerClassName;
 }
 
@@ -32,6 +33,7 @@
 
 @property (nonatomic, readonly, retain) NSString *nibName;
 @property (nonatomic, readonly, retain) NSString *nibBundleName;
+@property (nonatomic, readonly, retain) NSBundle *nibBundle;
 @property (nonatomic, readonly, retain) NSString *controllerClassName;
 
 + (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle;
