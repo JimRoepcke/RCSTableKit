@@ -23,9 +23,6 @@
 @synthesize becomeFirstResponder=_becomeFirstResponder;
 @synthesize rowHeight=_rowHeight;	
 
-@synthesize backgroundColor=_backgroundColor;
-@synthesize backgroundColorSelector=_backgroundColorSelector;
-
 @synthesize editingStyle=_editingStyle;
 @synthesize editingStyleAction=_editingStyleAction;
 @synthesize editingStylePushConfiguration=_editingStylePushConfiguration;
@@ -76,8 +73,6 @@
 		_accessoryPushConfiguration = [[dictionary_ objectForKey: @"accessoryPushConfiguration"] retain];
 		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: @"editAccessoryPushConfiguration"] retain];
 		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: @"viewAccessoryPushConfiguration"] retain];
-		_backgroundColor = [[dictionary_ objectForKey: @"backgroundColor"] retain];
-		_backgroundColorSelector = NSSelectorFromString([dictionary_ objectForKey: @"backgroundColorSelector"]);
 		_becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
 		_editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: @"editingStyleAction"]);
 		_editingStylePushConfiguration = [[dictionary_ objectForKey: @"editingStylePushConfiguration"] retain];
@@ -95,6 +90,8 @@
 - (void) dealloc
 {
 	[_willSelectBlock release]; _willSelectBlock = nil;
+	[_didSelectBlock release]; _didSelectBlock = nil;
+	[_accessoryButtonBlock release]; _accessoryButtonBlock = nil;
 	[_textBlock release]; _textBlock = nil;
 	[_detailTextBlock release]; _detailTextBlock = nil;
 	[_imageBlock release]; _imageBlock = nil;
@@ -102,13 +99,13 @@
 	[_editingAccessoryTypeBlock release]; _editingAccessoryTypeBlock = nil;
 	[_cellStyleBlock release]; _cellStyleBlock = nil;
 	[_cellClassBlock release]; _cellClassBlock = nil;
+	[_backgroundColorBlock release]; _backgroundColorBlock = nil;
 
 	[_dictionary release]; _dictionary = nil;
 	[_key release]; _key = nil;
 	[_list release]; _list = nil;
 	
 	[_cellNibName release]; _cellNibName = nil;
-	[_backgroundColor release]; _backgroundColor = nil;
 	[_editingStylePushConfiguration release]; _editingStylePushConfiguration = nil;
 	[_pushConfiguration release]; _pushConfiguration = nil;
 	[_viewPushConfiguration release]; _viewPushConfiguration = nil;
@@ -119,13 +116,24 @@
 	[super dealloc];
 }
 
+- (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller
+{
+	// FIXME: avoid creating a new RCSTableDefinition here if possible
+	// TODO: support pulling the bundle from the same bundle as the current definition came from
+	RCSTableDefinition *def = [RCSTableDefinition tableDefinitionNamed: name inBundle: nil];
+	UIViewController *vc = [def viewControllerWithRootObject: object == controller ? nil : object];
+	[[controller navigationController] pushViewController: vc animated: YES];
+}
+
 - (NSArray *) objectsForRowsInSection: (RCSTableSection *)section
 {
 	if (_list == nil) {
 		NSString *objectKeyPath = [_dictionary objectForKey: @"object"];
-		return [NSArray arrayWithObject: objectKeyPath ? [section.object valueForKeyPath: objectKeyPath] : [NSNull null]];
+		return [NSArray arrayWithObject: objectKeyPath ?
+				[[section object] valueForKeyPath: objectKeyPath] :
+				[NSNull null]];
 	}
-	return [section.object valueForKeyPath: _list];
+	return [[section object] valueForKeyPath: _list];
 }
 
 #pragma mark -
@@ -135,7 +143,6 @@
 // returns an array of RCSTableRow objects
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section
 {
-	NSNull *nullValue = [NSNull null];
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSArray *objects = [self objectsForRowsInSection: section];
@@ -150,7 +157,8 @@
 	}
 	NSObject *rowObject;
 	RCSTableRow *row;
-	NSObject *sectionObject = section.object;
+	NSObject *sectionObject = [section object];
+	NSNull *nullValue = [NSNull null];
 	for (NSObject *obj in objects) {
 		rowObject = obj == nullValue ? sectionObject : obj;
 		if (rowTest(rowObject)) {
@@ -192,6 +200,20 @@
 	return _cellClassBlock(aRow);
 }
 
+- (void) rowCommitEditingStyle: (RCSTableRow *)aRow
+{
+	RCSTableViewController *controller = [aRow controller];
+	if (_editingStyleAction) {
+		[controller performSelector: _editingStyleAction withObject: aRow];
+		// FIXME: this should happen via a callback, or something, right?
+		// if (_editingStyle == UITableViewCellEditingStyleDelete) {
+		//     something that makes a delete happen goes here
+		// }
+	} else if (_editingStylePushConfiguration) {
+		[self pushConfiguration: _editingStylePushConfiguration withRootObject: [aRow object] usingController: [aRow controller]];
+	}
+}
+
 - (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath
 {
 	// yeah yeah this is crazy, but it's fun and cool
@@ -204,17 +226,89 @@
 			BOOL indexPathWhenEditing = _editAction || _editPushConfiguration;
 			BOOL indexPathWhenViewing = _viewAction || _viewPushConfiguration;
 			if (indexPathWhenEditing && indexPathWhenViewing) {
-				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return input; } copy];
+				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return input; } copy];
 			} else if (indexPathWhenEditing) {
-				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.controller.editing ? input : nil; } copy];
+				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return [[r controller] isEditing] ? input : nil; } copy];
 			} else if (indexPathWhenViewing) {
-				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return row.controller.editing ? nil : input; } copy];
+				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return [[r controller] isEditing] ? nil : input; } copy];
 			} else {
-				_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return nil; } copy];
+				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return nil; } copy];
 			}
 		}
 	}
 	return _willSelectBlock(aRow, anIndexPath);
+}
+
+- (void) rowDidSelect: (RCSTableRow *)aRow
+{
+	if (_didSelectBlock == nil) {
+		__block __typeof__(self) blockSelf = self;
+		if (_action) _didSelectBlock = [^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_action withObject: r]; } copy];
+		else {
+			if (_pushConfiguration) _didSelectBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_pushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
+			else {
+				// editing
+				void (^editing)(RCSTableRow *) = nil;
+				if (_editAction) editing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_editAction withObject: r]; };
+				else if (_editPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				// not editing (viewing)
+				void (^viewing)(RCSTableRow *) = nil;
+				if (_viewAction) viewing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_viewAction withObject: r]; };
+				else if (_viewPushConfiguration) viewing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_viewPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				_didSelectBlock = [^(RCSTableRow *r) {
+					if ([[r controller] isEditing]) {
+						if (editing) editing(r);
+					} else {
+						if (viewing) viewing(r);
+					}
+				} copy];
+			}
+		}
+	}
+	_didSelectBlock(aRow);
+}
+
+- (void) rowAccessoryButtonTapped: (RCSTableRow *)aRow
+{
+	if (_accessoryButtonBlock == nil) {
+		__block __typeof__(self) blockSelf = self;
+		if (_accessoryAction) _accessoryButtonBlock = [^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_accessoryAction withObject: r]; } copy];
+		else {
+			if (_accessoryPushConfiguration) _accessoryButtonBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_accessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
+			else {
+				// editing
+				void (^editing)(RCSTableRow *) = nil;
+				if (_editAccessoryAction) editing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_editAccessoryAction withObject: r]; };
+				else if (_editAccessoryPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				// not editing (viewing)
+				void (^viewing)(RCSTableRow *) = nil;
+				if (_viewAccessoryAction) viewing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_viewAccessoryAction withObject: r]; };
+				else if (_viewAccessoryPushConfiguration) viewing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_viewAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				_accessoryButtonBlock = [^(RCSTableRow *r) {
+					if ([[r controller] isEditing]) {
+						if (editing) editing(r);
+					} else {
+						if (viewing) viewing(r);
+					}
+				} copy];
+			}
+		}
+	}
+	_accessoryButtonBlock(aRow);
+}
+
+- (UIColor *) backgroundColor: (RCSTableRow *)aRow
+{
+	if (_backgroundColorBlock == nil) {
+		NSString *s = [_dictionary objectForKey: @"backgroundColor"];
+		if (s) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKey: s]; } copy];
+		else {
+			SEL sel = NSSelectorFromString([_dictionary objectForKey: @"backgroundColorSelector"]);
+			if (sel) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+			else _backgroundColorBlock = [^(RCSTableRow *r) { return nil; } copy];
+		}
+	}
+	return _backgroundColorBlock(aRow);
 }
 
 - (NSString *) text: (RCSTableRow *)aRow

@@ -24,6 +24,8 @@
 		forViewController: (RCSTableViewController *)controller_;
 
 - (NSString *) title;
+- (NSString *) tableHeaderImagePath;
+
 - (NSUInteger) numberOfSections;
 - (RCSTableSection *) sectionAtIndex: (NSUInteger)section;
 - (NSUInteger) numberOfRowsInSection: (NSUInteger)section_;
@@ -31,8 +33,6 @@
 - (BOOL) isEditableAtIndexPath: (NSIndexPath *)indexPath;
 - (NSString *) cellReuseIdentifierAtIndexPath: (NSIndexPath *)indexPath;
 - (UITableViewCell *) cellForRowAtIndexPath: (NSIndexPath *)indexPath;
-
-- (NSString *) tableHeaderImagePath;
 
 @end
 

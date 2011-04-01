@@ -1,1 +1,1 @@
-Remember to copy the .xib files into your application project
+Remember to include the .xib files in your application project

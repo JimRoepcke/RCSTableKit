@@ -19,6 +19,7 @@
 - (BOOL) supportsDetailText;
 - (BOOL) supportsAccessories;
 - (BOOL) supportsImages;
+- (BOOL) supportsBackgroundColor;
 
 @end
 

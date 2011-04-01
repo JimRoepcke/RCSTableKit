@@ -43,6 +43,7 @@
 - (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object;
 
 - (NSString *) title: (RCSTable *)aTable;
+- (NSString *) tableHeaderImagePath: (RCSTable *)table;
 
 - (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value;
 

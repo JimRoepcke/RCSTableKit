@@ -23,10 +23,10 @@
 		forViewController: (RCSTableViewController *)controller_
 {
 	if (self = [super init]) {
-		self.definition = definition_;
-		self.object = object_;
-		self.controller = controller_;
-		self.sections = [self.definition sectionsForTable: self];
+		_definition = [definition_ retain];
+		_object = object_;
+		_controller = controller_;
+		_sections = [[definition_ sectionsForTable: self] retain];
 	}
 	return self;
 }
@@ -40,58 +40,43 @@
 #pragma mark -
 #pragma mark Public API
 
-- (NSString *) title
-{
-	return [_definition title: self];
-}
+- (NSString *) title { return [_definition title: self]; }
+- (NSString *) tableHeaderImagePath { return [_definition tableHeaderImagePath: self]; }
 
 - (NSUInteger) numberOfSections
 {
-	return [self.sections count];
+	return [_sections count];
 }
 
 - (NSUInteger) numberOfRowsInSection: (NSUInteger)section_
 {
-	return [(RCSTableSection *)[self.sections objectAtIndex: section_] numberOfRows];
+	return [(RCSTableSection *)[_sections objectAtIndex: section_] numberOfRows];
 }
 
 - (RCSTableSection *) sectionAtIndex: (NSUInteger)section
 {
-	return (RCSTableSection *)[self.sections objectAtIndex: section];
+	return (RCSTableSection *)[_sections objectAtIndex: section];
 }
 
 - (RCSTableRow *) rowAtIndexPath: (NSIndexPath *)indexPath
 {
-	return [[self sectionAtIndex: indexPath.section] rowAtIndex: indexPath.row];
+	return [(RCSTableSection *)[self sectionAtIndex: [indexPath section]] rowAtIndex: [indexPath row]];
 }
 
 - (BOOL) isEditableAtIndexPath: (NSIndexPath *)indexPath
 {
-	RCSTableRow *row = [self rowAtIndexPath: indexPath];
-	return [row isEditable];
+	return [(RCSTableRow *)[self rowAtIndexPath: indexPath] isEditable];
 }
 
 - (NSString *) cellReuseIdentifierAtIndexPath: (NSIndexPath *)indexPath
 {
-	return [[self rowAtIndexPath: indexPath] cellReuseIdentifier];
+	return [(RCSTableRow *)[self rowAtIndexPath: indexPath] cellReuseIdentifier];
 }
 
 - (UITableViewCell *) cellForRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	RCSTableRow *row = [self rowAtIndexPath: indexPath];
-	return [row createCell];
+	return [(RCSTableRow *)[self rowAtIndexPath: indexPath] createCell];
 	
-}
-
-- (NSString *) tableHeaderImagePath
-{
-	NSString *result = nil;
-	if (_definition.tableHeaderImagePathSelector) {
-		result = [self.controller performSelector: _definition.tableHeaderImagePathSelector withObject: self];
-	} else if (_definition.tableHeaderImagePath != nil) {
-		result = [_object valueForKeyPath: _definition.tableHeaderImagePath];
-	}
-	return result;
 }
 
 @end

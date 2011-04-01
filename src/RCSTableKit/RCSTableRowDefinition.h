@@ -17,9 +17,6 @@
 	BOOL _becomeFirstResponder;
 	CGFloat _rowHeight;	
 
-	NSString *_backgroundColor;
-	SEL _backgroundColorSelector;
-	
 	UITableViewCellEditingStyle _editingStyle;
 	SEL _editingStyleAction;
 	NSString *_editingStylePushConfiguration;
@@ -40,6 +37,8 @@
 	NSString *_editAccessoryPushConfiguration;	
 	
 	NSIndexPath *(^_willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
+	void (^_didSelectBlock)(RCSTableRow *row);
+	void (^_accessoryButtonBlock)(RCSTableRow *row);
 	NSString *(^_textBlock)(RCSTableRow *row);
 	NSString *(^_detailTextBlock)(RCSTableRow *row);
 	UIImage *(^_imageBlock)(RCSTableRow *row);
@@ -47,6 +46,7 @@
 	UITableViewCellAccessoryType (^_editingAccessoryTypeBlock)(RCSTableRow *row);
 	UITableViewCellStyle (^_cellStyleBlock)(RCSTableRow *row);
 	Class (^_cellClassBlock)(RCSTableRow *row);
+	UIColor *(^_backgroundColorBlock)(RCSTableRow *row);
 }
 
 // the source dictionary that generated this definition
@@ -64,8 +64,6 @@
 
 @property (nonatomic, assign) BOOL becomeFirstResponder;
 @property (nonatomic, assign) CGFloat rowHeight;
-@property (nonatomic, retain) NSString *backgroundColor;
-@property (nonatomic, assign) SEL backgroundColorSelector;
 
 @property (nonatomic, assign) UITableViewCellEditingStyle editingStyle;
 @property (nonatomic, assign) SEL editingStyleAction;
@@ -92,8 +90,12 @@
 
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section;
 
+- (void) rowCommitEditingStyle: (RCSTableRow *)aRow;
 - (NSIndexPath *) row: (RCSTableRow *)aRow willSelect: (NSIndexPath *)anIndexPath;
+- (void) rowDidSelect: (RCSTableRow *)aRow;
+- (void) rowAccessoryButtonTapped: (RCSTableRow *)aRow;
 
+- (UIColor *) backgroundColor: (RCSTableRow *)aRow;
 - (NSString *) text: (RCSTableRow *)aRow;
 - (NSString *) detailText: (RCSTableRow *)aRow;
 - (UIImage *) image: (RCSTableRow *)aRow;

@@ -116,10 +116,9 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				387DEB8A10E190D500F918B1 /* Cells */,
-				387DEB8910E190B400F918B1 /* Components */,
-				387DEB8B10E190E500F918B1 /* Controller */,
-				387DEB8E10E1914600F918B1 /* UIKit Additions */,
+				387DEB8A10E190D500F918B1 /* Table Cells */,
+				387DEB8910E190B400F918B1 /* Table Model */,
+				387DEB8B10E190E500F918B1 /* View Controller */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -143,7 +142,7 @@
 			name = Definitions;
 			sourceTree = "<group>";
 		};
-		387DEB8910E190B400F918B1 /* Components */ = {
+		387DEB8910E190B400F918B1 /* Table Model */ = {
 			isa = PBXGroup;
 			children = (
 				387DEB8710E190AD00F918B1 /* Definitions */,
@@ -151,32 +150,25 @@
 				387DEC7D10E196B300F918B1 /* RCSTableRow.m */,
 				387DEC7E10E196B300F918B1 /* RCSTableSection.m */,
 			);
-			name = Components;
+			name = "Table Model";
 			sourceTree = "<group>";
 		};
-		387DEB8A10E190D500F918B1 /* Cells */ = {
+		387DEB8A10E190D500F918B1 /* Table Cells */ = {
 			isa = PBXGroup;
 			children = (
 				387DEC6E10E1968600F918B1 /* RCSAddressCell.m */,
 				387DEC6F10E1968600F918B1 /* RCSEditStringCell.m */,
 				387DEC7010E1968600F918B1 /* RCSTableViewCell.m */,
 			);
-			name = Cells;
+			name = "Table Cells";
 			sourceTree = "<group>";
 		};
-		387DEB8B10E190E500F918B1 /* Controller */ = {
+		387DEB8B10E190E500F918B1 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				387DEC8310E196CC00F918B1 /* RCSTableViewController.m */,
 			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		387DEB8E10E1914600F918B1 /* UIKit Additions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "UIKit Additions";
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 		387DEBFC10E1936F00F918B1 /* Headers */ = {

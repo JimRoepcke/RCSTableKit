@@ -45,76 +45,76 @@
 - (void) setRow: (RCSTableRow *)newRow
 {
 	[super setRow: newRow];
-	if (newRow != nil) {
+	if (newRow) {
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(viewWillDisappear:)
 													 name: @"RCSTableViewControllerViewWillDisappear"
-												   object: newRow.controller];
-		_editStringTextField.font = [UIFont boldSystemFontOfSize: 24.0];
-		_editStringTextField.adjustsFontSizeToFitWidth = YES;
-		_editStringTextField.minimumFontSize = 16.0;
-		_editStringTextField.text = [newRow.object valueForKeyPath: [newRow stringForDictionaryKey: @"attribute"]];
+												   object: [newRow controller]];
+		[_editStringTextField setFont: [UIFont boldSystemFontOfSize: 24.0]];
+		[_editStringTextField setAdjustsFontSizeToFitWidth: YES];
+		[_editStringTextField setMinimumFontSize: 16.0];
+		[_editStringTextField setText: [[newRow object] valueForKeyPath: [newRow stringForDictionaryKey: @"attribute"]]];
 		NSString *autocapitalizationTypeString = [newRow stringForDictionaryKey: @"autocapitalizationType"];
-		if (autocapitalizationTypeString != nil) {
+		if (autocapitalizationTypeString) {
 			if ([@"words" isEqualToString: autocapitalizationTypeString]) {
-				_editStringTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+				[_editStringTextField setAutocapitalizationType: UITextAutocapitalizationTypeWords];
 			} else if ([@"sentences" isEqualToString: autocapitalizationTypeString]) {
-				_editStringTextField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+				[_editStringTextField setAutocapitalizationType: UITextAutocapitalizationTypeSentences];
 			} else if ([@"allCharacters" isEqualToString: autocapitalizationTypeString]) {
-				_editStringTextField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
+				[_editStringTextField setAutocapitalizationType: UITextAutocapitalizationTypeAllCharacters];
 			}
 		}
 		NSString *autocorrectionTypeString = [newRow stringForDictionaryKey: @"autocorrectionType"];
-		if (autocorrectionTypeString != nil) {
+		if (autocorrectionTypeString) {
 			if ([@"yes" isEqualToString: autocorrectionTypeString]) {
-				_editStringTextField.autocorrectionType = UITextAutocorrectionTypeYes;
+				[_editStringTextField setAutocorrectionType: UITextAutocorrectionTypeYes];
 			} else if ([@"no" isEqualToString: autocorrectionTypeString]) {
-				_editStringTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+				[_editStringTextField setAutocorrectionType: UITextAutocorrectionTypeNo];
 			}
 		}
 		NSString *clearButtonMode = [newRow stringForDictionaryKey: @"clearButtonMode"];
-		if (clearButtonMode != nil) {
+		if (clearButtonMode) {
 			if ([@"whileEditing" isEqualToString: clearButtonMode]) {
-				_editStringTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+				[_editStringTextField setClearButtonMode: UITextFieldViewModeWhileEditing];
 			} else if ([@"unlessEditing" isEqualToString: clearButtonMode]) {
-				_editStringTextField.clearButtonMode = UITextFieldViewModeUnlessEditing;
+				[_editStringTextField setClearButtonMode: UITextFieldViewModeUnlessEditing];
 			} else if ([@"always" isEqualToString: clearButtonMode]) {
-				_editStringTextField.clearButtonMode = UITextFieldViewModeAlways;
+				[_editStringTextField setClearButtonMode: UITextFieldViewModeAlways];
 			}
 		}
 		NSString *staticPlaceholder = [newRow stringForDictionaryKey: @"staticPlaceholder"];
-		if (staticPlaceholder != nil) {
-			_editStringTextField.placeholder = staticPlaceholder;
+		if (staticPlaceholder) {
+			[_editStringTextField setPlaceholder: staticPlaceholder];
 		} else {
 			NSString *placeholder = [newRow stringForDictionaryKey: @"placeholder"];
-			if (placeholder != nil) {
-				_editStringTextField.placeholder = [newRow.object valueForKeyPath: placeholder];
+			if (placeholder) {
+				[_editStringTextField setPlaceholder: [[newRow object] valueForKeyPath: placeholder]];
 			}
 		}
 		NSString *keyboardType = [newRow stringForDictionaryKey: @"staticKeyboardType"];
 		if (keyboardType == nil) {
 			keyboardType = [newRow stringForDictionaryKey: @"keyboardType"];
-			if (keyboardType != nil) {
-				keyboardType = [newRow.object valueForKeyPath: keyboardType];
+			if (keyboardType) {
+				keyboardType = [[newRow object] valueForKeyPath: keyboardType];
 			}
 		}
-		if (keyboardType != nil) {
+		if (keyboardType) {
 			if ([@"default" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeDefault;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeDefault];
 			} else if ([@"asciiCapable" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeASCIICapable;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeASCIICapable];
 			} else if ([@"numbersAndPunctuation" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeNumbersAndPunctuation];
 			} else if ([@"url" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeURL;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeURL];
 			} else if ([@"numberPad" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeNumberPad;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeNumberPad];
 			} else if ([@"phonePad" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypePhonePad;
+				[_editStringTextField setKeyboardType: UIKeyboardTypePhonePad];
 			} else if ([@"namePhonePad" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeNamePhonePad;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeNamePhonePad];
 			} else if ([@"emailAddress" isEqualToString: keyboardType]) {
-				_editStringTextField.keyboardType = UIKeyboardTypeEmailAddress;
+				[_editStringTextField setKeyboardType: UIKeyboardTypeEmailAddress];
 			}
 		}
 	}
@@ -122,9 +122,11 @@
 
 - (void) removeFromSuperview
 {
-	[self.row.object setValue: _editStringTextField.text
-				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[[[self row] object] setValue: [_editStringTextField text]
+					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
+	[[NSNotificationCenter defaultCenter] removeObserver: self
+													name: @"RCSTableViewControllerViewWillDisappear"
+												  object: nil];
 	[super removeFromSuperview];
 }
 
@@ -137,8 +139,8 @@
 - (BOOL) resignFirstResponder
 {
 	[super resignFirstResponder];
-	[self.row.object setValue: _editStringTextField.text
-				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
+	[[[self row] object] setValue: [_editStringTextField text]
+					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
 	return [_editStringTextField resignFirstResponder];
 }
 
@@ -147,8 +149,8 @@
 
 - (void) viewWillDisappear: (NSNotification *)notification
 {
-	[self.row.object setValue: _editStringTextField.text
-				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
+	[[[self row] object] setValue: [_editStringTextField text]
+					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
 }
 
 #pragma mark -
@@ -157,8 +159,8 @@
 // may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing: YES called
 - (void) textFieldDidEndEditing: (UITextField *)textField
 {
-	[self.row.object setValue: _editStringTextField.text
-				   forKeyPath: [self.row stringForDictionaryKey: @"attribute"]];
+	[[[self row] object] setValue: [_editStringTextField text]
+					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
 }
 
 - (BOOL) textFieldShouldReturn: (UITextField *)textField

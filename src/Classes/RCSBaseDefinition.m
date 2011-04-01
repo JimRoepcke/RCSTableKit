@@ -36,7 +36,7 @@
 - (NSString *) stringForKey: (id)key_ withDefault: (NSString *)value inDictionary: (NSDictionary *)dict
 {
 	NSString *s = [dict objectForKey: key_];
-	return s == nil ? value : s;
+	return s == nil ? value : [s description];
 }
 
 @end

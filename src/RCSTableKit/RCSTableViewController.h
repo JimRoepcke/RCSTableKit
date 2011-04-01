@@ -13,6 +13,7 @@
 	RCSTable *_table;
 	UITableView *_tableView;
 	NSString *_tableHeaderImagePath;
+	UIImageView *_tableHeaderImageView;
 }
 
 @property (nonatomic, retain) NSObject *rootObject;
@@ -21,7 +22,6 @@
 @property (nonatomic, retain) IBOutlet  UITableView *tableView;
 
 - (void) reloadData;
-- (void) setEditing: (BOOL)editing animated: (BOOL)animated;
 
 @end
 

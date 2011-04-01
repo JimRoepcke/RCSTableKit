@@ -18,6 +18,7 @@
 - (BOOL) supportsDetailText { return YES; }
 - (BOOL) supportsAccessories { return YES; }
 - (BOOL) supportsImages { return YES; }
+- (BOOL) supportsBackgroundColor { return YES; }
 
 - (void) didMoveToSuperview
 {
@@ -37,20 +38,20 @@
 		[self didChangeValueForKey: @"row"];
 		[_row setCell: nil];
 	}
-	if (newRow != nil) {
+	if (newRow) {
 		[newRow setCell: self];
 		if ([self supportsText]) {
-			self.textLabel.text = [newRow text];
+			[[self textLabel] setText: [newRow text]];
 		}
 		if ([self supportsDetailText]) {
-			self.detailTextLabel.text = [newRow detailText];
+			[[self detailTextLabel] setText: [newRow detailText]];
 		}
 		if ([self supportsAccessories]) {
-			self.accessoryType = [newRow accessoryType];
-			self.editingAccessoryType = [newRow editingAccessoryType];
+			[self setAccessoryType: [newRow accessoryType]];
+			[self setEditingAccessoryType: [newRow editingAccessoryType]];
 		}
 		if ([self supportsImages]) {
-			self.imageView.image = [newRow image];
+			[[self imageView] setImage: [newRow image]];
 		}
 	}
 }

@@ -23,10 +23,10 @@
 				 forTable: (RCSTable *)table_
 {
 	if (self = [super init]) {
-		self.definition = definition_;
-		self.object = object_;
-		self.table = table_;
-		self.rows = [self.definition rowsForSection: self];
+		_definition = [definition_ retain];
+		_object = object_;
+		_table = table_;
+		_rows = [[definition_ rowsForSection: self] retain];
 	}
 	return self;
 }
@@ -43,18 +43,18 @@
 
 - (NSUInteger) numberOfRows
 {
-	return [self.rows count];
+	return [_rows count];
 }
 
 - (RCSTableRow *) rowAtIndex: (NSUInteger)index_
 {
-	return (RCSTableRow *)[self.rows objectAtIndex: index_];
+	return (RCSTableRow *)[_rows objectAtIndex: index_];
 }
 
 - (NSString *) title
 {
-	if (_definition.staticTitle != nil) return _definition.staticTitle;
-	else if (_definition.title != nil) return [_object valueForKeyPath: _definition.title];
+	if ([_definition staticTitle]) return [_definition staticTitle];
+	else if ([_definition title]) return [_object valueForKeyPath: [_definition title]];
 	return nil;
 }
 

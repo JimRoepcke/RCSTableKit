@@ -29,14 +29,13 @@
 {
 	self = [super init];
 	if (self != nil) {
-		self.dictionary = dictionary_;
-		self.key = key_;
-		self.list = [dictionary_ objectForKey: @"list"];
-		self.displayRowKeys = [dictionary_ objectForKey: @"displayRowKeys"];
-		self.rowDefinitions = [self _buildRowDefinitions];
-		
-		self.staticTitle = [self stringForKey: @"staticTitle" withDefault: nil inDictionary: dictionary_];
-		self.title = [self stringForKey: @"title" withDefault: nil inDictionary: dictionary_];
+		_dictionary = [dictionary_ retain];
+		_key = [key_ retain];
+		_list = [[[dictionary_ objectForKey: @"list"] description] retain];
+		_displayRowKeys = [[dictionary_ objectForKey: @"displayRowKeys"] retain];
+		_staticTitle = [[[dictionary_ objectForKey: @"staticTitle"] description] retain];
+		_title = [[[dictionary_ objectForKey: @"title"] description] retain];
+		_rowDefinitions = [[self _buildRowDefinitions] retain];
 	}
 	return self;
 }
@@ -56,35 +55,25 @@
 - (NSMutableDictionary *) _buildRowDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-	NSDictionary *dict = self.dictionary;
-	NSDictionary *rowsDict = [dict objectForKey: @"rows"];
+	NSDictionary *rowsDict = [_dictionary objectForKey: @"rows"];
 	
-	if (rowsDict != nil) {
-		RCSTableRowDefinition *def = nil;
-		NSArray *keys = [rowsDict allKeys];
-		for (NSString *rowKey in keys) {
-			def = [[RCSTableRowDefinition alloc] initWithDictionary: [rowsDict objectForKey: rowKey]
-															 forKey: rowKey];
-			[result setObject: def forKey: rowKey];
+	if (rowsDict) {
+		[rowsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
+			RCSTableRowDefinition *def = [[RCSTableRowDefinition alloc] initWithDictionary: obj forKey: key];
+			[result setObject: def forKey: key];
 			[def release];
-		}
+		}];
 	}
 	return [result autorelease];
 }
 
 - (NSArray *) objectsForSectionsInTable: (RCSTable *)table
 {
-	NSNull *nullValue = [NSNull null];
-	if (self.list == nil) {
-		NSString *objectKeyPath = [self stringForKey: @"object"
-										 withDefault: nil
-										inDictionary: self.dictionary];
-		if (objectKeyPath == nil) {
-			return [NSArray arrayWithObject: nullValue];
-		}
-		return [NSArray arrayWithObject: [table.object valueForKeyPath: objectKeyPath]];
+	if (_list == nil) {
+		NSString *objectKeyPath = [[_dictionary objectForKey: @"object"] description];
+		return [NSArray arrayWithObject: objectKeyPath ? [[table object] valueForKeyPath: objectKeyPath] : [NSNull null]];
 	}
-	return [table.object valueForKeyPath: self.list];
+	return [[table object] valueForKeyPath: _list];
 }
 
 #pragma mark -
@@ -94,9 +83,7 @@
 // returns an array of RCSTableSection objects
 - (NSMutableArray *) sectionsForTable: (RCSTable *)table
 {
-	NSNull *nullValue = [NSNull null];
 	NSMutableArray *result = [[NSMutableArray alloc] init];
-
 	NSArray *objects = [self objectsForSectionsInTable: table];
 	NSString *predicate = [_dictionary objectForKey: @"predicate"];
 	NSPredicate *sectionPredicate = nil;
@@ -109,8 +96,10 @@
 	}
 	NSObject *sectionObject;
 	RCSTableSection *section;
+	NSObject *tableObject = [table object];
+	NSNull *nullValue = [NSNull null];
 	for (NSObject *obj in objects) {
-		sectionObject = obj == nullValue ? table.object : obj;
+		sectionObject = obj == nullValue ? tableObject : obj;
 		if (sectionTest(sectionObject)) {
 			section = [[RCSTableSection alloc] initUsingDefintion: self
 												   withRootObject: sectionObject

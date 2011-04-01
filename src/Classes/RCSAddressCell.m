@@ -12,7 +12,7 @@
         // Initialization code
 		_lines = [[NSMutableArray alloc] initWithCapacity: 4];
 		_labels = [[NSArray alloc] initWithObjects:
-				   [self.detailTextLabel retain],
+				   [[self detailTextLabel] retain],
 				   [[UILabel alloc] initWithFrame: CGRectZero],
 				   [[UILabel alloc] initWithFrame: CGRectZero],
 				   [[UILabel alloc] initWithFrame: CGRectZero], nil];
@@ -32,19 +32,19 @@
 {
 	[super layoutSubviews];
 	CGSize sz = self.contentView.bounds.size;
-	CGRect frame = self.textLabel.frame;
+	CGRect frame = [[self textLabel] frame];
 	frame.origin.y = 15.0;
-	self.textLabel.frame = frame;
-	frame = self.detailTextLabel.frame;
+	[[self textLabel] setFrame: frame];
+	frame = [[self detailTextLabel] frame];
 	frame.origin.y = 13.0;
 	frame.size.width = sz.width - frame.origin.x - 5.0;
 	NSEnumerator *labelEnumerator = [_labels objectEnumerator];
 	for (NSString *line in _lines) {
 		UILabel *label = [labelEnumerator nextObject];
-		label.font = self.detailTextLabel.font;
-		label.text = line;
-		if ([label superview] == nil) [self.contentView addSubview: label];
-		label.frame = frame;
+		[label setFont: [[self detailTextLabel] font]];
+		[label setText: line];
+		if ([label superview] == nil) [[self contentView] addSubview: label];
+		[label setFrame: frame];
 		frame.origin.y += 18.0;
 	}
 	
@@ -53,18 +53,18 @@
 - (void) setHighlighted: (BOOL)highlighted animated: (BOOL)animated
 {
 	[super setHighlighted: highlighted animated: animated];
-	UIColor *c = (highlighted || self.selected) ? [UIColor whiteColor] : [UIColor blackColor];
+	UIColor *c = (highlighted || [self isSelected]) ? [UIColor whiteColor] : [UIColor blackColor];
 	for (UILabel *label in _labels) {
-		label.textColor = c;
+		[label setTextColor: c];
 	}
 }
 
 - (void) setSelected: (BOOL)selected animated: (BOOL)animated
 {
 	[super setSelected: selected animated: animated];
-	UIColor *c = (selected || self.highlighted) ? [UIColor whiteColor] : [UIColor blackColor];
+	UIColor *c = (selected || [self isHighlighted]) ? [UIColor whiteColor] : [UIColor blackColor];
 	for (UILabel *label in _labels) {
-		label.textColor = c;
+		[label setTextColor: c];
 	}
 }
 
@@ -76,13 +76,14 @@
 - (void) setRow: (RCSTableRow *)newRow
 {
 	[super setRow: newRow];
-	if (newRow != nil) {
+	if (newRow) {
+		id nRO = [newRow object];
 		[_lines removeAllObjects];
 		NSString *a1, *a2, *a3, *a4;
-		a1 = [self string: [newRow.object valueForKey: @"address1"]];
-		a2 = [self string: [newRow.object valueForKey: @"address2"]];
-		a3 = [self string: [newRow.object valueForKey: @"city"]];
-		NSString *state = [self string: [newRow.object valueForKey: @"state"]];
+		a1 = [self string: [nRO valueForKey: @"address1"]];
+		a2 = [self string: [nRO valueForKey: @"address2"]];
+		a3 = [self string: [nRO valueForKey: @"city"]];
+		NSString *state = [self string: [nRO valueForKey: @"state"]];
 		if ([a3 length] == 0) {
 			a3 = state;
 		} else {
@@ -90,7 +91,7 @@
 				a3 = [a3 stringByAppendingFormat: @", %@", state];
 			}
 		}
-		a4 = [self string: [newRow.object valueForKey: @"zip"]];
+		a4 = [self string: [nRO valueForKey: @"zip"]];
 		if ([a1 length] > 0) [_lines addObject: a1];
 		if ([a2 length] > 0) [_lines addObject: a2];
 		if ([a3 length] > 0) [_lines addObject: a3];
@@ -103,10 +104,11 @@
 + (NSNumber *) calculateHeightForRCSTableRow: (RCSTableRow *)conf
 {
 	NSString *a1, *a2, *a3, *a4;
-	a1 = [self string: [conf.object valueForKey: @"address1"]];
-	a2 = [self string: [conf.object valueForKey: @"address2"]];
-	a3 = [self string: [conf.object valueForKey: @"city"]];
-	NSString *state = [conf.object valueForKey: @"state"];
+	id co = [conf object];
+	a1 = [self string: [co valueForKey: @"address1"]];
+	a2 = [self string: [co valueForKey: @"address2"]];
+	a3 = [self string: [co valueForKey: @"city"]];
+	NSString *state = [co valueForKey: @"state"];
 	if ([a3 length] == 0) {
 		a3 = state;
 	} else {
@@ -114,7 +116,7 @@
 			a3 = [a3 stringByAppendingFormat: @", %@", state];
 		}
 	}
-	a4 = [self string: [conf.object valueForKey: @"zip"]];
+	a4 = [self string: [co valueForKey: @"zip"]];
 	int num = 0;
 	if ([a1 length] > 0) num++;
 	if ([a2 length] > 0) num++;

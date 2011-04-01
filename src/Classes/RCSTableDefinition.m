@@ -29,18 +29,18 @@
 {
 	self = [super init];
 	if (self != nil) {
-		self.dictionary = dictionary_;
-		self.nibName = [dictionary_ objectForKey: @"nibName"];
-		self.nibBundleName = [dictionary_ objectForKey: @"nibBundleName"];
-		self.controllerClassName = [dictionary_ objectForKey: @"controllerClassName"];
-		self.displaySectionKeys = [dictionary_ objectForKey: @"displaySectionKeys"];
-		if (self.displaySectionKeys == nil) {
+		_dictionary = [dictionary_ retain];
+		_nibName = [[dictionary_ objectForKey: @"nibName"] retain];
+		_nibBundleName = [[dictionary_ objectForKey: @"nibBundleName"] retain];
+		_controllerClassName = [[dictionary_ objectForKey: @"controllerClassName"] retain];
+		_displaySectionKeys = [[dictionary_ objectForKey: @"displaySectionKeys"] retain];
+		if (_displaySectionKeys == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
-			self.displaySectionKeys = [[[NSMutableArray alloc] init] autorelease];
+			_displaySectionKeys = [[NSMutableArray alloc] init];
 		}
-		self.sectionDefinitions = [self _buildSectionDefinitions];
-		self.tableHeaderImagePath = [self stringForKey: @"tableHeaderImagePath" withDefault: nil inDictionary: _dictionary];
-		self.tableHeaderImagePathSelector = NSSelectorFromString([self stringForKey: @"tableHeaderImagePathSelector" withDefault: nil inDictionary: dictionary_]);
+		_sectionDefinitions = [[self _buildSectionDefinitions] retain];
+		_tableHeaderImagePath = [[dictionary_ objectForKey: @"tableHeaderImagePath"] retain];
+		_tableHeaderImagePathSelector = NSSelectorFromString([dictionary_ objectForKey: @"tableHeaderImagePathSelector"]);
 	}
 	return self;
 }
@@ -48,6 +48,9 @@
 - (void) dealloc
 {
 	[_dictionary release]; _dictionary = nil;
+	[_nibName release]; _nibName = nil;
+	[_nibBundleName release]; _nibBundleName = nil;
+	[_controllerClassName release]; _controllerClassName = nil;
 	[_displaySectionKeys release]; _displaySectionKeys = nil;
 	[_sectionDefinitions release]; _sectionDefinitions = nil;
 	[_tableHeaderImagePath release]; _tableHeaderImagePath = nil;
@@ -66,12 +69,6 @@
 		}
 	}
 	return [result autorelease];
-}
-
-- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value
-{
-	NSNumber *num = [_dictionary objectForKey: key_];
-	return num == nil ? value : [num boolValue];
 }
 
 - (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
@@ -98,24 +95,26 @@
 - (NSMutableDictionary *) _buildSectionDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-	NSDictionary *dict = self.dictionary;
-	NSDictionary *sectionsDict = [dict objectForKey: @"sections"];
+	NSDictionary *sectionsDict = [_dictionary objectForKey: @"sections"];
 	
-	if (sectionsDict != nil) {
-		RCSTableSectionDefinition *def = nil;
-		NSArray *keys = [sectionsDict allKeys];
-		for (NSString *sectionKey in keys) {
-			def = [[RCSTableSectionDefinition alloc] initWithDictionary: [sectionsDict objectForKey: sectionKey]
-																 forKey: sectionKey];
-			[result setObject: def forKey: sectionKey];
+	if (sectionsDict) {
+		[sectionsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
+			RCSTableSectionDefinition *def = [[RCSTableSectionDefinition alloc] initWithDictionary: obj forKey: key];
+			[result setObject: def forKey: key];
 			[def release];
-		}
+		}];
 	}
 	return [result autorelease];
 }
 
 #pragma mark -
 #pragma mark Public API
+
+- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value
+{
+	NSNumber *num = [_dictionary objectForKey: key_];
+	return num == nil ? value : [num boolValue];
+}
 
 // called by RCSTable's designated initializer
 // returns an array of RCSTableSection objects
@@ -124,8 +123,8 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	RCSTableSectionDefinition *secDef = nil;
-	for (NSString *sectionKey in self.displaySectionKeys) {
-		secDef = [self.sectionDefinitions objectForKey: sectionKey];
+	for (NSString *sectionKey in _displaySectionKeys) {
+		secDef = [_sectionDefinitions objectForKey: sectionKey];
 		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}
 	return [result autorelease];
@@ -141,6 +140,18 @@
 		}
 	}
 	return title;
+}
+
+- (NSString *) tableHeaderImagePath: (RCSTable *)table
+{
+	NSString *result = nil;
+	if (_tableHeaderImagePathSelector) {
+		result = [[table controller] performSelector: _tableHeaderImagePathSelector
+										  withObject: table];
+	} else if (_tableHeaderImagePath) {
+		result = [[table object] valueForKeyPath: _tableHeaderImagePath];
+	}
+	return result;
 }
 
 @end
