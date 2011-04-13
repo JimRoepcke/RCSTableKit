@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		386DA74611CC319F00F71D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386DA74511CC319F00F71D36 /* Foundation.framework */; };
 		386DA74811CC31A700F71D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386DA74711CC31A700F71D36 /* UIKit.framework */; };
-		387DEC0E10E1937A00F918B1 /* RCSAddressCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */; };
 		387DEC0F10E1937A00F918B1 /* RCSBaseDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */; };
 		387DEC1010E1937A00F918B1 /* RCSEditStringCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */; };
 		387DEC1110E1937A00F918B1 /* RCSTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0210E1937A00F918B1 /* RCSTable.h */; };
@@ -21,7 +20,6 @@
 		387DEC1710E1937A00F918B1 /* RCSTableSectionDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0810E1937A00F918B1 /* RCSTableSectionDefinition.h */; };
 		387DEC1910E1937A00F918B1 /* RCSTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0A10E1937A00F918B1 /* RCSTableViewCell.h */; };
 		387DEC1A10E1937A00F918B1 /* RCSTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 387DEC0B10E1937A00F918B1 /* RCSTableViewController.h */; };
-		387DEC7110E1968600F918B1 /* RCSAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC6E10E1968600F918B1 /* RCSAddressCell.m */; };
 		387DEC7210E1968600F918B1 /* RCSEditStringCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC6F10E1968600F918B1 /* RCSEditStringCell.m */; };
 		387DEC7310E1968600F918B1 /* RCSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC7010E1968600F918B1 /* RCSTableViewCell.m */; };
 		387DEC7810E196A600F918B1 /* RCSBaseDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 387DEC7410E196A600F918B1 /* RCSBaseDefinition.m */; };
@@ -38,7 +36,6 @@
 /* Begin PBXFileReference section */
 		386DA74511CC319F00F71D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		386DA74711CC31A700F71D36 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSAddressCell.h; path = RCSTableKit/RCSAddressCell.h; sourceTree = "<group>"; };
 		387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSBaseDefinition.h; path = RCSTableKit/RCSBaseDefinition.h; sourceTree = "<group>"; };
 		387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSEditStringCell.h; path = RCSTableKit/RCSEditStringCell.h; sourceTree = "<group>"; };
 		387DEC0210E1937A00F918B1 /* RCSTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTable.h; path = RCSTableKit/RCSTable.h; sourceTree = "<group>"; };
@@ -50,7 +47,6 @@
 		387DEC0810E1937A00F918B1 /* RCSTableSectionDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableSectionDefinition.h; path = RCSTableKit/RCSTableSectionDefinition.h; sourceTree = "<group>"; };
 		387DEC0A10E1937A00F918B1 /* RCSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableViewCell.h; path = RCSTableKit/RCSTableViewCell.h; sourceTree = "<group>"; };
 		387DEC0B10E1937A00F918B1 /* RCSTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableViewController.h; path = RCSTableKit/RCSTableViewController.h; sourceTree = "<group>"; };
-		387DEC6E10E1968600F918B1 /* RCSAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSAddressCell.m; path = Classes/RCSAddressCell.m; sourceTree = "<group>"; };
 		387DEC6F10E1968600F918B1 /* RCSEditStringCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSEditStringCell.m; path = Classes/RCSEditStringCell.m; sourceTree = "<group>"; };
 		387DEC7010E1968600F918B1 /* RCSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableViewCell.m; path = Classes/RCSTableViewCell.m; sourceTree = "<group>"; };
 		387DEC7410E196A600F918B1 /* RCSBaseDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSBaseDefinition.m; path = Classes/RCSBaseDefinition.m; sourceTree = "<group>"; };
@@ -156,7 +152,6 @@
 		387DEB8A10E190D500F918B1 /* Table Cells */ = {
 			isa = PBXGroup;
 			children = (
-				387DEC6E10E1968600F918B1 /* RCSAddressCell.m */,
 				387DEC6F10E1968600F918B1 /* RCSEditStringCell.m */,
 				387DEC7010E1968600F918B1 /* RCSTableViewCell.m */,
 			);
@@ -175,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				387DEC0410E1937A00F918B1 /* RCSTableKit.h */,
-				387DEBFF10E1937A00F918B1 /* RCSAddressCell.h */,
 				387DEC0010E1937A00F918B1 /* RCSBaseDefinition.h */,
 				387DEC0110E1937A00F918B1 /* RCSEditStringCell.h */,
 				387DEC0210E1937A00F918B1 /* RCSTable.h */,
@@ -198,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA747D9F0F9514B9006C5449 /* RCSTableKit_Prefix.pch in Headers */,
-				387DEC0E10E1937A00F918B1 /* RCSAddressCell.h in Headers */,
 				387DEC0F10E1937A00F918B1 /* RCSBaseDefinition.h in Headers */,
 				387DEC1010E1937A00F918B1 /* RCSEditStringCell.h in Headers */,
 				387DEC1110E1937A00F918B1 /* RCSTable.h in Headers */,
@@ -263,7 +256,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				387DEC7110E1968600F918B1 /* RCSAddressCell.m in Sources */,
 				387DEC7210E1968600F918B1 /* RCSEditStringCell.m in Sources */,
 				387DEC7310E1968600F918B1 /* RCSTableViewCell.m in Sources */,
 				387DEC7810E196A600F918B1 /* RCSBaseDefinition.m in Sources */,
