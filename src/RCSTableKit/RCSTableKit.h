@@ -4,6 +4,7 @@
 //  See license below.
 //
 
+#import "RCSTableKitConstants.h"
 #import "RCSBaseDefinition.h"
 #import "RCSTableDefinition.h"
 #import "RCSTableSectionDefinition.h"
@@ -13,7 +14,6 @@
 #import "RCSTableRow.h"
 #import "RCSTableViewController.h"
 #import "RCSTableViewCell.h"
-#import "RCSAddressCell.h"
 #import "RCSEditStringCell.h"
 
 /*

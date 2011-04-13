@@ -4,6 +4,35 @@
 //  See license below.
 //
 
+extern NSString * const kTKESCAttributeKey;
+extern NSString * const kTKESCAutocapitalizationTypeKey;
+extern NSString * const kTKESCAutocorrectionTypeKey;
+extern NSString * const kTKESCClearButtonModeKey;
+extern NSString * const kTKESCStaticPlaceholderKey;
+extern NSString * const kTKESCPlaceholderKey;
+extern NSString * const kTKESCStaticKeyboardTypeKey;
+extern NSString * const kTKESCKeyboardTypeKey;
+
+extern NSString * const kTKESCAutocapitalizationTypeWordsKey;
+extern NSString * const kTKESCAutocapitalizationTypeSentencesKey;
+extern NSString * const kTKESCAutocapitalizationTypeAllCharactersKey;
+
+extern NSString * const kTKESCAutocorrectionTypeYesKey;
+extern NSString * const kTKESCAutocorrectionTypeNoKey;
+
+extern NSString * const kTKESCClearButtonModeWhileEditingKey;
+extern NSString * const kTKESCClearButtonModeUnlessEditingKey;
+extern NSString * const kTKESCClearButtonModeAlwaysKey;
+
+extern NSString * const kTKESCKeyboardTypeDefaultKey;
+extern NSString * const kTKESCKeyboardTypeAsciiCapableKey;
+extern NSString * const kTKESCKeyboardTypeNumbersAndPunctuationKey;
+extern NSString * const kTKESCKeyboardTypeUrlKey;
+extern NSString * const kTKESCKeyboardTypeNumberPadKey;
+extern NSString * const kTKESCKeyboardTypePhonePadKey;
+extern NSString * const kTKESCKeyboardTypeNamePhonePadKey;
+extern NSString * const kTKESCKeyboardTypeEmailAddressKey;
+
 @interface RCSEditStringCell : RCSTableViewCell <UITextFieldDelegate>
 {
 	UITextField *_editStringTextField;

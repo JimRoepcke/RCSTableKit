@@ -31,11 +31,11 @@
 - (void) setRow: (RCSTableRow *)newRow
 {
 	if (_row != newRow) {
-		[self willChangeValueForKey: @"row"];
+		[self willChangeValueForKey: kTKRowKey];
 		[newRow retain];
 		[_row release];
 		_row = newRow;
-		[self didChangeValueForKey: @"row"];
+		[self didChangeValueForKey: kTKRowKey];
 		[_row setCell: nil];
 	}
 	if (newRow) {

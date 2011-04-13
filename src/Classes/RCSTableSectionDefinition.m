@@ -31,10 +31,10 @@
 	if (self != nil) {
 		_dictionary = [dictionary_ retain];
 		_key = [key_ retain];
-		_list = [[[dictionary_ objectForKey: @"list"] description] retain];
-		_displayRowKeys = [[dictionary_ objectForKey: @"displayRowKeys"] retain];
-		_staticTitle = [[[dictionary_ objectForKey: @"staticTitle"] description] retain];
-		_title = [[[dictionary_ objectForKey: @"title"] description] retain];
+		_list = [[[dictionary_ objectForKey: kTKListKey] description] retain];
+		_displayRowKeys = [[dictionary_ objectForKey: kTKDisplayRowKeys] retain];
+		_staticTitle = [[[dictionary_ objectForKey: kTKStaticTitleKey] description] retain];
+		_title = [[[dictionary_ objectForKey: kTKTitleKey] description] retain];
 		_rowDefinitions = [[self _buildRowDefinitions] retain];
 	}
 	return self;
@@ -55,7 +55,7 @@
 - (NSMutableDictionary *) _buildRowDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-	NSDictionary *rowsDict = [_dictionary objectForKey: @"rows"];
+	NSDictionary *rowsDict = [_dictionary objectForKey: kTKRowsKey];
 	
 	if (rowsDict) {
 		[rowsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
@@ -70,7 +70,7 @@
 - (NSArray *) objectsForSectionsInTable: (RCSTable *)table
 {
 	if (_list == nil) {
-		NSString *objectKeyPath = [[_dictionary objectForKey: @"object"] description];
+		NSString *objectKeyPath = [[_dictionary objectForKey: kTKObjectKey] description];
 		return [NSArray arrayWithObject: objectKeyPath ? [[table object] valueForKeyPath: objectKeyPath] : [NSNull null]];
 	}
 	return [[table object] valueForKeyPath: _list];
@@ -85,7 +85,7 @@
 {
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	NSArray *objects = [self objectsForSectionsInTable: table];
-	NSString *predicate = [_dictionary objectForKey: @"predicate"];
+	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *sectionPredicate = nil;
 	BOOL (^sectionTest)(NSObject *);
 	if ([predicate length] > 0) {

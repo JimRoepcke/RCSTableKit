@@ -50,14 +50,14 @@
 	if (self != nil) {
 		_dictionary = [dictionary_ retain];
 		_key = [key_ retain];
-		_list = [[dictionary_ objectForKey: @"list"] retain];
+		_list = [[dictionary_ objectForKey: kTKListKey] retain];
 
 		// editingStyle
 		NSString *s;
-		if ((s = [_dictionary objectForKey: @"editingStyle"])) {
-			if ([@"insert" isEqualToString: s]) {
+		if ((s = [_dictionary objectForKey: kTKEditingStyleKey])) {
+			if ([kTKEditingStyleInsertKey isEqualToString: s]) {
 				_editingStyle = UITableViewCellEditingStyleInsert;
-			} else if ([@"delete" isEqualToString: s]) {
+			} else if ([kTKEditingStyleDeleteKey isEqualToString: s]) {
 				_editingStyle = UITableViewCellEditingStyleDelete;
 			} else {
 				_editingStyle = UITableViewCellEditingStyleNone;
@@ -66,23 +66,23 @@
 			_editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
-		_cellNibName = [[dictionary_ objectForKey: @"cellNibName"] retain];
-		_editPushConfiguration = [[dictionary_ objectForKey: @"editPushConfiguration"] retain];
-		_viewPushConfiguration = [[dictionary_ objectForKey: @"viewPushConfiguration"] retain];
-		_pushConfiguration = [[dictionary_ objectForKey: @"pushConfiguration"] retain];
-		_accessoryPushConfiguration = [[dictionary_ objectForKey: @"accessoryPushConfiguration"] retain];
-		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: @"editAccessoryPushConfiguration"] retain];
-		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: @"viewAccessoryPushConfiguration"] retain];
-		_becomeFirstResponder = [self boolForKey: @"becomeFirstResponder" withDefault: NO inDictionary: dictionary_];
-		_editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: @"editingStyleAction"]);
-		_editingStylePushConfiguration = [[dictionary_ objectForKey: @"editingStylePushConfiguration"] retain];
-		_editAction = NSSelectorFromString([dictionary_ objectForKey: @"editAction"]);
-		_viewAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAction"]);
-		_action = NSSelectorFromString([dictionary_ objectForKey: @"action"]);
-		_editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"editAccessoryAction"]);
-		_viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"viewAccessoryAction"]);
-		_accessoryAction = NSSelectorFromString([dictionary_ objectForKey: @"accessoryAction"]);
-		_rowHeight = (CGFloat)[self floatForKey: @"rowHeight" withDefault: -1.0 inDictionary: dictionary_];
+		_cellNibName = [[dictionary_ objectForKey: kTKCellNibNameKey] retain];
+		_editPushConfiguration = [[dictionary_ objectForKey: kTKEditPushConfigurationKey] retain];
+		_viewPushConfiguration = [[dictionary_ objectForKey: kTKViewPushConfigurationKey] retain];
+		_pushConfiguration = [[dictionary_ objectForKey: kTKPushConfigurationKey] retain];
+		_accessoryPushConfiguration = [[dictionary_ objectForKey: kTKAccessoryPushConfigurationKey] retain];
+		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKEditAccessoryPushConfigurationKey] retain];
+		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKViewAccessoryPushConfigurationKey] retain];
+		_becomeFirstResponder = [self boolForKey: kTKBecomeFirstResponderKey withDefault: NO inDictionary: dictionary_];
+		_editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditingStyleActionKey]);
+		_editingStylePushConfiguration = [[dictionary_ objectForKey: kTKEditingStylePushConfigurationKey] retain];
+		_editAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditActionKey]);
+		_viewAction = NSSelectorFromString([dictionary_ objectForKey: kTKViewActionKey]);
+		_action = NSSelectorFromString([dictionary_ objectForKey: kTKActionKey]);
+		_editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditAccessoryActionKey]);
+		_viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKViewAccessoryActionKey]);
+		_accessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKAccessoryActionKey]);
+		_rowHeight = (CGFloat)[self floatForKey: kTKRowHeightKey withDefault: -1.0 inDictionary: dictionary_];
 	}
 	return self;
 }
@@ -128,7 +128,7 @@
 - (NSArray *) objectsForRowsInSection: (RCSTableSection *)section
 {
 	if (_list == nil) {
-		NSString *objectKeyPath = [_dictionary objectForKey: @"object"];
+		NSString *objectKeyPath = [_dictionary objectForKey: kTKObjectKey];
 		return [NSArray arrayWithObject: objectKeyPath ?
 				[[section object] valueForKeyPath: objectKeyPath] :
 				[NSNull null]];
@@ -146,7 +146,7 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSArray *objects = [self objectsForRowsInSection: section];
-	NSString *predicate = [_dictionary objectForKey: @"predicate"];
+	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *rowPredicate = nil;
 	BOOL (^rowTest)(NSObject *);
 	if ([predicate length] > 0) {
@@ -175,20 +175,20 @@
 - (Class) cellClass: (RCSTableRow *)aRow
 {
 	if (_cellClassBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticCell"];
+		NSString *s = [_dictionary objectForKey: kTKStaticCellKey];
 		if (s) _cellClassBlock = [^(RCSTableRow *r) {
 			Class c = NSClassFromString(s);
 			return c ? c : [RCSTableViewCell class];
 		} copy];
 		else {
-			s = [_dictionary objectForKey: @"cell"];
+			s = [_dictionary objectForKey: kTKCellKey];
 			if (s) _cellClassBlock = [^(RCSTableRow *r) {
 				NSString *cs = [[r object] valueForKeyPath: s];
 				Class c = cs ? NSClassFromString(cs) : nil;
 				return c ? c : [RCSTableViewCell class];
 			} copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"cellSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellSelectorKey]);
 				if (sel) _cellClassBlock = [^(RCSTableRow *r) {
 					Class c = [[r controller] performSelector: sel withObject: r];
 					return c ? c : [RCSTableViewCell class];
@@ -300,10 +300,10 @@
 - (UIColor *) backgroundColor: (RCSTableRow *)aRow
 {
 	if (_backgroundColorBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"backgroundColor"];
+		NSString *s = [_dictionary objectForKey: kTKBackgroundColorKey];
 		if (s) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKey: s]; } copy];
 		else {
-			SEL sel = NSSelectorFromString([_dictionary objectForKey: @"backgroundColorSelector"]);
+			SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKBackgroundColorSelectorKey]);
 			if (sel) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
 			else _backgroundColorBlock = [^(RCSTableRow *r) { return nil; } copy];
 		}
@@ -314,13 +314,13 @@
 - (NSString *) text: (RCSTableRow *)aRow
 {
 	if (_textBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticText"];
+		NSString *s = [_dictionary objectForKey: kTKStaticTextKey];
 		if (s) _textBlock = [^(RCSTableRow *r) { return s; } copy];
 		else {
-			s = [_dictionary objectForKey: @"text"];
+			s = [_dictionary objectForKey: kTKTextKey];
 			if (s) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"textSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKTextSelectorKey]);
 				if (sel) _textBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
 				else _textBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
@@ -332,13 +332,13 @@
 - (NSString *) detailText: (RCSTableRow *)aRow
 {
 	if (_detailTextBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticDetailText"];
+		NSString *s = [_dictionary objectForKey: kTKStaticDetailTextKey];
 		if (s) _detailTextBlock = [^(RCSTableRow *r) { return s; } copy];
 		else {
-			s = [_dictionary objectForKey: @"detailText"];
+			s = [_dictionary objectForKey: kTKDetailTextKey];
 			if (s) _detailTextBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"detailTextSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKDetailTextSelectorKey]);
 				if (sel) _detailTextBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
 				else _detailTextBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
@@ -350,16 +350,16 @@
 - (UIImage *) image: (RCSTableRow *)aRow
 {
 	if (_imageBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticImageName"];
+		NSString *s = [_dictionary objectForKey: kTKStaticImageNameKey];
 		if (s) {
 			UIImage *i = [UIImage imageNamed: s];
 			_imageBlock = [^(RCSTableRow *r) { return i; } copy];
 		}
 		else {
-			s = [_dictionary objectForKey: @"image"];
+			s = [_dictionary objectForKey: kTKImageKey];
 			if (s) _imageBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"imageSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKImageSelectorKey]);
 				if (sel) _imageBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
 				else _imageBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
@@ -371,28 +371,28 @@
 - (UITableViewCellAccessoryType) editingAccessoryType: (RCSTableRow *)aRow
 {
 	if (_editingAccessoryTypeBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticEditingAccessoryType"];
+		NSString *s = [_dictionary objectForKey: kTKStaticEditingAccessoryTypeKey];
 		if (s) {
-			if ([@"disclosureIndicator" isEqualToString: s]) {
+			if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: s]) {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; } copy];
-			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
+			} else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: s]) {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; } copy];
-			} else if ([@"checkmark" isEqualToString: s]) {
+			} else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: s]) {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; } copy];
 			} else {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryNone; } copy];
 			}
 		} else {
-			s = [_dictionary objectForKey: @"editingAccessoryType"];
+			s = [_dictionary objectForKey: kTKEditingAccessoryTypeKey];
 			if (s) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
-				if ([@"disclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
-				else if ([@"detailDisclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
-				else if ([@"checkmark" isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
+				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
+				else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
+				else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
 				else { return UITableViewCellAccessoryNone; }
 			} copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"editingAccessoryTypeSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKEditingAccessoryTypeSelectorKey]);
 				if (sel) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
 					NSNumber *type = [[r controller] performSelector: sel withObject: r];
 					return (UITableViewCellAccessoryType)[type intValue];
@@ -408,28 +408,28 @@
 {
 	if ([[aRow controller] isEditing]) return [self editingAccessoryType: aRow];
 	if (_accessoryTypeBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticAccessoryType"];
+		NSString *s = [_dictionary objectForKey: kTKStaticAccessoryTypeKey];
 		if (s) {
-			if ([@"disclosureIndicator" isEqualToString: s]) {
+			if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: s]) {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; } copy];
-			} else if ([@"detailDisclosureIndicator" isEqualToString: s]) {
+			} else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: s]) {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; } copy];
-			} else if ([@"checkmark" isEqualToString: s]) {
+			} else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: s]) {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; } copy];
 			} else {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryNone; } copy];
 			}
 		} else {
-			s = [_dictionary objectForKey: @"accessoryType"];
+			s = [_dictionary objectForKey: kTKAccessoryTypeKey];
 			if (s) _accessoryTypeBlock = [^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
-				if ([@"disclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
-				else if ([@"detailDisclosureIndicator" isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
-				else if ([@"checkmark" isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
+				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
+				else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
+				else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
 				else { return UITableViewCellAccessoryNone; }
 			} copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"accessoryTypeSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKAccessoryTypeSelectorKey]);
 				if (sel) _accessoryTypeBlock = [^(RCSTableRow *r) {
 					NSNumber *type = [[r controller] performSelector: sel withObject: r];
 					return (UITableViewCellAccessoryType)[type intValue];
@@ -445,28 +445,28 @@
 - (UITableViewCellStyle) cellStyle: (RCSTableRow *)aRow
 {
 	if (_cellStyleBlock == nil) {
-		NSString *s = [_dictionary objectForKey: @"staticCellStyle"];
+		NSString *s = [_dictionary objectForKey: kTKStaticCellStyleKey];
 		if (s) {
-			if ([@"value1" isEqualToString: s]) {
+			if ([kTKCellStyleValue1Key isEqualToString: s]) {
 				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleValue1; } copy];
-			} else if ([@"value2" isEqualToString: s]) {
+			} else if ([kTKCellStyleValue2Key isEqualToString: s]) {
 				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleValue2; } copy];
-			} else if ([@"subtitle" isEqualToString: s]) {
+			} else if ([kTKCellStyleSubtitleKey isEqualToString: s]) {
 				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleSubtitle; } copy];
 			} else {
 				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleDefault; } copy];
 			}
 		} else {
-			s = [_dictionary objectForKey: @"cellStyle"];
+			s = [_dictionary objectForKey: kTKCellStyleKey];
 			if (s) _cellStyleBlock = [^(RCSTableRow *r) {
 				NSString *styleString = [[r object] valueForKeyPath: s];
-				if ([@"value1" isEqualToString: styleString]) { return UITableViewCellStyleValue1; }
-				else if ([@"value2" isEqualToString: styleString]) { return UITableViewCellStyleValue2; }
-				else if ([@"subtitle" isEqualToString: styleString]) { return UITableViewCellStyleSubtitle; }
+				if ([kTKCellStyleValue1Key isEqualToString: styleString]) { return UITableViewCellStyleValue1; }
+				else if ([kTKCellStyleValue2Key isEqualToString: styleString]) { return UITableViewCellStyleValue2; }
+				else if ([kTKCellStyleSubtitleKey isEqualToString: styleString]) { return UITableViewCellStyleSubtitle; }
 				else { return UITableViewCellStyleDefault; }
 			} copy];
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: @"cellStyleSelector"]);
+				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellStyleSelectorKey]);
 				if (sel) _cellStyleBlock = [^(RCSTableRow *r) {
 					NSNumber *type = [[r controller] performSelector: sel withObject: r];
 					return (UITableViewCellStyle)[type intValue];

@@ -4,6 +4,35 @@
 //  See license below.
 //
 
+NSString * const kTKESCAttributeKey = @"attribute";
+NSString * const kTKESCAutocapitalizationTypeKey = @"autocapitalizationType";
+NSString * const kTKESCAutocorrectionTypeKey = @"autocorrectionType";
+NSString * const kTKESCClearButtonModeKey = @"clearButtonMode";
+NSString * const kTKESCStaticPlaceholderKey = @"staticPlaceholder";
+NSString * const kTKESCPlaceholderKey = @"placeholder";
+NSString * const kTKESCStaticKeyboardTypeKey = @"staticKeyboardType";
+NSString * const kTKESCKeyboardTypeKey = @"keyboardType";
+
+NSString * const kTKESCAutocapitalizationTypeWordsKey = @"words";
+NSString * const kTKESCAutocapitalizationTypeSentencesKey = @"sentences";
+NSString * const kTKESCAutocapitalizationTypeAllCharactersKey = @"allCharacters";
+
+NSString * const kTKESCAutocorrectionTypeYesKey = @"yes";
+NSString * const kTKESCAutocorrectionTypeNoKey = @"no";
+
+NSString * const kTKESCClearButtonModeWhileEditingKey = @"whileEditing";
+NSString * const kTKESCClearButtonModeUnlessEditingKey = @"unlessEditing";
+NSString * const kTKESCClearButtonModeAlwaysKey = @"always";
+
+NSString * const kTKESCKeyboardTypeDefaultKey = @"default";
+NSString * const kTKESCKeyboardTypeAsciiCapableKey = @"asciiCapable";
+NSString * const kTKESCKeyboardTypeNumbersAndPunctuationKey = @"numbersAndPunctuation";
+NSString * const kTKESCKeyboardTypeUrlKey = @"url";
+NSString * const kTKESCKeyboardTypeNumberPadKey = @"numberPad";
+NSString * const kTKESCKeyboardTypePhonePadKey = @"phonePad";
+NSString * const kTKESCKeyboardTypeNamePhonePadKey = @"namePhonePad";
+NSString * const kTKESCKeyboardTypeEmailAddressKey = @"emailAddress";
+
 @implementation RCSEditStringCell
 
 - (id) initWithStyle: (UITableViewCellStyle)style reuseIdentifier: (NSString *)reuseIdentifier
@@ -48,72 +77,72 @@
 	if (newRow) {
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(viewWillDisappear:)
-													 name: @"RCSTableViewControllerViewWillDisappear"
+													 name: kTKViewWillDisappearNotificationName
 												   object: [newRow controller]];
 		[_editStringTextField setFont: [UIFont boldSystemFontOfSize: 24.0]];
 		[_editStringTextField setAdjustsFontSizeToFitWidth: YES];
 		[_editStringTextField setMinimumFontSize: 16.0];
-		[_editStringTextField setText: [[newRow object] valueForKeyPath: [newRow stringForDictionaryKey: @"attribute"]]];
-		NSString *autocapitalizationTypeString = [newRow stringForDictionaryKey: @"autocapitalizationType"];
+		[_editStringTextField setText: [[newRow object] valueForKeyPath: [newRow stringForDictionaryKey: kTKESCAttributeKey]]];
+		NSString *autocapitalizationTypeString = [newRow stringForDictionaryKey: kTKESCAutocapitalizationTypeKey];
 		if (autocapitalizationTypeString) {
-			if ([@"words" isEqualToString: autocapitalizationTypeString]) {
+			if ([kTKESCAutocapitalizationTypeWordsKey isEqualToString: autocapitalizationTypeString]) {
 				[_editStringTextField setAutocapitalizationType: UITextAutocapitalizationTypeWords];
-			} else if ([@"sentences" isEqualToString: autocapitalizationTypeString]) {
+			} else if ([kTKESCAutocapitalizationTypeSentencesKey isEqualToString: autocapitalizationTypeString]) {
 				[_editStringTextField setAutocapitalizationType: UITextAutocapitalizationTypeSentences];
-			} else if ([@"allCharacters" isEqualToString: autocapitalizationTypeString]) {
+			} else if ([kTKESCAutocapitalizationTypeAllCharactersKey isEqualToString: autocapitalizationTypeString]) {
 				[_editStringTextField setAutocapitalizationType: UITextAutocapitalizationTypeAllCharacters];
 			}
 		}
-		NSString *autocorrectionTypeString = [newRow stringForDictionaryKey: @"autocorrectionType"];
+		NSString *autocorrectionTypeString = [newRow stringForDictionaryKey: kTKESCAutocorrectionTypeKey];
 		if (autocorrectionTypeString) {
-			if ([@"yes" isEqualToString: autocorrectionTypeString]) {
+			if ([kTKESCAutocorrectionTypeYesKey isEqualToString: autocorrectionTypeString]) {
 				[_editStringTextField setAutocorrectionType: UITextAutocorrectionTypeYes];
-			} else if ([@"no" isEqualToString: autocorrectionTypeString]) {
+			} else if ([kTKESCAutocorrectionTypeNoKey isEqualToString: autocorrectionTypeString]) {
 				[_editStringTextField setAutocorrectionType: UITextAutocorrectionTypeNo];
 			}
 		}
-		NSString *clearButtonMode = [newRow stringForDictionaryKey: @"clearButtonMode"];
+		NSString *clearButtonMode = [newRow stringForDictionaryKey: kTKESCClearButtonModeKey];
 		if (clearButtonMode) {
-			if ([@"whileEditing" isEqualToString: clearButtonMode]) {
+			if ([kTKESCClearButtonModeWhileEditingKey isEqualToString: clearButtonMode]) {
 				[_editStringTextField setClearButtonMode: UITextFieldViewModeWhileEditing];
-			} else if ([@"unlessEditing" isEqualToString: clearButtonMode]) {
+			} else if ([kTKESCClearButtonModeUnlessEditingKey isEqualToString: clearButtonMode]) {
 				[_editStringTextField setClearButtonMode: UITextFieldViewModeUnlessEditing];
-			} else if ([@"always" isEqualToString: clearButtonMode]) {
+			} else if ([kTKESCClearButtonModeAlwaysKey isEqualToString: clearButtonMode]) {
 				[_editStringTextField setClearButtonMode: UITextFieldViewModeAlways];
 			}
 		}
-		NSString *staticPlaceholder = [newRow stringForDictionaryKey: @"staticPlaceholder"];
+		NSString *staticPlaceholder = [newRow stringForDictionaryKey: kTKESCStaticPlaceholderKey];
 		if (staticPlaceholder) {
 			[_editStringTextField setPlaceholder: staticPlaceholder];
 		} else {
-			NSString *placeholder = [newRow stringForDictionaryKey: @"placeholder"];
+			NSString *placeholder = [newRow stringForDictionaryKey: kTKESCPlaceholderKey];
 			if (placeholder) {
 				[_editStringTextField setPlaceholder: [[newRow object] valueForKeyPath: placeholder]];
 			}
 		}
-		NSString *keyboardType = [newRow stringForDictionaryKey: @"staticKeyboardType"];
+		NSString *keyboardType = [newRow stringForDictionaryKey: kTKESCStaticKeyboardTypeKey];
 		if (keyboardType == nil) {
-			keyboardType = [newRow stringForDictionaryKey: @"keyboardType"];
+			keyboardType = [newRow stringForDictionaryKey: kTKESCKeyboardTypeKey];
 			if (keyboardType) {
 				keyboardType = [[newRow object] valueForKeyPath: keyboardType];
 			}
 		}
 		if (keyboardType) {
-			if ([@"default" isEqualToString: keyboardType]) {
+			if ([kTKESCKeyboardTypeDefaultKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeDefault];
-			} else if ([@"asciiCapable" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypeAsciiCapableKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeASCIICapable];
-			} else if ([@"numbersAndPunctuation" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypeNumbersAndPunctuationKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeNumbersAndPunctuation];
-			} else if ([@"url" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypeUrlKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeURL];
-			} else if ([@"numberPad" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypeNumberPadKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeNumberPad];
-			} else if ([@"phonePad" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypePhonePadKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypePhonePad];
-			} else if ([@"namePhonePad" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypeNamePhonePadKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeNamePhonePad];
-			} else if ([@"emailAddress" isEqualToString: keyboardType]) {
+			} else if ([kTKESCKeyboardTypeEmailAddressKey isEqualToString: keyboardType]) {
 				[_editStringTextField setKeyboardType: UIKeyboardTypeEmailAddress];
 			}
 		}
@@ -123,9 +152,9 @@
 - (void) removeFromSuperview
 {
 	[[[self row] object] setValue: [_editStringTextField text]
-					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
+					   forKeyPath: [[self row] stringForDictionaryKey: kTKESCAttributeKey]];
 	[[NSNotificationCenter defaultCenter] removeObserver: self
-													name: @"RCSTableViewControllerViewWillDisappear"
+													name: kTKViewWillDisappearNotificationName
 												  object: nil];
 	[super removeFromSuperview];
 }
@@ -140,7 +169,7 @@
 {
 	[super resignFirstResponder];
 	[[[self row] object] setValue: [_editStringTextField text]
-					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
+					   forKeyPath: [[self row] stringForDictionaryKey: kTKESCAttributeKey]];
 	return [_editStringTextField resignFirstResponder];
 }
 
@@ -150,7 +179,7 @@
 - (void) viewWillDisappear: (NSNotification *)notification
 {
 	[[[self row] object] setValue: [_editStringTextField text]
-					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
+					   forKeyPath: [[self row] stringForDictionaryKey: kTKESCAttributeKey]];
 }
 
 #pragma mark -
@@ -160,7 +189,7 @@
 - (void) textFieldDidEndEditing: (UITextField *)textField
 {
 	[[[self row] object] setValue: [_editStringTextField text]
-					   forKeyPath: [[self row] stringForDictionaryKey: @"attribute"]];
+					   forKeyPath: [[self row] stringForDictionaryKey: kTKESCAttributeKey]];
 }
 
 - (BOOL) textFieldShouldReturn: (UITextField *)textField

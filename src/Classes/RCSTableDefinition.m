@@ -31,17 +31,17 @@
 	self = [super init];
 	if (self != nil) {
 		_dictionary = [dictionary_ retain];
-		_nibName = [[dictionary_ objectForKey: @"nibName"] retain];
-		_nibBundleName = [[dictionary_ objectForKey: @"nibBundleName"] retain];
-		_controllerClassName = [[dictionary_ objectForKey: @"controllerClassName"] retain];
-		_displaySectionKeys = [[dictionary_ objectForKey: @"displaySectionKeys"] retain];
+		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] retain];
+		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] retain];
+		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassNameKey] retain];
+		_displaySectionKeys = [[dictionary_ objectForKey: kTKDisplaySectionKeysKey] retain];
 		if (_displaySectionKeys == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
 			_displaySectionKeys = [[NSMutableArray alloc] init];
 		}
 		_sectionDefinitions = [[self _buildSectionDefinitions] retain];
-		_tableHeaderImagePath = [[dictionary_ objectForKey: @"tableHeaderImagePath"] retain];
-		_tableHeaderImagePathSelector = NSSelectorFromString([dictionary_ objectForKey: @"tableHeaderImagePathSelector"]);
+		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] retain];
+		_tableHeaderImagePathSelector = NSSelectorFromString([dictionary_ objectForKey: kTKTableHeaderImagePathSelector]);
 	}
 	return self;
 }
@@ -102,7 +102,7 @@
 - (NSMutableDictionary *) _buildSectionDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-	NSDictionary *sectionsDict = [_dictionary objectForKey: @"sections"];
+	NSDictionary *sectionsDict = [_dictionary objectForKey: kTKSectionsKey];
 	
 	if (sectionsDict) {
 		[sectionsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
@@ -139,9 +139,9 @@
 
 - (NSString *) title: (RCSTable *)aTable
 {
-	NSString *title = [_dictionary objectForKey: @"staticTitle"];
+	NSString *title = [_dictionary objectForKey: kTKStaticTitleKey];
 	if (title == nil) {
-		title = [_dictionary objectForKey: @"title"];
+		title = [_dictionary objectForKey: kTKTitleKey];
 		if ([title length]) {
 			title = [[aTable object] valueForKeyPath: title];
 		}

@@ -46,9 +46,9 @@
 	UITableView *tv = [self tableView];
 	[tv setDataSource: self];
 	
-	[tv setAllowsSelectionDuringEditing: [[self tableDefinition] configurationBoolForKey: @"allowsSelectionDuringEditing"
+	[tv setAllowsSelectionDuringEditing: [[self tableDefinition] configurationBoolForKey: kTKAllowsSelectionDuringEditingKey
 																			 withDefault: [tv allowsSelectionDuringEditing]]];
-	[tv setAllowsSelection: [[self tableDefinition] configurationBoolForKey: @"allowsSelection"
+	[tv setAllowsSelection: [[self tableDefinition] configurationBoolForKey: kTKAllowsSelectionKey
 																withDefault: [tv allowsSelection]]];
 }
 
@@ -73,7 +73,7 @@
 - (void) viewWillDisappear: (BOOL)animated
 {
 	[super viewWillDisappear: animated];
-	[[NSNotificationCenter defaultCenter] postNotificationName: @"RCSTableViewControllerViewWillDisappear" object: self];
+	[[NSNotificationCenter defaultCenter] postNotificationName: kTKViewWillDisappearNotificationName object: self];
 }
 
 - (void) setEditing: (BOOL)editing animated: (BOOL)animated
@@ -96,7 +96,7 @@
 
 - (void) configureEditButton
 {
-	if ([[self tableDefinition] configurationBoolForKey: @"isEditable" withDefault: NO]) {
+	if ([[self tableDefinition] configurationBoolForKey: kTKIsEditableKey withDefault: NO]) {
 		[[self navigationItem] setRightBarButtonItem: [self editButtonItem]];
 	}
 }
