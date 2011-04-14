@@ -13,6 +13,7 @@
 	NSString *_key;
 	NSString *_list;
 	
+	NSString *_cellReuseIdentifier;
 	NSString *_cellNibName;
 	BOOL _becomeFirstResponder;
 	CGFloat _rowHeight;	
@@ -53,36 +54,37 @@
 @property (nonatomic, readonly, retain) NSDictionary *dictionary;
 
 // The name (key) of this definition, referenced by displayRowKeys
-@property (nonatomic, readonly, retain) NSString *key;
+@property (nonatomic, readonly, copy) NSString *key;
 
 // keyPath returning list of objects to be rootObject for rows with this definition
 // if nil, there is only one row with this definition and its rootObject is the view controller.
-@property (nonatomic, readonly, retain) NSString *list;
+@property (nonatomic, readonly, copy) NSString *list;
 
+@property (nonatomic, readonly, retain) NSString *cellReuseIdentifier;
 
-@property (nonatomic, retain) NSString *cellNibName;
+@property (nonatomic, copy) NSString *cellNibName;
 
 @property (nonatomic, assign) BOOL becomeFirstResponder;
 @property (nonatomic, assign) CGFloat rowHeight;
 
 @property (nonatomic, assign) UITableViewCellEditingStyle editingStyle;
 @property (nonatomic, assign) SEL editingStyleAction;
-@property (nonatomic, retain) NSString *editingStylePushConfiguration;
+@property (nonatomic, copy) NSString *editingStylePushConfiguration;
 
 @property (nonatomic, assign) SEL action;
-@property (nonatomic, retain) NSString *pushConfiguration;
+@property (nonatomic, copy) NSString *pushConfiguration;
 @property (nonatomic, assign) SEL viewAction;
-@property (nonatomic, retain) NSString *viewPushConfiguration;
+@property (nonatomic, copy) NSString *viewPushConfiguration;
 @property (nonatomic, assign) SEL editAction;
-@property (nonatomic, retain) NSString *editPushConfiguration;
+@property (nonatomic, copy) NSString *editPushConfiguration;
 
 @property (nonatomic, assign) SEL accessoryAction;
-@property (nonatomic, retain) NSString *accessoryPushConfiguration;
+@property (nonatomic, copy) NSString *accessoryPushConfiguration;
 @property (nonatomic, assign) SEL viewAccessoryAction;
-@property (nonatomic, retain) NSString *viewAccessoryPushConfiguration;
+@property (nonatomic, copy) NSString *viewAccessoryPushConfiguration;
 
 @property (nonatomic, assign) SEL editAccessoryAction;
-@property (nonatomic, retain) NSString *editAccessoryPushConfiguration;
+@property (nonatomic, copy) NSString *editAccessoryPushConfiguration;
 
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_

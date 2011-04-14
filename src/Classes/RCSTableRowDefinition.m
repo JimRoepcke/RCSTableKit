@@ -8,8 +8,8 @@
 
 @interface RCSTableRowDefinition ()
 @property (nonatomic, readwrite, retain) NSDictionary *dictionary;
-@property (nonatomic, readwrite, retain) NSString *key;
-@property (nonatomic, readwrite, retain) NSString *list;
+@property (nonatomic, readwrite, copy) NSString *key;
+@property (nonatomic, readwrite, copy) NSString *list;
 @end
 
 @implementation RCSTableRowDefinition
@@ -51,8 +51,8 @@
 	self = [super init];
 	if (self != nil) {
 		_dictionary = [dictionary_ retain];
-		_key = [key_ retain];
-		_list = [[dictionary_ objectForKey: kTKListKey] retain];
+		_key = [key_ copy];
+		_list = [[dictionary_ objectForKey: kTKListKey] copy];
 
 		// editingStyle
 		NSString *s;
@@ -68,16 +68,17 @@
 			_editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
-		_cellNibName = [[dictionary_ objectForKey: kTKCellNibNameKey] retain];
-		_editPushConfiguration = [[dictionary_ objectForKey: kTKEditPushConfigurationKey] retain];
-		_viewPushConfiguration = [[dictionary_ objectForKey: kTKViewPushConfigurationKey] retain];
-		_pushConfiguration = [[dictionary_ objectForKey: kTKPushConfigurationKey] retain];
-		_accessoryPushConfiguration = [[dictionary_ objectForKey: kTKAccessoryPushConfigurationKey] retain];
-		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKEditAccessoryPushConfigurationKey] retain];
-		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKViewAccessoryPushConfigurationKey] retain];
+		_cellReuseIdentifier = nil;
+		_cellNibName = [[dictionary_ objectForKey: kTKCellNibNameKey] copy];
+		_editPushConfiguration = [[dictionary_ objectForKey: kTKEditPushConfigurationKey] copy];
+		_viewPushConfiguration = [[dictionary_ objectForKey: kTKViewPushConfigurationKey] copy];
+		_pushConfiguration = [[dictionary_ objectForKey: kTKPushConfigurationKey] copy];
+		_accessoryPushConfiguration = [[dictionary_ objectForKey: kTKAccessoryPushConfigurationKey] copy];
+		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKEditAccessoryPushConfigurationKey] copy];
+		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKViewAccessoryPushConfigurationKey] copy];
 		_becomeFirstResponder = [self boolForKey: kTKBecomeFirstResponderKey withDefault: NO inDictionary: dictionary_];
 		_editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditingStyleActionKey]);
-		_editingStylePushConfiguration = [[dictionary_ objectForKey: kTKEditingStylePushConfigurationKey] retain];
+		_editingStylePushConfiguration = [[dictionary_ objectForKey: kTKEditingStylePushConfigurationKey] copy];
 		_editAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditActionKey]);
 		_viewAction = NSSelectorFromString([dictionary_ objectForKey: kTKViewActionKey]);
 		_action = NSSelectorFromString([dictionary_ objectForKey: kTKActionKey]);

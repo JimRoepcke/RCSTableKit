@@ -5,12 +5,12 @@
 //
 
 @interface RCSTableDefinition ()
-@property (nonatomic, readwrite, retain) NSDictionary *dictionary;
-@property (nonatomic, readwrite, retain) NSMutableArray *displaySectionKeys;
+@property (nonatomic, readwrite, copy) NSDictionary *dictionary;
+@property (nonatomic, readwrite, retain) NSArray *displaySectionKeys;
 @property (nonatomic, readwrite, retain) NSMutableDictionary *sectionDefinitions;
-@property (nonatomic, readwrite, retain) NSString *nibName;
-@property (nonatomic, readwrite, retain) NSString *nibBundleName;
-@property (nonatomic, readwrite, retain) NSString *controllerClassName;
+@property (nonatomic, readwrite, copy) NSString *nibName;
+@property (nonatomic, readwrite, copy) NSString *nibBundleName;
+@property (nonatomic, readwrite, copy) NSString *controllerClassName;
 - (NSMutableDictionary *) _buildSectionDefinitions;
 @end
 
@@ -30,17 +30,17 @@
 {
 	self = [super init];
 	if (self != nil) {
-		_dictionary = [dictionary_ retain];
-		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] retain];
-		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] retain];
-		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassNameKey] retain];
+		_dictionary = [dictionary_ copy];
+		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] copy];
+		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] copy];
+		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassNameKey] copy];
 		_displaySectionKeys = [[dictionary_ objectForKey: kTKDisplaySectionKeysKey] retain];
 		if (_displaySectionKeys == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
-			_displaySectionKeys = [[NSMutableArray alloc] init];
+			_displaySectionKeys = [[NSArray alloc] init];
 		}
 		_sectionDefinitions = [[self _buildSectionDefinitions] retain];
-		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] retain];
+		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] copy];
 		_tableHeaderImagePathSelector = NSSelectorFromString([dictionary_ objectForKey: kTKTableHeaderImagePathSelector]);
 	}
 	return self;
@@ -82,7 +82,7 @@
 			_nibBundle = [[NSBundle bundleWithPath: path] retain];
 		}
 	}
-	return _nibBundle;
+	return [[_nibBundle retain] autorelease];
 }
 
 - (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object

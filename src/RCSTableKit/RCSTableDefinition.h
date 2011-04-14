@@ -9,7 +9,7 @@
 @interface RCSTableDefinition : RCSBaseDefinition
 {
 	NSDictionary *_dictionary;
-	NSMutableArray *_displaySectionKeys;
+	NSArray *_displaySectionKeys;
 	NSMutableDictionary *_sectionDefinitions;
 	NSString *_tableHeaderImagePath;
 	SEL _tableHeaderImagePathSelector;
@@ -20,21 +20,21 @@
 }
 
 // the source dictionary that generated this definition
-@property (nonatomic, readonly, retain) NSDictionary *dictionary;
+@property (nonatomic, readonly, copy) NSDictionary *dictionary;
 
 // list of section definitions to display, in the order they should appear
-@property (nonatomic, readonly, retain) NSMutableArray *displaySectionKeys;
+@property (nonatomic, readonly, retain) NSArray *displaySectionKeys;
 
 // dictionary of definitions for the sections in tables with this definition
 @property (nonatomic, readonly, retain) NSMutableDictionary *sectionDefinitions;
 
-@property (nonatomic, retain) NSString *tableHeaderImagePath;
+@property (nonatomic, copy) NSString *tableHeaderImagePath;
 @property (nonatomic, assign) SEL tableHeaderImagePathSelector;
 
-@property (nonatomic, readonly, retain) NSString *nibName;
-@property (nonatomic, readonly, retain) NSString *nibBundleName;
+@property (nonatomic, readonly, copy) NSString *nibName;
+@property (nonatomic, readonly, copy) NSString *nibBundleName;
 @property (nonatomic, readonly, retain) NSBundle *nibBundle;
-@property (nonatomic, readonly, retain) NSString *controllerClassName;
+@property (nonatomic, readonly, copy) NSString *controllerClassName;
 
 + (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle;
 

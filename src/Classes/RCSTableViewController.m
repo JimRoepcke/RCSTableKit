@@ -5,7 +5,7 @@
 //
 
 @interface RCSTableViewController ()
-@property (nonatomic, retain) NSString *tableHeaderImagePath;
+@property (nonatomic, copy) NSString *tableHeaderImagePath;
 - (void) configureEditButton;
 - (void) configureTitle;
 - (void) reloadData;
@@ -214,7 +214,7 @@
 
 - (NSObject *) rootObject
 {
-	return _rootObject ? _rootObject : self;
+	return _rootObject ? [[_rootObject retain] autorelease] : [[self retain] autorelease];
 }
 
 - (void) reloadData
