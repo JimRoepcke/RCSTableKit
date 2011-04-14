@@ -87,12 +87,8 @@
 	NSArray *objects = [self objectsForSectionsInTable: table];
 	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *sectionPredicate = nil;
-	BOOL (^sectionTest)(NSObject *);
 	if ([predicate length] > 0) {
 		sectionPredicate = [NSPredicate predicateWithFormat: predicate];
-		sectionTest = ^(NSObject *so) { return [sectionPredicate evaluateWithObject: so]; };
-	} else {
-		sectionTest = ^(NSObject *so) { return YES; };
 	}
 	NSObject *sectionObject;
 	RCSTableSection *section;
@@ -100,7 +96,7 @@
 	NSNull *nullValue = [NSNull null];
 	for (NSObject *obj in objects) {
 		sectionObject = obj == nullValue ? tableObject : obj;
-		if (sectionTest(sectionObject)) {
+		if ((sectionPredicate == nil) || [sectionPredicate evaluateWithObject: sectionObject]) {
 			section = [[RCSTableSection alloc] initUsingDefintion: self
 												   withRootObject: sectionObject
 														 forTable: table];

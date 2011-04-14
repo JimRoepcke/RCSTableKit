@@ -148,12 +148,8 @@
 	NSArray *objects = [self objectsForRowsInSection: section];
 	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *rowPredicate = nil;
-	BOOL (^rowTest)(NSObject *);
 	if ([predicate length] > 0) {
 		rowPredicate = [NSPredicate predicateWithFormat: predicate];
-		rowTest = ^(NSObject *ro) { return [rowPredicate evaluateWithObject: ro]; };
-	} else {
-		rowTest = ^(NSObject *ro) { return YES; };
 	}
 	NSObject *rowObject;
 	RCSTableRow *row;
@@ -161,7 +157,7 @@
 	NSNull *nullValue = [NSNull null];
 	for (NSObject *obj in objects) {
 		rowObject = obj == nullValue ? sectionObject : obj;
-		if (rowTest(rowObject)) {
+		if ((rowPredicate == nil) || [rowPredicate evaluateWithObject: rowObject]) {
 			row = [[RCSTableRow alloc] initUsingDefintion: self
 										   withRootObject: rowObject
 											   forSection: section];
