@@ -93,9 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				387DECE510E1CB7200F918B1 /* README.txt */,
-				3896CD7311D5ECEB0098CEF4 /* RCSTableViewGrouped.xib */,
-				3896CD7411D5ECEB0098CEF4 /* RCSTableViewPlain.xib */,
-				387DEBFC10E1936F00F918B1 /* Headers */,
+				3883978913563E2200F728F3 /* RCSTableKit Resources */,
+				387DEBFC10E1936F00F918B1 /* RCSTableKit Headers */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
@@ -171,7 +170,7 @@
 			name = "View Controller";
 			sourceTree = "<group>";
 		};
-		387DEBFC10E1936F00F918B1 /* Headers */ = {
+		387DEBFC10E1936F00F918B1 /* RCSTableKit Headers */ = {
 			isa = PBXGroup;
 			children = (
 				387DEC0410E1937A00F918B1 /* RCSTableKit.h */,
@@ -187,7 +186,16 @@
 				387DEC0B10E1937A00F918B1 /* RCSTableViewController.h */,
 				38EEBFF5134FFCB60071DF94 /* RCSTableKitConstants.h */,
 			);
-			name = Headers;
+			name = "RCSTableKit Headers";
+			sourceTree = "<group>";
+		};
+		3883978913563E2200F728F3 /* RCSTableKit Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3896CD7311D5ECEB0098CEF4 /* RCSTableViewGrouped.xib */,
+				3896CD7411D5ECEB0098CEF4 /* RCSTableViewPlain.xib */,
+			);
+			name = "RCSTableKit Resources";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
