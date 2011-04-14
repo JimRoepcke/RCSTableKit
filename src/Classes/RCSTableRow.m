@@ -52,11 +52,6 @@
 	return [_definition editingStyle] != UITableViewCellEditingStyleNone;
 }
 
-- (NSString *) cellReuseIdentifier
-{
-	return [NSString stringWithFormat: @"%d", (int)[_definition dictionary]];
-}
-
 - (UITableViewCell *) createCell
 {
 	NSString *nibName = [_definition cellNibName];
@@ -84,6 +79,7 @@
 - (UITableViewCellAccessoryType) accessoryType { return [_definition accessoryType: self]; }
 - (UITableViewCellAccessoryType) editingAccessoryType { return [_definition editingAccessoryType: self]; }
 - (UITableViewCellStyle) cellStyle { return [_definition cellStyle: self]; }
+- (NSString *) cellReuseIdentifier { return [_definition cellReuseIdentifier]; }
 - (Class) cellClass { return [_definition cellClass: self]; }
 
 - (CGFloat) heightWithDefault: (CGFloat)defaultHeight

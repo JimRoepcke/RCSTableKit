@@ -18,6 +18,8 @@
 @synthesize key=_key;
 @synthesize list=_list;
 
+@dynamic cellReuseIdentifier;
+
 @synthesize cellNibName=_cellNibName;
 
 @synthesize becomeFirstResponder=_becomeFirstResponder;
@@ -105,6 +107,7 @@
 	[_key release]; _key = nil;
 	[_list release]; _list = nil;
 	
+	[_cellReuseIdentifier release]; _cellReuseIdentifier = nil;
 	[_cellNibName release]; _cellNibName = nil;
 	[_editingStylePushConfiguration release]; _editingStylePushConfiguration = nil;
 	[_pushConfiguration release]; _pushConfiguration = nil;
@@ -166,6 +169,15 @@
 		}
 	}
 	return [result autorelease];
+}
+
+- (NSString *) cellReuseIdentifier
+{
+	if (_cellReuseIdentifier == nil) {
+		_cellReuseIdentifier = [[NSString alloc] initWithFormat: @"%d",
+								(int)_dictionary];
+	}
+	return _cellReuseIdentifier;
 }
 
 - (Class) cellClass: (RCSTableRow *)aRow
