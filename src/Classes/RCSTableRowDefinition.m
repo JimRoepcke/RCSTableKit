@@ -48,8 +48,7 @@
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 				   forKey: (NSString *)key_
 {
-	self = [super init];
-	if (self != nil) {
+	if (self = [super init]) {
 		_dictionary = [dictionary_ retain];
 		_key = [key_ copy];
 		_list = [[dictionary_ objectForKey: kTKListKey] copy];

@@ -28,8 +28,7 @@
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_
 {
-	self = [super init];
-	if (self != nil) {
+	if (self = [super init]) {
 		_dictionary = [dictionary_ copy];
 		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] copy];
 		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] copy];
