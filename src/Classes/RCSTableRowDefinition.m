@@ -67,7 +67,6 @@
 			_editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
-		_cellReuseIdentifier = nil;
 		_cellNibName = [[dictionary_ objectForKey: kTKCellNibNameKey] copy];
 		_editPushConfiguration = [[dictionary_ objectForKey: kTKEditPushConfigurationKey] copy];
 		_viewPushConfiguration = [[dictionary_ objectForKey: kTKViewPushConfigurationKey] copy];

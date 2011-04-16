@@ -23,7 +23,6 @@
 			   forSection: (RCSTableSection *)section_
 {
 	if (self = [super init]) {
-		_cell = nil;
 		_definition = [definition_ retain];
 		_object = object_;
 		_section = section_;
