@@ -53,6 +53,7 @@ NSString * const kTKESCKeyboardTypeEmailAddressKey = @"emailAddress";
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[_editStringTextField setDelegate: nil];
 	[_editStringTextField release]; _editStringTextField = nil;
     [super dealloc];
 }

@@ -176,7 +176,7 @@
 		_cellReuseIdentifier = [[NSString alloc] initWithFormat: @"%d",
 								(int)_dictionary];
 	}
-	return _cellReuseIdentifier;
+	return [[_cellReuseIdentifier retain] autorelease];
 }
 
 - (Class) cellClass: (RCSTableRow *)aRow
