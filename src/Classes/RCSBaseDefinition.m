@@ -15,28 +15,10 @@
 	return num == nil ? value : [num boolValue];
 }
 
-- (NSInteger) integerForKey: (id)key_ withDefault: (NSInteger)value inDictionary: (NSDictionary *)dict
-{
-	NSNumber *num = [dict objectForKey: key_];
-	return num == nil ? value : [num integerValue];
-}
-
-- (double) doubleForKey: (id)key_ withDefault: (double)value inDictionary: (NSDictionary *)dict
-{
-	NSNumber *num = [dict objectForKey: key_];
-	return num == nil ? value : [num doubleValue];
-}
-
-- (float) floatForKey: (id)key_ withDefault: (float)value inDictionary: (NSDictionary *)dict
+- (CGFloat) floatForKey: (id)key_ withDefault: (CGFloat)value inDictionary: (NSDictionary *)dict
 {
 	NSNumber *num = [dict objectForKey: key_];
 	return num == nil ? value : [num floatValue];
-}
-
-- (NSString *) stringForKey: (id)key_ withDefault: (NSString *)value inDictionary: (NSDictionary *)dict
-{
-	NSString *s = [dict objectForKey: key_];
-	return s == nil ? value : [s description];
 }
 
 @end

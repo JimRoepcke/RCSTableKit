@@ -10,10 +10,7 @@
 #pragma mark Configuration methods
 
 - (BOOL)         boolForKey: (id)key_ withDefault: (BOOL)value       inDictionary: (NSDictionary *)dict;
-- (NSInteger) integerForKey: (id)key_ withDefault: (NSInteger)value  inDictionary: (NSDictionary *)dict;
-- (float)       floatForKey: (id)key_ withDefault: (float)value      inDictionary: (NSDictionary *)dict;
-- (double)     doubleForKey: (id)key_ withDefault: (double)value     inDictionary: (NSDictionary *)dict;
-- (NSString *) stringForKey: (id)key_ withDefault: (NSString *)value inDictionary: (NSDictionary *)dict;
+- (CGFloat)     floatForKey: (id)key_ withDefault: (CGFloat)value    inDictionary: (NSDictionary *)dict;
 
 @end
 

@@ -84,7 +84,7 @@
 		_editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditAccessoryActionKey]);
 		_viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKViewAccessoryActionKey]);
 		_accessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKAccessoryActionKey]);
-		_rowHeight = (CGFloat)[self floatForKey: kTKRowHeightKey withDefault: -1.0 inDictionary: dictionary_];
+		_rowHeight = [self floatForKey: kTKRowHeightKey withDefault: -1.0 inDictionary: dictionary_];
 	}
 	return self;
 }
