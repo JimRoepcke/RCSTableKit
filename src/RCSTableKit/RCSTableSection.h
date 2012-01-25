@@ -23,9 +23,9 @@
 		   withRootObject: (NSObject *)object_
 				 forTable: (RCSTable *)table_;
 
-- (NSUInteger) numberOfRows;
+- (NSInteger) numberOfRows;
 
-- (RCSTableRow *) rowAtIndex: (NSUInteger)index_;
+- (RCSTableRow *) rowAtIndex: (NSInteger)index_;
 
 - (NSString *) title;
 

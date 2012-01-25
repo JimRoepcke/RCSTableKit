@@ -43,17 +43,17 @@
 - (NSString *) title { return [_definition title: self]; }
 - (NSString *) tableHeaderImagePath { return [_definition tableHeaderImagePath: self]; }
 
-- (NSUInteger) numberOfSections
+- (NSInteger) numberOfSections
 {
 	return [_sections count];
 }
 
-- (NSUInteger) numberOfRowsInSection: (NSUInteger)section_
+- (NSInteger) numberOfRowsInSection: (NSInteger)section_
 {
 	return [(RCSTableSection *)[_sections objectAtIndex: section_] numberOfRows];
 }
 
-- (RCSTableSection *) sectionAtIndex: (NSUInteger)section
+- (RCSTableSection *) sectionAtIndex: (NSInteger)section
 {
 	return (RCSTableSection *)[_sections objectAtIndex: section];
 }

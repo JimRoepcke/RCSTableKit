@@ -26,9 +26,9 @@
 - (NSString *) title;
 - (NSString *) tableHeaderImagePath;
 
-- (NSUInteger) numberOfSections;
-- (RCSTableSection *) sectionAtIndex: (NSUInteger)section;
-- (NSUInteger) numberOfRowsInSection: (NSUInteger)section_;
+- (NSInteger) numberOfSections;
+- (RCSTableSection *) sectionAtIndex: (NSInteger)section;
+- (NSInteger) numberOfRowsInSection: (NSInteger)section_;
 - (RCSTableRow *) rowAtIndexPath: (NSIndexPath *)indexPath;
 - (BOOL) isEditableAtIndexPath: (NSIndexPath *)indexPath;
 - (NSString *) cellReuseIdentifierAtIndexPath: (NSIndexPath *)indexPath;

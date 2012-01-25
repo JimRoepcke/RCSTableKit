@@ -174,12 +174,12 @@
 }
 
 - (NSString *) tableView: (UITableView *)tableView titleForHeaderInSection: (NSInteger)section {
-	return [[[self table] sectionAtIndex: (NSUInteger)section] title];
+	return [[[self table] sectionAtIndex: section] title];
 }
 
 - (NSInteger) tableView: (UITableView *)tableView numberOfRowsInSection: (NSInteger)section
 {
-	return [[self table] numberOfRowsInSection: (NSUInteger)section];
+	return [[self table] numberOfRowsInSection: section];
 }
 
 - (BOOL) tableView: (UITableView *)tableView canEditRowAtIndexPath: (NSIndexPath *)indexPath

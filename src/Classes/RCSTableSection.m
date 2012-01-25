@@ -41,12 +41,12 @@
 #pragma mark -
 #pragma mark Public API
 
-- (NSUInteger) numberOfRows
+- (NSInteger) numberOfRows
 {
 	return [_rows count];
 }
 
-- (RCSTableRow *) rowAtIndex: (NSUInteger)index_
+- (RCSTableRow *) rowAtIndex: (NSInteger)index_
 {
 	return (RCSTableRow *)[_rows objectAtIndex: index_];
 }
