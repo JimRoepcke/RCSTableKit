@@ -40,6 +40,7 @@
 #pragma mark -
 #pragma mark UIViewController methods
 
+// TODO: add support for multiple selection
 - (void) viewDidLoad
 {
     [super viewDidLoad];

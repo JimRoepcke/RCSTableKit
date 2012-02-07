@@ -62,6 +62,7 @@
 		387DECE510E1CB7200F918B1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = SOURCE_ROOT; };
 		3896CD7311D5ECEB0098CEF4 /* RCSTableViewGrouped.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RCSTableViewGrouped.xib; sourceTree = "<group>"; };
 		3896CD7411D5ECEB0098CEF4 /* RCSTableViewPlain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RCSTableViewPlain.xib; sourceTree = "<group>"; };
+		38C1330314CFE33D0087E2E1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		38EEBFF3134FFC8F0071DF94 /* RCSTableKitConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCSTableKitConstants.m; path = Classes/RCSTableKitConstants.m; sourceTree = "<group>"; };
 		38EEBFF5134FFCB60071DF94 /* RCSTableKitConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCSTableKitConstants.h; path = RCSTableKit/RCSTableKitConstants.h; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* RCSTableKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSTableKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -93,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				387DECE510E1CB7200F918B1 /* README.txt */,
+				38C1330314CFE33D0087E2E1 /* README.md */,
 				3883978913563E2200F728F3 /* RCSTableKit Resources */,
 				387DEBFC10E1936F00F918B1 /* RCSTableKit Headers */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
