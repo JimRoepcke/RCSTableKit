@@ -9,8 +9,8 @@
 #pragma mark -
 #pragma mark Configuration methods
 
-- (BOOL)         boolForKey: (id)key_ withDefault: (BOOL)value       inDictionary: (NSDictionary *)dict;
-- (CGFloat)     floatForKey: (id)key_ withDefault: (CGFloat)value    inDictionary: (NSDictionary *)dict;
++ (BOOL)         boolForKey: (id)key_ withDefault: (BOOL)value       inDictionary: (NSDictionary *)dict;
++ (CGFloat)     floatForKey: (id)key_ withDefault: (CGFloat)value    inDictionary: (NSDictionary *)dict;
 
 @end
 
