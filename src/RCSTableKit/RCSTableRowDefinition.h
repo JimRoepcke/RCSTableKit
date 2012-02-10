@@ -7,48 +7,7 @@
 @class RCSTableSection;
 @class RCSTableRow;
 
-@interface RCSTableRowDefinition : RCSBaseDefinition
-{
-	NSDictionary *_dictionary;
-	NSString *_key;
-	NSString *_list;
-	
-	NSString *_cellReuseIdentifier;
-	NSString *_cellNibName;
-	BOOL _becomeFirstResponder;
-	CGFloat _rowHeight;	
-
-	UITableViewCellEditingStyle _editingStyle;
-	SEL _editingStyleAction;
-	NSString *_editingStylePushConfiguration;
-
-	SEL _action;
-	NSString *_pushConfiguration;
-	SEL _viewAction;
-	NSString *_viewPushConfiguration;
-	SEL _editAction;
-	NSString *_editPushConfiguration;
-
-	SEL _accessoryAction;
-	NSString *_accessoryPushConfiguration;
-	SEL _viewAccessoryAction;
-	NSString *_viewAccessoryPushConfiguration;
-
-	SEL _editAccessoryAction;
-	NSString *_editAccessoryPushConfiguration;	
-	
-	NSIndexPath *(^_willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
-	void (^_didSelectBlock)(RCSTableRow *row);
-	void (^_accessoryButtonBlock)(RCSTableRow *row);
-	NSString *(^_textBlock)(RCSTableRow *row);
-	NSString *(^_detailTextBlock)(RCSTableRow *row);
-	UIImage *(^_imageBlock)(RCSTableRow *row);
-	UITableViewCellAccessoryType (^_accessoryTypeBlock)(RCSTableRow *row);
-	UITableViewCellAccessoryType (^_editingAccessoryTypeBlock)(RCSTableRow *row);
-	UITableViewCellStyle (^_cellStyleBlock)(RCSTableRow *row);
-	Class (^_cellClassBlock)(RCSTableRow *row);
-	UIColor *(^_backgroundColorBlock)(RCSTableRow *row);
-}
+@interface RCSTableRowDefinition : RCSBaseDefinition {}
 
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, retain) NSDictionary *dictionary;

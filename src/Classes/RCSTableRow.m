@@ -62,9 +62,8 @@
 												 options: nil];
 		cell = [a objectAtIndex: 0];
 	} else {
-		cell = [[[self cellClass] alloc] initWithStyle: [self cellStyle]
-									   reuseIdentifier: [self cellReuseIdentifier]];
-		[cell autorelease];
+		cell = [[[[self cellClass] alloc] initWithStyle: [self cellStyle]
+                                        reuseIdentifier: [self cellReuseIdentifier]] autorelease];
 	}
 	
 	return cell;

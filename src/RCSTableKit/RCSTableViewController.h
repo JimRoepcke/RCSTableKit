@@ -7,14 +7,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RCSTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-{
-	NSObject *_rootObject;
-	RCSTableDefinition *_tableDefinition;
-	RCSTable *_table;
-	UITableView *_tableView;
-	NSString *_tableHeaderImagePath;
-	UIImageView *_tableHeaderImageView;
-}
 
 @property (nonatomic, retain) NSObject *rootObject;
 @property (nonatomic, retain) RCSTableDefinition *tableDefinition;

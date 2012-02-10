@@ -9,9 +9,6 @@
 @class RCSTableRow;
 
 @interface RCSTableViewCell : UITableViewCell
-{
-	RCSTableRow *_row;
-}
 
 @property (nonatomic, retain) RCSTableRow *row;
 

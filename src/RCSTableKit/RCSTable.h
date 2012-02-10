@@ -7,12 +7,6 @@
 @class RCSTableSection, RCSTableRow, RCSTableDefinition, RCSTableViewController;
 
 @interface RCSTable : NSObject
-{
-	RCSTableDefinition *_definition;
-	NSObject *_object;
-	RCSTableViewController *_controller; // parent
-	NSMutableArray *_sections; // children (RCSTableSection)
-}
 
 @property (nonatomic, readonly, retain) RCSTableDefinition *definition;
 @property (nonatomic, readonly, assign) NSObject *object;

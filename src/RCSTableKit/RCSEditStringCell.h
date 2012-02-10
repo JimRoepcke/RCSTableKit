@@ -34,9 +34,6 @@ extern NSString * const kTKESCKeyboardTypeNamePhonePadKey;
 extern NSString * const kTKESCKeyboardTypeEmailAddressKey;
 
 @interface RCSEditStringCell : RCSTableViewCell <UITextFieldDelegate>
-{
-	UITextField *_editStringTextField;
-}
 
 @end
 

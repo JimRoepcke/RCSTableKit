@@ -23,7 +23,7 @@
 @synthesize tableHeaderImagePathSelector=_tableHeaderImagePathSelector;
 @synthesize nibName=_nibName;
 @synthesize nibBundleName=_nibBundleName;
-@dynamic nibBundle;
+@synthesize nibBundle=_nibBundle;
 @synthesize controllerClassName=_controllerClassName;
 
 - (id) initWithDictionary: (NSDictionary *)dictionary_

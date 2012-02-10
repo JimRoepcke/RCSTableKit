@@ -10,6 +10,18 @@
 @property (nonatomic, readwrite, retain) NSDictionary *dictionary;
 @property (nonatomic, readwrite, copy) NSString *key;
 @property (nonatomic, readwrite, copy) NSString *list;
+
+@property (nonatomic, readwrite, copy) NSIndexPath *(^willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
+@property (nonatomic, readwrite, copy) void (^didSelectBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) void (^accessoryButtonBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) NSString *(^textBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) NSString *(^detailTextBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) UIImage *(^imageBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) UITableViewCellAccessoryType (^accessoryTypeBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) UITableViewCellAccessoryType (^editingAccessoryTypeBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) UITableViewCellStyle (^cellStyleBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) Class (^cellClassBlock)(RCSTableRow *row);
+@property (nonatomic, readwrite, copy) UIColor *(^backgroundColorBlock)(RCSTableRow *row);
 @end
 
 @implementation RCSTableRowDefinition
@@ -18,7 +30,7 @@
 @synthesize key=_key;
 @synthesize list=_list;
 
-@dynamic cellReuseIdentifier;
+@synthesize cellReuseIdentifier=_cellReuseIdentifier;
 
 @synthesize cellNibName=_cellNibName;
 
@@ -42,6 +54,19 @@
 @synthesize viewAccessoryPushConfiguration=_viewAccessoryPushConfiguration;
 @synthesize editAccessoryAction=_editAccessoryAction;
 @synthesize editAccessoryPushConfiguration=_editAccessoryPushConfiguration;	
+
+@synthesize willSelectBlock=_willSelectBlock;
+@synthesize didSelectBlock=_didSelectBlock;
+
+@synthesize accessoryButtonBlock=_accessoryButtonBlock;
+@synthesize textBlock=_textBlock;
+@synthesize detailTextBlock=_detailTextBlock;
+@synthesize imageBlock=_imageBlock;
+@synthesize accessoryTypeBlock=_accessoryTypeBlock;
+@synthesize editingAccessoryTypeBlock=_editingAccessoryTypeBlock;
+@synthesize cellStyleBlock=_cellStyleBlock;
+@synthesize cellClassBlock=_cellClassBlock;
+@synthesize backgroundColorBlock=_backgroundColorBlock;
 
 // FIXME: instead of explicitly setting each property here, make each accessor
 // method lazily pull the value from dictionary_
@@ -74,7 +99,7 @@
 		_accessoryPushConfiguration = [[dictionary_ objectForKey: kTKAccessoryPushConfigurationKey] copy];
 		_editAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKEditAccessoryPushConfigurationKey] copy];
 		_viewAccessoryPushConfiguration = [[dictionary_ objectForKey: kTKViewAccessoryPushConfigurationKey] copy];
-		_becomeFirstResponder = [self boolForKey: kTKBecomeFirstResponderKey withDefault: NO inDictionary: dictionary_];
+		_becomeFirstResponder = [[self class] boolForKey: kTKBecomeFirstResponderKey withDefault: NO inDictionary: dictionary_];
 		_editingStyleAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditingStyleActionKey]);
 		_editingStylePushConfiguration = [[dictionary_ objectForKey: kTKEditingStylePushConfigurationKey] copy];
 		_editAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditActionKey]);
@@ -83,7 +108,7 @@
 		_editAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKEditAccessoryActionKey]);
 		_viewAccessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKViewAccessoryActionKey]);
 		_accessoryAction = NSSelectorFromString([dictionary_ objectForKey: kTKAccessoryActionKey]);
-		_rowHeight = [self floatForKey: kTKRowHeightKey withDefault: -1.0 inDictionary: dictionary_];
+		_rowHeight = [[self class] floatForKey: kTKRowHeightKey withDefault: -1.0 inDictionary: dictionary_];
 	}
 	return self;
 }

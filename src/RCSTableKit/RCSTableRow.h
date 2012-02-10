@@ -7,12 +7,6 @@
 @class RCSTableViewController, RCSTableRowDefinition, RCSTableSectionDefinition, RCSTableSection;
 
 @interface RCSTableRow : NSObject
-{
-	UITableViewCell *_cell;
-	RCSTableRowDefinition *_definition;
-	NSObject *_object;
-	RCSTableSection *_section; // parent
-}
 
 @property (nonatomic, readwrite, assign) UITableViewCell *cell;
 @property (nonatomic, readonly, retain) RCSTableRowDefinition *definition;

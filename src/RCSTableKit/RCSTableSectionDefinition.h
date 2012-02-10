@@ -7,16 +7,6 @@
 @class RCSTable, RCSTableSection;
 
 @interface RCSTableSectionDefinition : RCSBaseDefinition
-{
-	NSDictionary *_dictionary;
-	NSString *_key;
-	NSString *_list;
-	NSArray *_displayRowKeys;
-	NSMutableDictionary *_rowDefinitions;
-	
-	NSString *_staticTitle;
-	NSString *_title;
-}
 
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, retain) NSDictionary *dictionary;

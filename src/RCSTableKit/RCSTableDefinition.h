@@ -7,7 +7,7 @@
 @class RCSTable, RCSTableViewController;
 
 @interface RCSTableDefinition : RCSBaseDefinition
-{
+/*{
 	NSDictionary *_dictionary;
 	NSArray *_displaySectionKeys;
 	NSMutableDictionary *_sectionDefinitions;
@@ -17,7 +17,7 @@
 	NSString *_nibBundleName;
 	NSBundle *_nibBundle;
 	NSString *_controllerClassName;
-}
+}*/
 
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, copy) NSDictionary *dictionary;

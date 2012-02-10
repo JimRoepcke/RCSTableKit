@@ -33,7 +33,13 @@ NSString * const kTKESCKeyboardTypePhonePadKey = @"phonePad";
 NSString * const kTKESCKeyboardTypeNamePhonePadKey = @"namePhonePad";
 NSString * const kTKESCKeyboardTypeEmailAddressKey = @"emailAddress";
 
+@interface RCSEditStringCell ()
+@property (nonatomic, readwrite, retain) UITextField *editStringTextField;
+@end
+
 @implementation RCSEditStringCell
+
+@synthesize editStringTextField=_editStringTextField;
 
 - (id) initWithStyle: (UITableViewCellStyle)style reuseIdentifier: (NSString *)reuseIdentifier
 {
