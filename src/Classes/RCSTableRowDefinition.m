@@ -74,7 +74,7 @@
 				   forKey: (NSString *)key_
 {
 	if (self = [super init]) {
-		_dictionary = [dictionary_ retain];
+		_dictionary = dictionary_;
 		_key = [key_ copy];
 		_list = [[dictionary_ objectForKey: kTKListKey] copy];
 
@@ -115,32 +115,19 @@
 
 - (void) dealloc
 {
-	[_willSelectBlock release]; _willSelectBlock = nil;
-	[_didSelectBlock release]; _didSelectBlock = nil;
-	[_accessoryButtonBlock release]; _accessoryButtonBlock = nil;
-	[_textBlock release]; _textBlock = nil;
-	[_detailTextBlock release]; _detailTextBlock = nil;
-	[_imageBlock release]; _imageBlock = nil;
-	[_accessoryTypeBlock release]; _accessoryTypeBlock = nil;
-	[_editingAccessoryTypeBlock release]; _editingAccessoryTypeBlock = nil;
-	[_cellStyleBlock release]; _cellStyleBlock = nil;
-	[_cellClassBlock release]; _cellClassBlock = nil;
-	[_backgroundColorBlock release]; _backgroundColorBlock = nil;
+	 _willSelectBlock = nil;
+	 _didSelectBlock = nil;
+	 _accessoryButtonBlock = nil;
+	 _textBlock = nil;
+	 _detailTextBlock = nil;
+	 _imageBlock = nil;
+	 _accessoryTypeBlock = nil;
+	 _editingAccessoryTypeBlock = nil;
+	 _cellStyleBlock = nil;
+	 _cellClassBlock = nil;
+	 _backgroundColorBlock = nil;
 
-	[_dictionary release]; _dictionary = nil;
-	[_key release]; _key = nil;
-	[_list release]; _list = nil;
 	
-	[_cellReuseIdentifier release]; _cellReuseIdentifier = nil;
-	[_cellNibName release]; _cellNibName = nil;
-	[_editingStylePushConfiguration release]; _editingStylePushConfiguration = nil;
-	[_pushConfiguration release]; _pushConfiguration = nil;
-	[_viewPushConfiguration release]; _viewPushConfiguration = nil;
-	[_editPushConfiguration release]; _editPushConfiguration = nil;
-	[_accessoryPushConfiguration release]; _accessoryPushConfiguration = nil;
-	[_viewAccessoryPushConfiguration release]; _viewAccessoryPushConfiguration = nil;
-	[_editAccessoryPushConfiguration release]; _editAccessoryPushConfiguration = nil;
-	[super dealloc];
 }
 
 - (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller
@@ -189,10 +176,9 @@
 										   withRootObject: rowObject
 											   forSection: section];
 			[result addObject: row];
-			[row release];
 		}
 	}
-	return [result autorelease];
+	return result;
 }
 
 - (NSString *) cellReuseIdentifier
@@ -201,7 +187,7 @@
 		_cellReuseIdentifier = [[NSString alloc] initWithFormat: @"%d",
 								(int)_dictionary];
 	}
-	return [[_cellReuseIdentifier retain] autorelease];
+	return _cellReuseIdentifier;
 }
 
 - (Class) cellClass: (RCSTableRow *)aRow

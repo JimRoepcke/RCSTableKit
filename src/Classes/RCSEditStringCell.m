@@ -34,7 +34,7 @@ NSString * const kTKESCKeyboardTypeNamePhonePadKey = @"namePhonePad";
 NSString * const kTKESCKeyboardTypeEmailAddressKey = @"emailAddress";
 
 @interface RCSEditStringCell ()
-@property (nonatomic, readwrite, retain) UITextField *editStringTextField;
+@property (nonatomic, readwrite, strong) UITextField *editStringTextField;
 @end
 
 @implementation RCSEditStringCell
@@ -60,8 +60,6 @@ NSString * const kTKESCKeyboardTypeEmailAddressKey = @"emailAddress";
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[_editStringTextField setDelegate: nil];
-	[_editStringTextField release]; _editStringTextField = nil;
-    [super dealloc];
 }
 
 - (void) layoutSubviews

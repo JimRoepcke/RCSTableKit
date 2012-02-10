@@ -23,18 +23,13 @@
 			   forSection: (RCSTableSection *)section_
 {
 	if (self = [super init]) {
-		_definition = [definition_ retain];
+		_definition = definition_;
 		_object = object_;
 		_section = section_;
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_definition release]; _definition = nil;
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark Public API
@@ -62,8 +57,8 @@
 												 options: nil];
 		cell = [a objectAtIndex: 0];
 	} else {
-		cell = [[[[self cellClass] alloc] initWithStyle: [self cellStyle]
-                                        reuseIdentifier: [self cellReuseIdentifier]] autorelease];
+		cell = [[[self cellClass] alloc] initWithStyle: [self cellStyle]
+                                        reuseIdentifier: [self cellReuseIdentifier]];
 	}
 	
 	return cell;

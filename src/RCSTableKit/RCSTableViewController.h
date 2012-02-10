@@ -8,10 +8,10 @@
 
 @interface RCSTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, retain) NSObject *rootObject;
-@property (nonatomic, retain) RCSTableDefinition *tableDefinition;
-@property (nonatomic, readonly, retain) RCSTable *table;
-@property (nonatomic, retain) IBOutlet  UITableView *tableView;
+@property (nonatomic, strong) NSObject *rootObject;
+@property (nonatomic, strong) RCSTableDefinition *tableDefinition;
+@property (nonatomic, readonly, strong) RCSTable *table;
+@property (nonatomic, strong) IBOutlet  UITableView *tableView;
 
 - (void) reloadData;
 

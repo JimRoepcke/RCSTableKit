@@ -10,7 +10,7 @@
 @interface RCSTableRowDefinition : RCSBaseDefinition {}
 
 // the source dictionary that generated this definition
-@property (nonatomic, readonly, retain) NSDictionary *dictionary;
+@property (nonatomic, readonly, strong) NSDictionary *dictionary;
 
 // The name (key) of this definition, referenced by displayRowKeys
 @property (nonatomic, readonly, copy) NSString *key;
@@ -19,7 +19,7 @@
 // if nil, there is only one row with this definition and its rootObject is the view controller.
 @property (nonatomic, readonly, copy) NSString *list;
 
-@property (nonatomic, readonly, retain) NSString *cellReuseIdentifier;
+@property (nonatomic, readonly, strong) NSString *cellReuseIdentifier;
 
 @property (nonatomic, copy) NSString *cellNibName;
 

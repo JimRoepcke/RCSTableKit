@@ -10,8 +10,7 @@
 
 - (void) dealloc
 {
-	[_row release]; _row = nil;
-    [super dealloc];
+	 _row = nil;
 }
 
 - (BOOL) supportsText { return YES; }
@@ -32,8 +31,6 @@
 {
 	if (_row != newRow) {
 		[self willChangeValueForKey: kTKRowKey];
-		[newRow retain];
-		[_row release];
 		_row = newRow;
 		[self didChangeValueForKey: kTKRowKey];
 		[_row setCell: nil];

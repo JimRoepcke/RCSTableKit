@@ -10,7 +10,7 @@
 - (void) configureTitle;
 - (void) reloadData;
 @property (nonatomic, readwrite, retain) RCSTable *table;
-@property (nonatomic, readwrite, retain) UIImageView *tableHeaderImageView;
+@property (nonatomic, readwrite, strong) UIImageView *tableHeaderImageView;
 @end
 
 @implementation RCSTableViewController
@@ -24,17 +24,10 @@
 
 - (void) dealloc
 {
-	[_tableHeaderImageView release]; _tableHeaderImageView = nil;
-	[_tableHeaderImagePath release]; _tableHeaderImagePath = nil;
 	[_tableView setDelegate: nil];
 	[_tableView setDataSource: nil];
-	[_tableView release]; _tableView = nil;
 
-	[_rootObject release]; _rootObject = nil;
-	[_table release]; _table = nil;
-	[_tableDefinition release]; _tableDefinition = nil;
 	
-    [super dealloc];
 }
 
 #pragma mark -
@@ -126,7 +119,6 @@
 				UIImageView *imageView = [[UIImageView alloc] initWithImage: image];
 				[[self tableView]  setTableHeaderView: imageView];
 				[self setTableHeaderImageView: imageView];
-				[imageView release];
 			}
 		}
 	}
@@ -215,7 +207,7 @@
 
 - (NSObject *) rootObject
 {
-	return _rootObject ? [[_rootObject retain] autorelease] : [[self retain] autorelease];
+	return _rootObject ? _rootObject : self;
 }
 
 - (void) reloadData
@@ -226,7 +218,6 @@
 											   withRootObject: [self rootObject]
 											forViewController: self];
 	[self setTable: newTable];
-	[newTable release];
 	[[self tableView] reloadData];
 	[self configureTableHeaderImagePath];
 	[self didReloadData];

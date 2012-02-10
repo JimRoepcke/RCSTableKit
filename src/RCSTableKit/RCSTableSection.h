@@ -8,10 +8,10 @@
 
 @interface RCSTableSection : NSObject
 
-@property (nonatomic, readonly, retain) RCSTableSectionDefinition *definition;
-@property (nonatomic, readonly, assign) NSObject *object;
-@property (nonatomic, readonly, retain) NSMutableArray *rows;
-@property (nonatomic, readonly, assign) RCSTable *table; // parent
+@property (nonatomic, readonly, strong) RCSTableSectionDefinition *definition;
+@property (nonatomic, readonly, unsafe_unretained) NSObject *object;
+@property (nonatomic, readonly, strong) NSMutableArray *rows;
+@property (nonatomic, readonly, unsafe_unretained) RCSTable *table; // parent
 
 - (id) initUsingDefintion: (RCSTableSectionDefinition *)definition_
 		   withRootObject: (NSObject *)object_

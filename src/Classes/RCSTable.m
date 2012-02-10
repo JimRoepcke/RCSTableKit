@@ -23,19 +23,14 @@
 		forViewController: (RCSTableViewController *)controller_
 {
 	if (self = [super init]) {
-		_definition = [definition_ retain];
+		_definition = definition_;
 		_object = object_;
 		_controller = controller_;
-		_sections = [[definition_ sectionsForTable: self] retain];
+		_sections = [definition_ sectionsForTable: self];
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[_definition release]; _definition = nil;
-	[_sections release]; _sections = nil;
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark Public API

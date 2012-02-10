@@ -9,7 +9,7 @@
 @interface RCSTableSectionDefinition : RCSBaseDefinition
 
 // the source dictionary that generated this definition
-@property (nonatomic, readonly, retain) NSDictionary *dictionary;
+@property (nonatomic, readonly, strong) NSDictionary *dictionary;
 
 // The name (key) of this definition, referenced displaySectionKeys
 @property (nonatomic, readonly, copy) NSString *key;
@@ -19,10 +19,10 @@
 @property (nonatomic, readonly, copy) NSString *list;
 
 // list of row definitions to display, in the order they should appear
-@property (nonatomic, readonly, retain) NSArray *displayRowKeys;
+@property (nonatomic, readonly, strong) NSArray *displayRowKeys;
 
 // dictionary of definitions for the rows in sections with this definition
-@property (nonatomic, readonly, retain) NSMutableDictionary *rowDefinitions;
+@property (nonatomic, readonly, strong) NSMutableDictionary *rowDefinitions;
 
 @property (nonatomic, copy) NSString *staticTitle;
 @property (nonatomic, copy) NSString *title;

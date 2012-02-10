@@ -23,17 +23,17 @@
 @property (nonatomic, readonly, copy) NSDictionary *dictionary;
 
 // list of section definitions to display, in the order they should appear
-@property (nonatomic, readonly, retain) NSArray *displaySectionKeys;
+@property (nonatomic, readonly, strong) NSArray *displaySectionKeys;
 
 // dictionary of definitions for the sections in tables with this definition
-@property (nonatomic, readonly, retain) NSMutableDictionary *sectionDefinitions;
+@property (nonatomic, readonly, strong) NSMutableDictionary *sectionDefinitions;
 
 @property (nonatomic, copy) NSString *tableHeaderImagePath;
 @property (nonatomic, assign) SEL tableHeaderImagePathSelector;
 
 @property (nonatomic, readonly, copy) NSString *nibName;
 @property (nonatomic, readonly, copy) NSString *nibBundleName;
-@property (nonatomic, readonly, retain) NSBundle *nibBundle;
+@property (nonatomic, readonly, strong) NSBundle *nibBundle;
 @property (nonatomic, readonly, copy) NSString *controllerClassName;
 
 + (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle;

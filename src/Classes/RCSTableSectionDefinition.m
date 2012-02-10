@@ -28,32 +28,21 @@
 				   forKey: (NSString *)key_
 {
 	if (self = [super init]) {
-		_dictionary = [dictionary_ retain];
+		_dictionary = dictionary_;
 		_key = [key_ copy];
 		_list = [[[dictionary_ objectForKey: kTKListKey] description] copy];
-		_displayRowKeys = [[dictionary_ objectForKey: kTKDisplayRowKeys] retain];
+		_displayRowKeys = [dictionary_ objectForKey: kTKDisplayRowKeys];
 		if (_displayRowKeys == nil) {
 			// TODO: use all rows? in what order? alphabetical? throw an exception?
 			_displayRowKeys = [[NSArray alloc] init];
 		}
 		_staticTitle = [[[dictionary_ objectForKey: kTKStaticTitleKey] description] copy];
 		_title = [[[dictionary_ objectForKey: kTKTitleKey] description] copy];
-		_rowDefinitions = [[self _buildRowDefinitions] retain];
+		_rowDefinitions = [self _buildRowDefinitions];
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_dictionary release]; _dictionary = nil;
-	[_key release]; _key = nil;
-	[_list release]; _list = nil;
-	[_displayRowKeys release]; _displayRowKeys = nil;
-	[_rowDefinitions release]; _rowDefinitions = nil;
-	[_staticTitle release]; _staticTitle = nil;
-	[_title release]; _title = nil;
-	[super dealloc];
-}
 
 - (NSMutableDictionary *) _buildRowDefinitions
 {
@@ -64,10 +53,9 @@
 		[rowsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
 			RCSTableRowDefinition *def = [[RCSTableRowDefinition alloc] initWithDictionary: obj forKey: key];
 			[result setObject: def forKey: key];
-			[def release];
 		}];
 	}
-	return [result autorelease];
+	return result;
 }
 
 - (NSArray *) objectsForSectionsInTable: (RCSTable *)table
@@ -104,11 +92,10 @@
 												   withRootObject: sectionObject
 														 forTable: table];
 			[result addObject: section];
-			[section release];
 		}
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 // called by RCSTableSection's designated initializer
@@ -122,7 +109,7 @@
 		rowDef = [_rowDefinitions objectForKey: rowKey];
 		[result addObjectsFromArray: [rowDef rowsForSection: section]];
 	}
-	return [result autorelease];
+	return result;
 }
 
 @end

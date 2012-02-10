@@ -23,20 +23,14 @@
 				 forTable: (RCSTable *)table_
 {
 	if (self = [super init]) {
-		_definition = [definition_ retain];
+		_definition = definition_;
 		_object = object_;
 		_table = table_;
-		_rows = [[definition_ rowsForSection: self] retain];
+		_rows = [definition_ rowsForSection: self];
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_definition release]; _definition = nil;
-	[_rows release]; _rows = nil;
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark Public API

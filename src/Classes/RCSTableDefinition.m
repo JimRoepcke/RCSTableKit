@@ -33,30 +33,18 @@
 		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] copy];
 		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] copy];
 		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassNameKey] copy];
-		_displaySectionKeys = [[dictionary_ objectForKey: kTKDisplaySectionKeysKey] retain];
+		_displaySectionKeys = [dictionary_ objectForKey: kTKDisplaySectionKeysKey];
 		if (_displaySectionKeys == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
 			_displaySectionKeys = [[NSArray alloc] init];
 		}
-		_sectionDefinitions = [[self _buildSectionDefinitions] retain];
+		_sectionDefinitions = [self _buildSectionDefinitions];
 		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] copy];
 		_tableHeaderImagePathSelector = NSSelectorFromString([dictionary_ objectForKey: kTKTableHeaderImagePathSelector]);
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_dictionary release]; _dictionary = nil;
-	[_nibName release]; _nibName = nil;
-	[_nibBundleName release]; _nibBundleName = nil;
-	[_nibBundle release]; _nibBundle = nil;
-	[_controllerClassName release]; _controllerClassName = nil;
-	[_displaySectionKeys release]; _displaySectionKeys = nil;
-	[_sectionDefinitions release]; _sectionDefinitions = nil;
-	[_tableHeaderImagePath release]; _tableHeaderImagePath = nil;
-	[super dealloc];
-}
 
 + (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle
 {
@@ -69,7 +57,7 @@
 			result = [[RCSTableDefinition alloc] initWithDictionary: dict];
 		}
 	}
-	return [result autorelease];
+	return result;
 }
 
 - (NSBundle *) nibBundle
@@ -78,10 +66,10 @@
 		NSString *nibBundleName = [self nibBundleName];
 		if ([nibBundleName length]) {
 			NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nibBundleName];
-			_nibBundle = [[NSBundle bundleWithPath: path] retain];
+			_nibBundle = [NSBundle bundleWithPath: path];
 		}
 	}
-	return [[_nibBundle retain] autorelease];
+	return _nibBundle;
 }
 
 - (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
@@ -95,7 +83,7 @@
 		[c setRootObject: object];
 		[c setTableDefinition: self];
 	}
-	return [c autorelease];
+	return c;
 }
 
 - (NSMutableDictionary *) _buildSectionDefinitions
@@ -107,10 +95,9 @@
 		[sectionsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
 			RCSTableSectionDefinition *def = [[RCSTableSectionDefinition alloc] initWithDictionary: obj forKey: key];
 			[result setObject: def forKey: key];
-			[def release];
 		}];
 	}
-	return [result autorelease];
+	return result;
 }
 
 #pragma mark -
@@ -133,7 +120,7 @@
 		secDef = [_sectionDefinitions objectForKey: sectionKey];
 		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}
-	return [result autorelease];
+	return result;
 }
 
 - (NSString *) title: (RCSTable *)aTable
