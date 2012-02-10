@@ -9,7 +9,7 @@
 - (void) configureEditButton;
 - (void) configureTitle;
 - (void) reloadData;
-@property (nonatomic, readwrite, retain) RCSTable *table;
+@property (nonatomic, readwrite, strong) RCSTable *table;
 @property (nonatomic, readwrite, strong) UIImageView *tableHeaderImageView;
 @end
 

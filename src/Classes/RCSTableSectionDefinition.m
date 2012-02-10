@@ -5,11 +5,11 @@
 //
 
 @interface RCSTableSectionDefinition ()
-@property (nonatomic, readwrite, retain) NSDictionary *dictionary;
+@property (nonatomic, readwrite, strong) NSDictionary *dictionary;
 @property (nonatomic, readwrite, copy) NSString *key;
 @property (nonatomic, readwrite, copy) NSString *list;
-@property (nonatomic, readwrite, retain) NSArray *displayRowKeys;
-@property (nonatomic, readwrite, retain) NSMutableDictionary *rowDefinitions;
+@property (nonatomic, readwrite, strong) NSArray *displayRowKeys;
+@property (nonatomic, readwrite, strong) NSMutableDictionary *rowDefinitions;
 - (NSMutableDictionary *) _buildRowDefinitions;
 @end
 

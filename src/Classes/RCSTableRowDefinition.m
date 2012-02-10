@@ -7,7 +7,7 @@
 #import "RCSTableViewController.h"
 
 @interface RCSTableRowDefinition ()
-@property (nonatomic, readwrite, retain) NSDictionary *dictionary;
+@property (nonatomic, readwrite, strong) NSDictionary *dictionary;
 @property (nonatomic, readwrite, copy) NSString *key;
 @property (nonatomic, readwrite, copy) NSString *list;
 
@@ -208,7 +208,10 @@
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellSelectorKey]);
 				if (sel) _cellClassBlock = [^(RCSTableRow *r) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 					Class c = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic pop
 					return c ? c : [RCSTableViewCell class];
 				} copy];
 				else _cellClassBlock = [^(RCSTableRow *r) { return [RCSTableViewCell class]; } copy];
@@ -222,7 +225,10 @@
 {
 	RCSTableViewController *controller = [aRow controller];
 	if (_editingStyleAction) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		[controller performSelector: _editingStyleAction withObject: aRow];
+#pragma clang diagnostic pop
 		// FIXME: this should happen via a callback, or something, right?
 		// if (_editingStyle == UITableViewCellEditingStyleDelete) {
 		//     something that makes a delete happen goes here
@@ -260,18 +266,27 @@
 - (void) rowDidSelect: (RCSTableRow *)aRow
 {
 	if (_didSelectBlock == nil) {
-		__block __typeof__(self) blockSelf = self;
+		__weak RCSTableRowDefinition *blockSelf = self;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		if (_action) _didSelectBlock = [^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_action withObject: r]; } copy];
+#pragma clang diagnostic pop
 		else {
 			if (_pushConfiguration) _didSelectBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_pushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
 			else {
 				// editing
 				void (^editing)(RCSTableRow *) = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_editAction) editing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_editAction withObject: r]; };
+#pragma clang diagnostic pop
 				else if (_editPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				// not editing (viewing)
 				void (^viewing)(RCSTableRow *) = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_viewAction) viewing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_viewAction withObject: r]; };
+#pragma clang diagnostic pop
 				else if (_viewPushConfiguration) viewing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_viewPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				_didSelectBlock = [^(RCSTableRow *r) {
 					if ([[r controller] isEditing]) {
@@ -289,18 +304,27 @@
 - (void) rowAccessoryButtonTapped: (RCSTableRow *)aRow
 {
 	if (_accessoryButtonBlock == nil) {
-		__block __typeof__(self) blockSelf = self;
+		__weak RCSTableRowDefinition *blockSelf = self;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		if (_accessoryAction) _accessoryButtonBlock = [^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_accessoryAction withObject: r]; } copy];
+#pragma clang diagnostic pop
 		else {
 			if (_accessoryPushConfiguration) _accessoryButtonBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_accessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
 			else {
 				// editing
 				void (^editing)(RCSTableRow *) = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_editAccessoryAction) editing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_editAccessoryAction withObject: r]; };
+#pragma clang diagnostic pop
 				else if (_editAccessoryPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				// not editing (viewing)
 				void (^viewing)(RCSTableRow *) = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_viewAccessoryAction) viewing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_viewAccessoryAction withObject: r]; };
+#pragma clang diagnostic pop
 				else if (_viewAccessoryPushConfiguration) viewing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_viewAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				_accessoryButtonBlock = [^(RCSTableRow *r) {
 					if ([[r controller] isEditing]) {
@@ -322,7 +346,10 @@
 		if (s) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKey: s]; } copy];
 		else {
 			SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKBackgroundColorSelectorKey]);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 			if (sel) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic pop
 			else _backgroundColorBlock = [^(RCSTableRow *r) { return nil; } copy];
 		}
 	}
@@ -339,7 +366,10 @@
 			if (s) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKTextSelectorKey]);
-				if (sel) _textBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                if (sel) _textBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic pop
 				else _textBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
 		}
@@ -357,7 +387,10 @@
 			if (s) _detailTextBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKDetailTextSelectorKey]);
-				if (sel) _detailTextBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                if (sel) _detailTextBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic pop
 				else _detailTextBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
 		}
@@ -378,7 +411,10 @@
 			if (s) _imageBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKImageSelectorKey]);
-				if (sel) _imageBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                if (sel) _imageBlock = [^(RCSTableRow *r) { return [[r controller] performSelector: sel withObject: r]; } copy];
+#pragma clang diagnostic pop
 				else _imageBlock = [^(RCSTableRow *r) { return nil; } copy];
 			}
 		}
@@ -412,7 +448,10 @@
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKEditingAccessoryTypeSelectorKey]);
 				if (sel) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
-					NSNumber *type = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                    NSNumber *type = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic pop
 					return (UITableViewCellAccessoryType)[type intValue];
 				} copy];
 				else _editingAccessoryTypeBlock = [^(RCSTableRow *r) { return nil; } copy];
@@ -449,7 +488,10 @@
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKAccessoryTypeSelectorKey]);
 				if (sel) _accessoryTypeBlock = [^(RCSTableRow *r) {
-					NSNumber *type = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                    NSNumber *type = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic pop
 					return (UITableViewCellAccessoryType)[type intValue];
 				} copy];
 				else _accessoryTypeBlock = [^(RCSTableRow *r) { return nil; } copy];
@@ -486,7 +528,10 @@
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellStyleSelectorKey]);
 				if (sel) _cellStyleBlock = [^(RCSTableRow *r) {
-					NSNumber *type = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                    NSNumber *type = [[r controller] performSelector: sel withObject: r];
+#pragma clang diagnostic pop
 					return (UITableViewCellStyle)[type intValue];
 				} copy];
 				else _cellStyleBlock = [^(RCSTableRow *r) { return nil; } copy];

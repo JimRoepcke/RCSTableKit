@@ -6,8 +6,8 @@
 
 @interface RCSTableDefinition ()
 @property (nonatomic, readwrite, copy) NSDictionary *dictionary;
-@property (nonatomic, readwrite, retain) NSArray *displaySectionKeys;
-@property (nonatomic, readwrite, retain) NSMutableDictionary *sectionDefinitions;
+@property (nonatomic, readwrite, strong) NSArray *displaySectionKeys;
+@property (nonatomic, readwrite, strong) NSMutableDictionary *sectionDefinitions;
 @property (nonatomic, readwrite, copy) NSString *nibName;
 @property (nonatomic, readwrite, copy) NSString *nibBundleName;
 @property (nonatomic, readwrite, copy) NSString *controllerClassName;
@@ -139,8 +139,11 @@
 {
 	NSString *result = nil;
 	if (_tableHeaderImagePathSelector) {
-		result = [[table controller] performSelector: _tableHeaderImagePathSelector
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        result = [[table controller] performSelector: _tableHeaderImagePathSelector
 										  withObject: table];
+#pragma clang diagnostic pop
 	} else if (_tableHeaderImagePath) {
 		result = [[table object] valueForKeyPath: _tableHeaderImagePath];
 	}
