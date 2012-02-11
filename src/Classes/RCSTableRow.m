@@ -49,7 +49,7 @@
 - (UITableViewCell *) createCell
 {
 	NSString *nibName = [_definition cellNibName];
-	UITableViewCell *cell = nil;
+	UITableViewCell *cell;
 	if (nibName) {
 		// FIXME: use UINib instead, perhaps data source holds the UINib instances?
 		NSArray *a = [[NSBundle mainBundle] loadNibNamed: nibName

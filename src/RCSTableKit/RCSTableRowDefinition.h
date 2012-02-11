@@ -4,16 +4,19 @@
 //  See license below.
 //
 
+@class RCSTableSectionDefinition;
 @class RCSTableSection;
 @class RCSTableRow;
 
 @interface RCSTableRowDefinition : RCSBaseDefinition {}
 
+@property (nonatomic, readonly, weak) RCSTableSectionDefinition *parent;
+
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, strong) NSDictionary *dictionary;
 
 // The name (key) of this definition, referenced by displayRowKeys
-@property (nonatomic, readonly, copy) NSString *key;
+@property (nonatomic, readonly, copy) NSString *name;
 
 // keyPath returning list of objects to be rootObject for rows with this definition
 // if nil, there is only one row with this definition and its rootObject is the view controller.
@@ -45,9 +48,9 @@
 @property (nonatomic, assign) SEL editAccessoryAction;
 @property (nonatomic, copy) NSString *editAccessoryPushConfiguration;
 
-
-- (id) initWithDictionary: (NSDictionary *)dictionary_
-				   forKey: (NSString *)key_;
+- (id) initWithName: (NSString *)name_
+         dictionary: (NSDictionary *)dictionary_
+             parent: (RCSTableSectionDefinition *)sectionDefinition_;
 
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section;
 

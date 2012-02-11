@@ -8,7 +8,7 @@
 
 @interface RCSTableRowDefinition ()
 @property (nonatomic, readwrite, strong) NSDictionary *dictionary;
-@property (nonatomic, readwrite, copy) NSString *key;
+@property (nonatomic, readwrite, copy) NSString *name;
 @property (nonatomic, readwrite, copy) NSString *list;
 
 @property (nonatomic, readwrite, copy) NSIndexPath *(^willSelectBlock)(RCSTableRow *row, NSIndexPath *input);
@@ -26,8 +26,9 @@
 
 @implementation RCSTableRowDefinition
 
+@synthesize parent=_parent;
 @synthesize dictionary=_dictionary;
-@synthesize key=_key;
+@synthesize name=_name;
 @synthesize list=_list;
 
 @synthesize cellReuseIdentifier=_cellReuseIdentifier;
@@ -70,14 +71,16 @@
 
 // FIXME: instead of explicitly setting each property here, make each accessor
 // method lazily pull the value from dictionary_
-- (id) initWithDictionary: (NSDictionary *)dictionary_
-				   forKey: (NSString *)key_
+- (id) initWithName: (NSString *)name_
+         dictionary: (NSDictionary *)dictionary_
+             parent: (RCSTableSectionDefinition *)parent_
 {
 	if (self = [super init]) {
+		_name = [name_ copy];
 		_dictionary = dictionary_;
-		_key = [key_ copy];
+        _parent = parent_;
 		_list = [[dictionary_ objectForKey: kTKListKey] copy];
-
+        
 		// editingStyle
 		NSString *s;
 		if ((s = [_dictionary objectForKey: kTKEditingStyleKey])) {
@@ -115,26 +118,25 @@
 
 - (void) dealloc
 {
-	 _willSelectBlock = nil;
-	 _didSelectBlock = nil;
-	 _accessoryButtonBlock = nil;
-	 _textBlock = nil;
-	 _detailTextBlock = nil;
-	 _imageBlock = nil;
-	 _accessoryTypeBlock = nil;
-	 _editingAccessoryTypeBlock = nil;
-	 _cellStyleBlock = nil;
-	 _cellClassBlock = nil;
-	 _backgroundColorBlock = nil;
-
-	
+    // don't think these are needed but the ARC refactorer left them
+    // so I'll leave them here for now
+    _willSelectBlock = nil;
+    _didSelectBlock = nil;
+    _accessoryButtonBlock = nil;
+    _textBlock = nil;
+    _detailTextBlock = nil;
+    _imageBlock = nil;
+    _accessoryTypeBlock = nil;
+    _editingAccessoryTypeBlock = nil;
+    _cellStyleBlock = nil;
+    _cellClassBlock = nil;
+    _backgroundColorBlock = nil;
 }
 
 - (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller
 {
 	// FIXME: avoid creating a new RCSTableDefinition here if possible
-	// TODO: support pulling the bundle from the same bundle as the current definition came from
-	RCSTableDefinition *def = [RCSTableDefinition tableDefinitionNamed: name inBundle: nil];
+	RCSTableDefinition *def = [RCSTableDefinition tableDefinitionNamed: name inBundle: [[[self parent] parent] bundle]];
 	UIViewController *vc = [def viewControllerWithRootObject: object == controller ? nil : object];
 	[[controller navigationController] pushViewController: vc animated: YES];
 }
@@ -161,7 +163,7 @@
 	
 	NSArray *objects = [self objectsForRowsInSection: section];
 	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
-	NSPredicate *rowPredicate = nil;
+	NSPredicate *rowPredicate;
 	if ([predicate length] > 0) {
 		rowPredicate = [NSPredicate predicateWithFormat: predicate];
 	}
@@ -275,14 +277,14 @@
 			if (_pushConfiguration) _didSelectBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_pushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
 			else {
 				// editing
-				void (^editing)(RCSTableRow *) = nil;
+				void (^editing)(RCSTableRow *);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_editAction) editing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_editAction withObject: r]; };
 #pragma clang diagnostic pop
 				else if (_editPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				// not editing (viewing)
-				void (^viewing)(RCSTableRow *) = nil;
+				void (^viewing)(RCSTableRow *);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_viewAction) viewing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_viewAction withObject: r]; };
@@ -313,14 +315,14 @@
 			if (_accessoryPushConfiguration) _accessoryButtonBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_accessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
 			else {
 				// editing
-				void (^editing)(RCSTableRow *) = nil;
+				void (^editing)(RCSTableRow *);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_editAccessoryAction) editing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_editAccessoryAction withObject: r]; };
 #pragma clang diagnostic pop
 				else if (_editAccessoryPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				// not editing (viewing)
-				void (^viewing)(RCSTableRow *) = nil;
+				void (^viewing)(RCSTableRow *);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 				if (_viewAccessoryAction) viewing = ^(RCSTableRow *r) { [[r controller] performSelector: blockSelf->_viewAccessoryAction withObject: r]; };

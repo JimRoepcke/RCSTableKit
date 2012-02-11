@@ -17,7 +17,7 @@ extern NSString * const kTKRowKey; // KVO property key
 extern NSString * const kTKNibNameKey;
 extern NSString * const kTKNibBundleNameKey;
 extern NSString * const kTKControllerClassNameKey;
-extern NSString * const kTKDisplaySectionKeysKey;
+extern NSString * const kTKDisplaySectionNamesKey;
 extern NSString * const kTKTableHeaderImagePath;
 extern NSString * const kTKTableHeaderImagePathSelector;
 extern NSString * const kTKSectionsKey;
@@ -27,7 +27,7 @@ extern NSString * const kTKStaticTitleKey;
 extern NSString * const kTKTitleKey;
 
 // table section definition
-extern NSString * const kTKDisplayRowKeys;
+extern NSString * const kTKDisplayRowNamesKey;
 extern NSString * const kTKRowsKey;
 
 // table section definition and table row definition

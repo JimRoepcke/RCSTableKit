@@ -10,7 +10,7 @@
 
 - (void) dealloc
 {
-	 _row = nil;
+	 _row = nil; // left by the ARC refactoring, leaving for now i guess
 }
 
 - (BOOL) supportsText { return YES; }

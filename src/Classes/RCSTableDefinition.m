@@ -6,7 +6,7 @@
 
 @interface RCSTableDefinition ()
 @property (nonatomic, readwrite, copy) NSDictionary *dictionary;
-@property (nonatomic, readwrite, strong) NSArray *displaySectionKeys;
+@property (nonatomic, readwrite, strong) NSArray *displaySectionNames;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *sectionDefinitions;
 @property (nonatomic, readwrite, copy) NSString *nibName;
 @property (nonatomic, readwrite, copy) NSString *nibBundleName;
@@ -16,8 +16,10 @@
 
 @implementation RCSTableDefinition
 
+@synthesize name=_name;
+@synthesize bundle=_bundle;
 @synthesize dictionary=_dictionary;
-@synthesize displaySectionKeys=_displaySectionKeys;
+@synthesize displaySectionNames=_displaySectionNames;
 @synthesize sectionDefinitions=_sectionDefinitions;
 @synthesize tableHeaderImagePath=_tableHeaderImagePath;
 @synthesize tableHeaderImagePathSelector=_tableHeaderImagePathSelector;
@@ -26,17 +28,21 @@
 @synthesize nibBundle=_nibBundle;
 @synthesize controllerClassName=_controllerClassName;
 
-- (id) initWithDictionary: (NSDictionary *)dictionary_
+- (id) initWithName: (NSString *)name_
+         dictionary: (NSDictionary *)dictionary_
+             bundle: (NSBundle *)bundle_
 {
 	if (self = [super init]) {
+        _name = [name_ copy];
+        _bundle = bundle_;
 		_dictionary = [dictionary_ copy];
 		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] copy];
 		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] copy];
 		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassNameKey] copy];
-		_displaySectionKeys = [dictionary_ objectForKey: kTKDisplaySectionKeysKey];
-		if (_displaySectionKeys == nil) {
+		_displaySectionNames = [dictionary_ objectForKey: kTKDisplaySectionNamesKey];
+		if (_displaySectionNames == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
-			_displaySectionKeys = [[NSArray alloc] init];
+			_displaySectionNames = [[NSArray alloc] init];
 		}
 		_sectionDefinitions = [self _buildSectionDefinitions];
 		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] copy];
@@ -45,19 +51,37 @@
 	return self;
 }
 
+- (id) initWithName: (NSString *)name_
+         dictionary: (NSDictionary *)dictionary_
+{
+    return [self initWithName: nil dictionary: dictionary_ bundle: nil];
+}
 
+- (id) initWithDictionary: (NSDictionary *)dictionary_
+{
+    return [self initWithName: nil dictionary: dictionary_ bundle: nil];
+}
+
+// TODO: cache named table definitions?
 + (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle
 {
-	RCSTableDefinition *result = nil;
-	NSDictionary *dict = nil;
+	RCSTableDefinition *result;
+	NSDictionary *dict;
 	if (bundle == nil) { bundle = [NSBundle mainBundle]; }
 	if (name) {
 		dict = [NSDictionary dictionaryWithContentsOfFile: [bundle pathForResource: name ofType: @"plist"]];
 		if (dict) {
-			result = [[RCSTableDefinition alloc] initWithDictionary: dict];
+			result = [[RCSTableDefinition alloc] initWithName: name
+                                                   dictionary: dict
+                                                       bundle: bundle];
 		}
 	}
 	return result;
+}
+
++ (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name
+{
+    return [self tableDefinitionNamed: name inBundle: nil];
 }
 
 - (NSBundle *) nibBundle
@@ -74,10 +98,9 @@
 
 - (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
 {
-
 	NSString *name = [self controllerClassName];
 	Class controllerClass = name ? NSClassFromString(name) : [RCSTableViewController class];
-	RCSTableViewController *c = nil;
+	RCSTableViewController *c;
 	if ([controllerClass isSubclassOfClass: [RCSTableViewController class]]) {
 		c = [[controllerClass alloc] initWithNibName: [self nibName] bundle: [self nibBundle]];
 		[c setRootObject: object];
@@ -93,7 +116,7 @@
 	
 	if (sectionsDict) {
 		[sectionsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-			RCSTableSectionDefinition *def = [[RCSTableSectionDefinition alloc] initWithDictionary: obj forKey: key];
+			RCSTableSectionDefinition *def = [[RCSTableSectionDefinition alloc] initWithName: key dictionary: obj parent: self];
 			[result setObject: def forKey: key];
 		}];
 	}
@@ -115,8 +138,8 @@
 {
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
-	RCSTableSectionDefinition *secDef = nil;
-	for (NSString *sectionKey in _displaySectionKeys) {
+	RCSTableSectionDefinition *secDef;
+	for (NSString *sectionKey in _displaySectionNames) {
 		secDef = [_sectionDefinitions objectForKey: sectionKey];
 		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}
@@ -137,7 +160,7 @@
 
 - (NSString *) tableHeaderImagePath: (RCSTable *)table
 {
-	NSString *result = nil;
+	NSString *result;
 	if (_tableHeaderImagePathSelector) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"

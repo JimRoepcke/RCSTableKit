@@ -6,35 +6,38 @@
 
 @interface RCSTableSectionDefinition ()
 @property (nonatomic, readwrite, strong) NSDictionary *dictionary;
-@property (nonatomic, readwrite, copy) NSString *key;
+@property (nonatomic, readwrite, copy) NSString *name;
 @property (nonatomic, readwrite, copy) NSString *list;
-@property (nonatomic, readwrite, strong) NSArray *displayRowKeys;
+@property (nonatomic, readwrite, strong) NSArray *displayRowNames;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *rowDefinitions;
 - (NSMutableDictionary *) _buildRowDefinitions;
 @end
 
 @implementation RCSTableSectionDefinition
 
+@synthesize parent=_parent;
 @synthesize dictionary=_dictionary;
-@synthesize key=_key;
+@synthesize name=_name;
 @synthesize list=_list;
-@synthesize displayRowKeys=_displayRowKeys;
+@synthesize displayRowNames=_displayRowNames;
 @synthesize rowDefinitions=_rowDefinitions;
 
 @synthesize staticTitle=_staticTitle;
 @synthesize title=_title;
 
-- (id) initWithDictionary: (NSDictionary *)dictionary_
-				   forKey: (NSString *)key_
+- (id) initWithName: (NSString *)name_
+         dictionary: (NSDictionary *)dictionary_
+             parent: (RCSTableDefinition *)parent_
 {
 	if (self = [super init]) {
 		_dictionary = dictionary_;
-		_key = [key_ copy];
+		_name = [name_ copy];
+        _parent = parent_;
 		_list = [[[dictionary_ objectForKey: kTKListKey] description] copy];
-		_displayRowKeys = [dictionary_ objectForKey: kTKDisplayRowKeys];
-		if (_displayRowKeys == nil) {
+		_displayRowNames = [dictionary_ objectForKey: kTKDisplayRowNamesKey];
+		if (_displayRowNames == nil) {
 			// TODO: use all rows? in what order? alphabetical? throw an exception?
-			_displayRowKeys = [[NSArray alloc] init];
+			_displayRowNames = [[NSArray alloc] init];
 		}
 		_staticTitle = [[[dictionary_ objectForKey: kTKStaticTitleKey] description] copy];
 		_title = [[[dictionary_ objectForKey: kTKTitleKey] description] copy];
@@ -43,7 +46,6 @@
 	return self;
 }
 
-
 - (NSMutableDictionary *) _buildRowDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
@@ -51,7 +53,7 @@
 	
 	if (rowsDict) {
 		[rowsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-			RCSTableRowDefinition *def = [[RCSTableRowDefinition alloc] initWithDictionary: obj forKey: key];
+			RCSTableRowDefinition *def = [[RCSTableRowDefinition alloc] initWithName: key dictionary: obj parent: self];
 			[result setObject: def forKey: key];
 		}];
 	}
@@ -77,7 +79,7 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	NSArray *objects = [self objectsForSectionsInTable: table];
 	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
-	NSPredicate *sectionPredicate = nil;
+	NSPredicate *sectionPredicate;
 	if ([predicate length] > 0) {
 		sectionPredicate = [NSPredicate predicateWithFormat: predicate];
 	}
@@ -104,8 +106,8 @@
 {
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 
-	RCSTableRowDefinition *rowDef = nil;
-	for (NSString *rowKey in _displayRowKeys) {
+	RCSTableRowDefinition *rowDef;
+	for (NSString *rowKey in _displayRowNames) {
 		rowDef = [_rowDefinitions objectForKey: rowKey];
 		[result addObjectsFromArray: [rowDef rowsForSection: section]];
 	}

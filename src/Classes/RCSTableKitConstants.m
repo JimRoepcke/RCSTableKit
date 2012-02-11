@@ -17,7 +17,7 @@ NSString * const kTKRowKey = @"row"; // KVO property key
 NSString * const kTKNibNameKey = @"nibName";
 NSString * const kTKNibBundleNameKey = @"nibBundleName";
 NSString * const kTKControllerClassNameKey = @"controllerClassName";
-NSString * const kTKDisplaySectionKeysKey = @"displaySectionKeys";
+NSString * const kTKDisplaySectionNamesKey = @"displaySectionNames";
 NSString * const kTKTableHeaderImagePath = @"tableHeaderImagePath";
 NSString * const kTKTableHeaderImagePathSelector = @"tableHeaderImagePathSelector";
 NSString * const kTKSectionsKey = @"sections";
@@ -27,7 +27,7 @@ NSString * const kTKStaticTitleKey = @"staticTitle";
 NSString * const kTKTitleKey = @"title";
 
 // table section definition
-NSString * const kTKDisplayRowKeys = @"displayRowKeys";
+NSString * const kTKDisplayRowNamesKey = @"displayRowNames";
 NSString * const kTKRowsKey = @"rows";
 
 // table section definition and table row definition

@@ -10,7 +10,7 @@
 
 @interface RCSTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) RCSTableRow *row;
+@property (nonatomic, readwrite, strong) RCSTableRow *row;
 
 - (BOOL) supportsText;
 - (BOOL) supportsDetailText;

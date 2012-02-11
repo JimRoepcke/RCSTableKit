@@ -4,22 +4,26 @@
 //  See license below.
 //
 
-@class RCSTable, RCSTableSection;
+@class RCSTableDefinition;
+@class RCSTable;
+@class RCSTableSection;
 
 @interface RCSTableSectionDefinition : RCSBaseDefinition
+
+@property (nonatomic, readonly, weak) RCSTableDefinition *parent;
 
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, strong) NSDictionary *dictionary;
 
-// The name (key) of this definition, referenced displaySectionKeys
-@property (nonatomic, readonly, copy) NSString *key;
+// The name of this definition, referenced displaySectionNames
+@property (nonatomic, readonly, copy) NSString *name;
 
 // keyPath returning list of objects to be rootObject for sections with this definition
 // if nil, there is only one section with this definition and its rootObject is the view controller.
 @property (nonatomic, readonly, copy) NSString *list;
 
 // list of row definitions to display, in the order they should appear
-@property (nonatomic, readonly, strong) NSArray *displayRowKeys;
+@property (nonatomic, readonly, strong) NSArray *displayRowNames;
 
 // dictionary of definitions for the rows in sections with this definition
 @property (nonatomic, readonly, strong) NSMutableDictionary *rowDefinitions;
@@ -27,8 +31,9 @@
 @property (nonatomic, copy) NSString *staticTitle;
 @property (nonatomic, copy) NSString *title;
 
-- (id) initWithDictionary: (NSDictionary *)dictionary_
-				   forKey: (NSString *)key_;
+- (id) initWithName: (NSString *)name_
+         dictionary: (NSDictionary *)dictionary_
+             parent: (RCSTableDefinition *)parent_;
 
 - (NSMutableArray *) sectionsForTable: (RCSTable *)table;
 
