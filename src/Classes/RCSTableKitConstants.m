@@ -14,10 +14,10 @@ NSString * const kTKIsEditableKey = @"isEditable";
 NSString * const kTKRowKey = @"row"; // KVO property key
 
 // table definition
-NSString * const kTKNibNameKey = @"nibName";
-NSString * const kTKNibBundleNameKey = @"nibBundleName";
-NSString * const kTKControllerClassNameKey = @"controllerClassName";
-NSString * const kTKDisplaySectionNamesKey = @"displaySectionNames";
+NSString * const kTKNibKey = @"nib";
+NSString * const kTKNibBundleKey = @"nibBundle";
+NSString * const kTKControllerClassKey = @"controllerClass";
+NSString * const kTKDisplaySectionsKey = @"displaySections";
 NSString * const kTKTableHeaderImagePath = @"tableHeaderImagePath";
 NSString * const kTKTableHeaderImagePathSelector = @"tableHeaderImagePathSelector";
 NSString * const kTKSectionsKey = @"sections";
@@ -27,7 +27,7 @@ NSString * const kTKStaticTitleKey = @"staticTitle";
 NSString * const kTKTitleKey = @"title";
 
 // table section definition
-NSString * const kTKDisplayRowNamesKey = @"displayRowNames";
+NSString * const kTKDisplayRowsKey = @"displayRows";
 NSString * const kTKRowsKey = @"rows";
 
 // table section definition and table row definition
@@ -39,7 +39,7 @@ NSString * const kTKPredicateKey = @"predicate";
 NSString * const kTKStaticCellKey = @"staticCell";
 NSString * const kTKCellKey = @"cell";
 NSString * const kTKCellSelectorKey = @"cellSelector";
-NSString * const kTKCellNibNameKey = @"cellNibName";
+NSString * const kTKCellNibKey = @"cellNib";
 NSString * const kTKEditingStyleKey = @"editingStyle";
 NSString * const kTKEditPushConfigurationKey = @"editPushConfiguration";
 NSString * const kTKViewPushConfigurationKey = @"viewPushConfiguration";
@@ -65,7 +65,7 @@ NSString * const kTKTextSelectorKey = @"textSelector";
 NSString * const kTKStaticDetailTextKey = @"staticDetailText";
 NSString * const kTKDetailTextKey = @"detailText";
 NSString * const kTKDetailTextSelectorKey = @"detailTextSelector";
-NSString * const kTKStaticImageNameKey = @"staticImageName";
+NSString * const kTKStaticImageKey = @"staticImage";
 NSString * const kTKImageKey = @"image";
 NSString * const kTKImageSelectorKey = @"imageSelector";
 NSString * const kTKStaticEditingAccessoryTypeKey = @"staticEditingAccessoryType";

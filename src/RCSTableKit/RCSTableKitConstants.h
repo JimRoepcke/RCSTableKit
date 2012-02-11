@@ -14,10 +14,10 @@ extern NSString * const kTKIsEditableKey;
 extern NSString * const kTKRowKey; // KVO property key
 
 // table definition
-extern NSString * const kTKNibNameKey;
-extern NSString * const kTKNibBundleNameKey;
-extern NSString * const kTKControllerClassNameKey;
-extern NSString * const kTKDisplaySectionNamesKey;
+extern NSString * const kTKNibKey;
+extern NSString * const kTKNibBundleKey;
+extern NSString * const kTKControllerClassKey;
+extern NSString * const kTKDisplaySectionsKey;
 extern NSString * const kTKTableHeaderImagePath;
 extern NSString * const kTKTableHeaderImagePathSelector;
 extern NSString * const kTKSectionsKey;
@@ -27,7 +27,7 @@ extern NSString * const kTKStaticTitleKey;
 extern NSString * const kTKTitleKey;
 
 // table section definition
-extern NSString * const kTKDisplayRowNamesKey;
+extern NSString * const kTKDisplayRowsKey;
 extern NSString * const kTKRowsKey;
 
 // table section definition and table row definition
@@ -39,7 +39,7 @@ extern NSString * const kTKPredicateKey;
 extern NSString * const kTKStaticCellKey;
 extern NSString * const kTKCellKey;
 extern NSString * const kTKCellSelectorKey;
-extern NSString * const kTKCellNibNameKey;
+extern NSString * const kTKCellNibKey;
 extern NSString * const kTKEditingStyleKey;
 extern NSString * const kTKEditPushConfigurationKey;
 extern NSString * const kTKViewPushConfigurationKey;
@@ -65,7 +65,7 @@ extern NSString * const kTKTextSelectorKey;
 extern NSString * const kTKStaticDetailTextKey;
 extern NSString * const kTKDetailTextKey;
 extern NSString * const kTKDetailTextSelectorKey;
-extern NSString * const kTKStaticImageNameKey;
+extern NSString * const kTKStaticImageKey;
 extern NSString * const kTKImageKey;
 extern NSString * const kTKImageSelectorKey;
 extern NSString * const kTKStaticEditingAccessoryTypeKey;

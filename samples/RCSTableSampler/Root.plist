@@ -1,15 +1,15 @@
 {
-	nibName = RCSTableViewPlain;
-	controllerClassName = RootViewController;
+	nib = RCSTableViewPlain;
+	controllerClass = RootViewController;
 	allowsSelection = YES;
 	staticTitle = "RCSTable Sampler";
-	displaySectionNames = (
+	displaySections = (
 		hello,
 		world,
 	);
 	sections = {
 		hello = {
-			displayRowNames = (
+			displayRows = (
 				sub,
 				helloWorld,
 			);
@@ -28,7 +28,7 @@
 			};
 		};
 		world = {
-			displayRowNames = (
+			displayRows = (
 				first,
 				last,
 			);

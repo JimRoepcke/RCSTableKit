@@ -36,10 +36,10 @@
         _name = [name_ copy];
         _bundle = bundle_;
 		_dictionary = [dictionary_ copy];
-		_nibName = [[dictionary_ objectForKey: kTKNibNameKey] copy];
-		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleNameKey] copy];
-		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassNameKey] copy];
-		_displaySectionNames = [dictionary_ objectForKey: kTKDisplaySectionNamesKey];
+		_nibName = [[dictionary_ objectForKey: kTKNibKey] copy];
+		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleKey] copy];
+		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassKey] copy];
+		_displaySectionNames = [dictionary_ objectForKey: kTKDisplaySectionsKey];
 		if (_displaySectionNames == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
 			_displaySectionNames = [[NSArray alloc] init];

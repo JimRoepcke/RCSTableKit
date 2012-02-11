@@ -95,7 +95,7 @@
 			_editingStyle = UITableViewCellEditingStyleNone;
 		}
 		
-		_cellNibName = [[dictionary_ objectForKey: kTKCellNibNameKey] copy];
+		_cellNibName = [[dictionary_ objectForKey: kTKCellNibKey] copy];
 		_editPushConfiguration = [[dictionary_ objectForKey: kTKEditPushConfigurationKey] copy];
 		_viewPushConfiguration = [[dictionary_ objectForKey: kTKViewPushConfigurationKey] copy];
 		_pushConfiguration = [[dictionary_ objectForKey: kTKPushConfigurationKey] copy];
@@ -403,7 +403,7 @@
 - (UIImage *) image: (RCSTableRow *)aRow
 {
 	if (_imageBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticImageNameKey];
+		NSString *s = [_dictionary objectForKey: kTKStaticImageKey];
 		if (s) {
 			UIImage *i = [UIImage imageNamed: s];
 			_imageBlock = [^(RCSTableRow *r) { return i; } copy];

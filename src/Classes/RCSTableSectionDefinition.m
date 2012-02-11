@@ -34,7 +34,7 @@
 		_name = [name_ copy];
         _parent = parent_;
 		_list = [[[dictionary_ objectForKey: kTKListKey] description] copy];
-		_displayRowNames = [dictionary_ objectForKey: kTKDisplayRowNamesKey];
+		_displayRowNames = [dictionary_ objectForKey: kTKDisplayRowsKey];
 		if (_displayRowNames == nil) {
 			// TODO: use all rows? in what order? alphabetical? throw an exception?
 			_displayRowNames = [[NSArray alloc] init];
