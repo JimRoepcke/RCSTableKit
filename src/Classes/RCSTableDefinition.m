@@ -38,7 +38,7 @@
 		_dictionary = [dictionary_ copy];
 		_nibName = [[dictionary_ objectForKey: kTKNibKey] copy];
 		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleKey] copy];
-		_controllerClassName = [[dictionary_ objectForKey: kTKControllerClassKey] copy];
+		_controllerClassName = [[dictionary_ objectForKey: kTKControllerKey] copy];
 		_displaySectionNames = [dictionary_ objectForKey: kTKDisplaySectionsKey];
 		if (_displaySectionNames == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?

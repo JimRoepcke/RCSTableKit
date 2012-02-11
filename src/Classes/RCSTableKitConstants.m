@@ -5,6 +5,10 @@
 //
 
 // view controller
+NSString * const kTKNibKey = @"nib";
+NSString * const kTKNibBundleKey = @"nibBundle";
+NSString * const kTKControllerKey = @"controller";
+
 NSString * const kTKViewWillDisappearNotificationName = @"RCSTableViewControllerViewWillDisappear";
 NSString * const kTKAllowsSelectionDuringEditingKey = @"allowsSelectionDuringEditing";
 NSString * const kTKAllowsSelectionKey = @"allowsSelection";
@@ -14,17 +18,14 @@ NSString * const kTKIsEditableKey = @"isEditable";
 NSString * const kTKRowKey = @"row"; // KVO property key
 
 // table definition
-NSString * const kTKNibKey = @"nib";
-NSString * const kTKNibBundleKey = @"nibBundle";
-NSString * const kTKControllerClassKey = @"controllerClass";
 NSString * const kTKDisplaySectionsKey = @"displaySections";
 NSString * const kTKTableHeaderImagePath = @"tableHeaderImagePath";
 NSString * const kTKTableHeaderImagePathSelector = @"tableHeaderImagePathSelector";
 NSString * const kTKSectionsKey = @"sections";
 
 // table definition and table section definition
-NSString * const kTKStaticTitleKey = @"staticTitle";
-NSString * const kTKTitleKey = @"title";
+NSString * const kTKStaticTitleKey = @"title";
+NSString * const kTKTitleKey = @"title:kvc";
 
 // table section definition
 NSString * const kTKDisplayRowsKey = @"displayRows";
@@ -36,9 +37,9 @@ NSString * const kTKObjectKey = @"object";
 NSString * const kTKPredicateKey = @"predicate";
 
 // table row definition
-NSString * const kTKStaticCellKey = @"staticCell";
-NSString * const kTKCellKey = @"cell";
-NSString * const kTKCellSelectorKey = @"cellSelector";
+NSString * const kTKStaticCellKey = @"cell";
+NSString * const kTKCellKey = @"cell:kvc";
+NSString * const kTKCellSelectorKey = @"cell:sel";
 NSString * const kTKCellNibKey = @"cellNib";
 NSString * const kTKEditingStyleKey = @"editingStyle";
 NSString * const kTKEditPushConfigurationKey = @"editPushConfiguration";
@@ -59,24 +60,24 @@ NSString * const kTKAccessoryActionKey = @"accessoryAction";
 NSString * const kTKRowHeightKey = @"rowHeight";
 NSString * const kTKBackgroundColorKey = @"backgroundColor";
 NSString * const kTKBackgroundColorSelectorKey = @"backgroundColorSelector";
-NSString * const kTKStaticTextKey = @"staticText";
-NSString * const kTKTextKey = @"text";
-NSString * const kTKTextSelectorKey = @"textSelector";
-NSString * const kTKStaticDetailTextKey = @"staticDetailText";
-NSString * const kTKDetailTextKey = @"detailText";
-NSString * const kTKDetailTextSelectorKey = @"detailTextSelector";
-NSString * const kTKStaticImageKey = @"staticImage";
-NSString * const kTKImageKey = @"image";
-NSString * const kTKImageSelectorKey = @"imageSelector";
-NSString * const kTKStaticEditingAccessoryTypeKey = @"staticEditingAccessoryType";
-NSString * const kTKEditingAccessoryTypeKey = @"editingAccessoryType";
-NSString * const kTKEditingAccessoryTypeSelectorKey = @"editingAccessoryTypeSelector";
-NSString * const kTKStaticAccessoryTypeKey = @"staticAccessoryType";
-NSString * const kTKAccessoryTypeKey = @"accessoryType";
-NSString * const kTKAccessoryTypeSelectorKey = @"accessoryTypeSelector";
-NSString * const kTKStaticCellStyleKey = @"staticCellStyle";
-NSString * const kTKCellStyleKey = @"cellStyle";
-NSString * const kTKCellStyleSelectorKey = @"cellStyleSelector";
+NSString * const kTKStaticTextKey = @"text";
+NSString * const kTKTextKey = @"text:kvc";
+NSString * const kTKTextSelectorKey = @"text:sel";
+NSString * const kTKStaticDetailTextKey = @"detailText";
+NSString * const kTKDetailTextKey = @"detailText:kvc";
+NSString * const kTKDetailTextSelectorKey = @"detailText:sel";
+NSString * const kTKStaticImageKey = @"image";
+NSString * const kTKImageKey = @"image:kvc";
+NSString * const kTKImageSelectorKey = @"image:sel";
+NSString * const kTKStaticEditingAccessoryTypeKey = @"editingAccessoryType";
+NSString * const kTKEditingAccessoryTypeKey = @"editingAccessoryType:kvc";
+NSString * const kTKEditingAccessoryTypeSelectorKey = @"editingAccessoryType:sel";
+NSString * const kTKStaticAccessoryTypeKey = @"accessoryType";
+NSString * const kTKAccessoryTypeKey = @"accessoryType:kvc";
+NSString * const kTKAccessoryTypeSelectorKey = @"accessoryType:sel";
+NSString * const kTKStaticCellStyleKey = @"cellStyle";
+NSString * const kTKCellStyleKey = @"cellStyle:kvc";
+NSString * const kTKCellStyleSelectorKey = @"cellStyle:sel";
 
 NSString * const kTKEditingStyleInsertKey = @"insert";
 NSString * const kTKEditingStyleDeleteKey = @"delete";

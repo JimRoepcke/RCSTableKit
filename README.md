@@ -47,21 +47,29 @@ The Most Basic Example
 
 View Controller Options
 -----------------------
+   
+### Optional
 
-- `allowsSelectionDuringEditing` - corresponds to -[UITableView allowsSelectionDuringEditing
+- `nib` - the nib/xib to load for the view of the view controller
+- `nibBundle` - the bundle the loaded nib is found in
+- `controller` - the subclass of RCSTableViewController to use
+
 - `allowsSelection` - corresponds to [UITableView allowsSelection]
+- `allowsSelectionDuringEditing` - corresponds to -[UITableView allowsSelectionDuringEditing
 - `isEditable` - when true, an Edit/Done button is put in the view controller's navigation item's right bar button item.
 
 Table Options
 -------------
 
-- `nibName` - the name of the nib/xib to load for the view of the view controller
-- `nibBundleName` - the bundle the loaded nib is found in
-- `controllerClassName` - 
+### Required
+
+- `displaySections` - 
+- `sections` - 
+
+### Optional
+
 - `tableHeaderImagePath` -
 - `tableHeaderImagePathSelector` -
-- `displaySectionKeys` - 
-- `sections` - 
 
 RCSTableKit in practice
 ----------------------

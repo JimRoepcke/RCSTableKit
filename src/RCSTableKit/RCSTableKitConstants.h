@@ -5,6 +5,10 @@
 //
 
 // view controller
+extern NSString * const kTKNibKey;
+extern NSString * const kTKNibBundleKey;
+extern NSString * const kTKControllerKey;
+
 extern NSString * const kTKViewWillDisappearNotificationName;
 extern NSString * const kTKAllowsSelectionDuringEditingKey;
 extern NSString * const kTKAllowsSelectionKey;
@@ -14,9 +18,6 @@ extern NSString * const kTKIsEditableKey;
 extern NSString * const kTKRowKey; // KVO property key
 
 // table definition
-extern NSString * const kTKNibKey;
-extern NSString * const kTKNibBundleKey;
-extern NSString * const kTKControllerClassKey;
 extern NSString * const kTKDisplaySectionsKey;
 extern NSString * const kTKTableHeaderImagePath;
 extern NSString * const kTKTableHeaderImagePathSelector;
