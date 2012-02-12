@@ -16,7 +16,7 @@
 @property (nonatomic, readonly, copy) NSDictionary *dictionary;
 
 // list of section definitions to display, in the order they should appear
-@property (nonatomic, readonly, strong) NSArray *displaySectionNames;
+@property (nonatomic, readonly, strong) NSArray *displaySections;
 
 // dictionary of definitions for the sections in tables with this definition
 @property (nonatomic, readonly, strong) NSMutableDictionary *sectionDefinitions;

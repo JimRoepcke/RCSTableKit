@@ -8,7 +8,7 @@
 @property (nonatomic, readwrite, strong) NSDictionary *dictionary;
 @property (nonatomic, readwrite, copy) NSString *name;
 @property (nonatomic, readwrite, copy) NSString *list;
-@property (nonatomic, readwrite, strong) NSArray *displayRowNames;
+@property (nonatomic, readwrite, strong) NSArray *displayRows;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *rowDefinitions;
 - (NSMutableDictionary *) _buildRowDefinitions;
 @end
@@ -19,7 +19,7 @@
 @synthesize dictionary=_dictionary;
 @synthesize name=_name;
 @synthesize list=_list;
-@synthesize displayRowNames=_displayRowNames;
+@synthesize displayRows=_displayRows;
 @synthesize rowDefinitions=_rowDefinitions;
 
 @synthesize staticTitle=_staticTitle;
@@ -34,10 +34,10 @@
 		_name = [name_ copy];
         _parent = parent_;
 		_list = [[[dictionary_ objectForKey: kTKListKey] description] copy];
-		_displayRowNames = [dictionary_ objectForKey: kTKDisplayRowsKey];
-		if (_displayRowNames == nil) {
+		_displayRows = [dictionary_ objectForKey: kTKDisplayRowsKey];
+		if (_displayRows == nil) {
 			// TODO: use all rows? in what order? alphabetical? throw an exception?
-			_displayRowNames = [[NSArray alloc] init];
+			_displayRows = [[NSArray alloc] init];
 		}
 		_staticTitle = [[[dictionary_ objectForKey: kTKStaticTitleKey] description] copy];
 		_title = [[[dictionary_ objectForKey: kTKTitleKey] description] copy];
@@ -107,7 +107,7 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 
 	RCSTableRowDefinition *rowDef;
-	for (NSString *rowKey in _displayRowNames) {
+	for (NSString *rowKey in _displayRows) {
 		rowDef = [_rowDefinitions objectForKey: rowKey];
 		[result addObjectsFromArray: [rowDef rowsForSection: section]];
 	}

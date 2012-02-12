@@ -6,7 +6,7 @@
 
 @interface RCSTableDefinition ()
 @property (nonatomic, readwrite, copy) NSDictionary *dictionary;
-@property (nonatomic, readwrite, strong) NSArray *displaySectionNames;
+@property (nonatomic, readwrite, strong) NSArray *displaySections;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *sectionDefinitions;
 @property (nonatomic, readwrite, copy) NSString *nibName;
 @property (nonatomic, readwrite, copy) NSString *nibBundleName;
@@ -19,7 +19,7 @@
 @synthesize name=_name;
 @synthesize bundle=_bundle;
 @synthesize dictionary=_dictionary;
-@synthesize displaySectionNames=_displaySectionNames;
+@synthesize displaySections=_displaySections;
 @synthesize sectionDefinitions=_sectionDefinitions;
 @synthesize tableHeaderImagePath=_tableHeaderImagePath;
 @synthesize tableHeaderImagePathSelector=_tableHeaderImagePathSelector;
@@ -39,10 +39,10 @@
 		_nibName = [[dictionary_ objectForKey: kTKNibKey] copy];
 		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleKey] copy];
 		_controllerClassName = [[dictionary_ objectForKey: kTKControllerKey] copy];
-		_displaySectionNames = [dictionary_ objectForKey: kTKDisplaySectionsKey];
-		if (_displaySectionNames == nil) {
+		_displaySections = [dictionary_ objectForKey: kTKDisplaySectionsKey];
+		if (_displaySections == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
-			_displaySectionNames = [[NSArray alloc] init];
+			_displaySections = [[NSArray alloc] init];
 		}
 		_sectionDefinitions = [self _buildSectionDefinitions];
 		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] copy];
@@ -139,7 +139,7 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	RCSTableSectionDefinition *secDef;
-	for (NSString *sectionKey in _displaySectionNames) {
+	for (NSString *sectionKey in _displaySections) {
 		secDef = [_sectionDefinitions objectForKey: sectionKey];
 		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}

@@ -15,7 +15,7 @@
 // the source dictionary that generated this definition
 @property (nonatomic, readonly, strong) NSDictionary *dictionary;
 
-// The name of this definition, referenced displaySectionNames
+// The name of this definition, referenced displaySections
 @property (nonatomic, readonly, copy) NSString *name;
 
 // keyPath returning list of objects to be rootObject for sections with this definition
@@ -23,7 +23,7 @@
 @property (nonatomic, readonly, copy) NSString *list;
 
 // list of row definitions to display, in the order they should appear
-@property (nonatomic, readonly, strong) NSArray *displayRowNames;
+@property (nonatomic, readonly, strong) NSArray *displayRows;
 
 // dictionary of definitions for the rows in sections with this definition
 @property (nonatomic, readonly, strong) NSMutableDictionary *rowDefinitions;
