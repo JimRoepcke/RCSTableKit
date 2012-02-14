@@ -19,8 +19,8 @@ NSString * const kTKRowKey = @"row"; // KVO property key
 
 // table definition
 NSString * const kTKDisplaySectionsKey = @"displaySections";
-NSString * const kTKTableHeaderImagePath = @"tableHeaderImagePath";
-NSString * const kTKTableHeaderImagePathSelector = @"tableHeaderImagePathSelector";
+NSString * const kTKTableHeaderImagePath = @"tableHeaderImagePath:kvc";
+NSString * const kTKTableHeaderImagePathSelector = @"tableHeaderImagePath:sel";
 NSString * const kTKSectionsKey = @"sections";
 
 // table definition and table section definition
@@ -49,17 +49,17 @@ NSString * const kTKAccessoryPushConfigurationKey = @"accessoryPushConfiguration
 NSString * const kTKEditAccessoryPushConfigurationKey = @"editAccessoryPushConfiguration";
 NSString * const kTKViewAccessoryPushConfigurationKey = @"viewAccessoryPushConfiguration";
 NSString * const kTKBecomeFirstResponderKey = @"becomeFirstResponder";
-NSString * const kTKEditingStyleActionKey = @"editingStyleAction";
+NSString * const kTKEditingStyleActionKey = @"editingStyleAction:sel";
 NSString * const kTKEditingStylePushConfigurationKey = @"editingStylePushConfiguration";
-NSString * const kTKEditActionKey = @"editAction";
-NSString * const kTKViewActionKey = @"viewAction";
-NSString * const kTKActionKey = @"action";
-NSString * const kTKEditAccessoryActionKey = @"editAccessoryAction";
-NSString * const kTKViewAccessoryActionKey = @"viewAccessoryAction";
-NSString * const kTKAccessoryActionKey = @"accessoryAction";
+NSString * const kTKEditActionKey = @"action:edit:sel";
+NSString * const kTKViewActionKey = @"action:view:sel";
+NSString * const kTKActionKey = @"action:sel";
+NSString * const kTKEditAccessoryActionKey = @"accessoryAction:edit:sel";
+NSString * const kTKViewAccessoryActionKey = @"accessoryAction:view:sel";
+NSString * const kTKAccessoryActionKey = @"accessoryAction:sel";
 NSString * const kTKRowHeightKey = @"rowHeight";
 NSString * const kTKBackgroundColorKey = @"backgroundColor";
-NSString * const kTKBackgroundColorSelectorKey = @"backgroundColorSelector";
+NSString * const kTKBackgroundColorSelectorKey = @"backgroundColor:sel";
 NSString * const kTKStaticTextKey = @"text";
 NSString * const kTKTextKey = @"text:kvc";
 NSString * const kTKTextSelectorKey = @"text:sel";
