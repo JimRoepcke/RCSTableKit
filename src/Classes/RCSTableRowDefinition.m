@@ -345,7 +345,7 @@
 {
 	if (_backgroundColorBlock == nil) {
 		NSString *s = [_dictionary objectForKey: kTKBackgroundColorKey];
-		if (s) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKey: s]; } copy];
+		if (s) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 		else {
 			SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKBackgroundColorSelectorKey]);
 #pragma clang diagnostic push
@@ -431,7 +431,7 @@
 		if (s) {
 			if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: s]) {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; } copy];
-			} else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: s]) {
+			} else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: s]) {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; } copy];
 			} else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: s]) {
 				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; } copy];
@@ -443,7 +443,7 @@
 			if (s) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
 				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
-				else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
+				else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
 				else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
 				else { return UITableViewCellAccessoryNone; }
 			} copy];
@@ -471,7 +471,7 @@
 		if (s) {
 			if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: s]) {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; } copy];
-			} else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: s]) {
+			} else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: s]) {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; } copy];
 			} else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: s]) {
 				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; } copy];
@@ -483,7 +483,7 @@
 			if (s) _accessoryTypeBlock = [^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
 				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
-				else if ([kTKAccessoryTypeDetailDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
+				else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
 				else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
 				else { return UITableViewCellAccessoryNone; }
 			} copy];

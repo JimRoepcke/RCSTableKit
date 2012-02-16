@@ -83,7 +83,7 @@ extern NSString * const kTKEditingStyleInsertKey;
 extern NSString * const kTKEditingStyleDeleteKey;
 
 extern NSString * const kTKAccessoryTypeDisclosureIndicatorKey;
-extern NSString * const kTKAccessoryTypeDetailDisclosureIndicatorKey;
+extern NSString * const kTKAccessoryTypeDetailDisclosureButtonKey;
 extern NSString * const kTKAccessoryTypeCheckmarkKey;
 
 extern NSString * const kTKCellStyleValue1Key;

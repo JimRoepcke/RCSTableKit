@@ -80,19 +80,35 @@ Table Definition Reference
 --------------------------
 
 The top-level object in a table definition plist file is a dictionary.
-This dictionary contains the configuration of the table view controller and the table view,
-as well as configuration about each section of the table and each row in each section.
+This dictionary contains the configuration of the table view controller and the
+table view, as well as configuration about each section of the table and each
+row in each section.
+
+The dictionaries that define the view controller, table, sections and rows are
+used to create an `RCSTableViewController` (or subclass), and an
+`RCSTableDefinition`, which has a list of `RCSTableSectionDefinition`s, each of
+which has a list of `RCSTableRowDefinition`s.
+
+Note: You can invent your own keys and access them from your own subclasses of
+`RCSTableViewController` and `RCSTableViewCell`.
 
 ### View Controller Options
+
+RCSTableKit ships with two xib files, RCSTableViewGrouped and
+RCSTableViewPlain. You must specify a nib, but you can specify your own xib.
+Look at the included xibs to see the outlets you need to hook up to remain
+compatible.
 
 #### Required
 
 <!--
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -106,9 +122,11 @@ as well as configuration about each section of the table and each row in each se
 
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -123,9 +141,11 @@ as well as configuration about each section of the table and each row in each se
 
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -146,12 +166,12 @@ as well as configuration about each section of the table and each row in each se
         <tr>
             <td><strong>title</strong></td>
             <td>string</td>
-            <td>this value is pushed to the view controller's navigation item's title.</td>
+            <td>sets the view controller's navigation item's title.</td>
         </tr>
         <tr>
             <td><strong>title:kvc</strong></td>
             <td>key path string</td>
-            <td>value returned is pushed to the view controller's navigation item's title.</td>
+            <td>value returned sets the view controller's navigation item's title.</td>
         </tr>
     </tbody>
 </table>
@@ -162,9 +182,11 @@ as well as configuration about each section of the table and each row in each se
 
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -184,9 +206,11 @@ as well as configuration about each section of the table and each row in each se
 
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -202,12 +226,12 @@ as well as configuration about each section of the table and each row in each se
         <tr>
             <td><strong>tableHeaderImagePath:kvc</strong></td>
             <td>key path string</td>
-            <td></td>
+            <td>deprecated</td>
         </tr>
         <tr>
             <td><strong>tableHeaderImagePathSelector:sel</strong></td>
             <td>selector string</td>
-            <td></td>
+            <td>deprecated</td>
         </tr>
     </tbody>
 </table>
@@ -218,9 +242,11 @@ as well as configuration about each section of the table and each row in each se
 
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -240,9 +266,11 @@ as well as configuration about each section of the table and each row in each se
 
 <table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -275,9 +303,11 @@ None, but if you specify nothing, your cell will be pretty boring!
 
 <table border="1" cellspacing="0" cellpadding="5">
     <thead>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
+        <tr style="background-color: lightgrey">
+            <th>Key</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -311,39 +341,81 @@ None, but if you specify nothing, your cell will be pretty boring!
             <td>returns class of table view cell to use for this row</td>
         </tr>
         <tr>
-            <td><strong>cellStyle</strong></td>
-            <td>value1, value2, or subtitle</td>
-            <td>corresponds to UITableViewCellStyle</td>
-        <tr>
             <td><strong>cellNib</strong></td>
             <td>nib/xib name string</td>
             <td>the nib/xib to load for the table view cell, supercedes <strong>cell</strong></td>
         </tr>
         <tr>
-            <td><strong>editingStyle</strong></td>
-            <td>insert or delete</td>
-            <td>corresponds to -[UITableViewCell editingStyle]</td>
+            <td><strong>cellStyle</strong></td>
+            <td>value1, value2, or subtitle</td>
+            <td>corresponds to UITableViewCellStyle parameter of -[UITableViewCell initWithStyle:reuseIdentifier:], ignored when using cellNib</td>
         </tr>
         <tr>
-            <td><strong>accessoryType</strong></td>
-            <td>disclosureIndicator, detailDisclosureIndicator or checkmark</td>
-            <td>corresponds to -[UITableViewCell accessoryType]</td>
+            <td><strong>becomeFirstResponder</strong></td>
+            <td>boolean</td>
+            <td></td>
         </tr>
         <tr>
-            <td><strong>editingAccessoryType</strong></td>
-            <td>disclosureIndicator, detailDisclosureIndicator or checkmark</td>
-            <td>corresponds to -[UITableViewCell editingAccessoryType]</td>
+            <td><strong>rowHeight</strong></td>
+            <td>number</td>
+            <td></td>
         </tr>
         <tr>
-            <td><strong>editingStyleAction:sel</strong></td>
+            <td><strong>backgroundColor:kvc</strong></td>
+            <td>key path string</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>backgroundColor:sel</strong></td>
             <td>selector string</td>
-            <td>selector to invoke when editing action control is tapped</td>
+            <td></td>
         </tr>
         <tr>
-            <td><strong>editingStylePushConfiguration</strong></td>
-            <td>table definition name string</td>
-            <td>when the editing control is tapped, push a table view controller with this table definition</td>
+            <td><strong>text</strong></td>
+            <td>string</td>
+            <td>corresponds to -[UITableViewCell text]</td>
         </tr>
+        <tr>
+            <td><strong>text:kvc</strong></td>
+            <td>key path string</td>
+            <td>returned value corresponds to -[UITableViewCell text]</td>
+        </tr>
+        <tr>
+            <td><strong>text:sel</strong></td>
+            <td>selector string</td>
+            <td>returned value corresponds to -[UITableViewCell text]</td>
+        </tr>
+        <tr>
+            <td><strong>detailText</strong></td>
+            <td>string</td>
+            <td>corresponds to -[UITableViewCell text]</td>
+        </tr>
+        <tr>
+            <td><strong>detailText:kvc</strong></td>
+            <td>key path string</td>
+            <td>returned value corresponds to -[UITableViewCell detailText]</td>
+        </tr>
+        <tr>
+            <td><strong>detailText:sel</strong></td>
+            <td>selector string</td>
+            <td>returned value corresponds to -[UITableViewCell detailText]</td>
+        </tr>
+        <tr>
+            <td><strong>image</strong></td>
+            <td>image name string</td>
+            <td>-[UITableViewCell image] is set to a UIImage using -[UIImage imageNamed:]</td>
+        </tr>
+        <tr>
+            <td><strong>image:kvc</strong></td>
+            <td>key path string</td>
+            <td>-[UITableViewCell image] is set to a UIImage using -[UIImage imageNamed:]</td>
+        </tr>
+        <tr>
+            <td><strong>image:sel</strong></td>
+            <td>selector string</td>
+            <td>-[UITableViewCell image] is set to a UIImage using -[UIImage imageNamed:]</td>
+        </tr>
+        <tr style="background-color: lightgrey"><td colspan="3"><strong>Responding to row selection</strong></td></tr>
         <tr>
             <td><strong>action:sel</strong></td>
             <td>selector string</td>
@@ -365,14 +437,111 @@ None, but if you specify nothing, your cell will be pretty boring!
             <td>when the row is selected, push a table view controller with this table definition</td>
         </tr>
         <tr>
-            <td><strong>viewPushConfiguration</strong></td>
+            <td><strong>pushConfiguration:view</strong></td>
             <td>table definition name string</td>
             <td>when the row is selected out of edit mode, push a table view controller with this table definition (if table isn't editable, just use pushConfiguration)</td>
         </tr>
         <tr>
-            <td><strong>editPushConfiguration</strong></td>
+            <td><strong>pushConfiguration:edit</strong></td>
             <td>table definition name string</td>
             <td>when the row is selected in edit mode, push a table view controller with this table definition</td>
+        </tr>
+        <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Accessories and responding to accessory interaction</strong></td></tr>
+        <tr>
+            <td><strong>accessoryType</strong></td>
+            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
+            <td>corresponds to -[UITableViewCell accessoryType]</td>
+        </tr>
+        <tr>
+            <td><strong>accessoryType:kvc</strong></td>
+            <td>key path string</td>
+            <td>returns "disclosureIndicator", "detailDisclosureButton" or "checkmark". corresponds to -[UITableViewCell accessoryType]</td>
+        </tr>
+        <tr>
+            <td><strong>accessoryType:sel</strong></td>
+            <td>selector string</td>
+            <td>returns an NSNumber wrapping UITableViewAccessoryDisclosureIndicator, UITableViewAccessoryDetailDisclosureButton or UITableViewAccessoryCheckmark. Corresponds to -[UITableViewCell accessoryType]</td>
+        </tr>
+        <tr>
+            <td><strong>editingAccessoryType</strong></td>
+            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
+            <td>corresponds to -[UITableViewCell editingAccessoryType]</td>
+        </tr>
+        <tr>
+            <td><strong>editingAccessoryType:kvc</strong></td>
+            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
+            <td>returns "disclosureIndicator", "detailDisclosureButton" or "checkmark". corresponds to -[UITableViewCell editingAccessoryType]</td>
+        </tr>
+        <tr>
+            <td><strong>editingAccessoryType:sel</strong></td>
+            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
+            <td>returns an NSNumber wrapping UITableViewAccessoryDisclosureIndicator, UITableViewAccessoryDetailDisclosureButton or UITableViewAccessoryCheckmark. Corresponds to -[UITableViewCell editingAccessoryType]</td>
+        </tr>
+        <tr>
+            <td><strong>accessoryPushConfiguration</strong></td>
+            <td>table definition name string</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>accessoryPushConfiguration:view</strong></td>
+            <td>table definition name string</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>accessoryPushConfiguration:edit</strong></td>
+            <td>table definition name string</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>accessoryAction:sel</strong></td>
+            <td>selector string</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>accessoryAction:view:sel</strong></td>
+            <td>selector string</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>accessoryAction:edit:sel</strong></td>
+            <td>selector string</td>
+            <td></td>
+        </tr>
+        <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Editing Style and responding to editingStyle interaction</strong></td></tr>
+        <tr>
+            <td><strong>editingStyle</strong></td>
+            <td>insert or delete</td>
+            <td>corresponds to -[UITableViewCell editingStyle]</td>
+        </tr>
+        <tr>
+            <td><strong>editingStyleAction:sel</strong></td>
+            <td>selector string</td>
+            <td>selector to invoke when editing action control is tapped</td>
+        </tr>
+        <tr>
+            <td><strong>editingStylePushConfiguration</strong></td>
+            <td>table definition name string</td>
+            <td>when the editing control is tapped, push a table view controller with this table definition</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
             <td></td>
@@ -390,6 +559,7 @@ None, but if you specify nothing, your cell will be pretty boring!
 RCSTableKit in practice
 ----------------------
 
+![RCSTableKit class relationships](RCSTableKit.png "Class Relationships")
 
 Links
 -----
