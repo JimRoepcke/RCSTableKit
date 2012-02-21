@@ -301,7 +301,7 @@ None, but if you specify nothing, your cell will be pretty boring!
 
 #### Optional
 
-<table border="1" cellspacing="0" cellpadding="5">
+<table border="1" cellspacing="0" cellpadding="5" width="100%">
     <thead>
         <tr style="background-color: lightgrey">
             <th>Key</th>
@@ -446,7 +446,7 @@ None, but if you specify nothing, your cell will be pretty boring!
             <td>table definition name string</td>
             <td>when the row is selected in edit mode, push a table view controller with this table definition</td>
         </tr>
-        <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Accessories and responding to accessory interaction</strong></td></tr>
+        <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Accessories and responding to accessory button tapping</strong></td></tr>
         <tr>
             <td><strong>accessoryType</strong></td>
             <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
@@ -507,7 +507,7 @@ None, but if you specify nothing, your cell will be pretty boring!
             <td>selector string</td>
             <td></td>
         </tr>
-        <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Editing Style and responding to editingStyle interaction</strong></td></tr>
+        <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Editing Style and responding to editingStyle button tapping</strong></td></tr>
         <tr>
             <td><strong>editingStyle</strong></td>
             <td>insert or delete</td>
