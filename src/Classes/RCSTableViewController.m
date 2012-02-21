@@ -210,13 +210,18 @@
 	return _rootObject ? _rootObject : self;
 }
 
+- (Class) tableClass
+{
+    return [RCSTable class];
+}
+
 - (void) reloadData
 {
 	[self willReloadData];
 	[self setTable: nil];
-	RCSTable *newTable = [[RCSTable alloc] initUsingDefintion: [self tableDefinition]
-											   withRootObject: [self rootObject]
-											forViewController: self];
+	RCSTable *newTable = [(RCSTable *)[[self tableClass] alloc] initUsingDefintion: [self tableDefinition]
+                                                                    withRootObject: [self rootObject]
+                                                                 forViewController: self];
 	[self setTable: newTable];
 	[[self tableView] reloadData];
 	[self configureTableHeaderImagePath];

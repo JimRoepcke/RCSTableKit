@@ -71,9 +71,9 @@
 	if (name) {
 		dict = [NSDictionary dictionaryWithContentsOfFile: [bundle pathForResource: name ofType: @"plist"]];
 		if (dict) {
-			result = [[RCSTableDefinition alloc] initWithName: name
-                                                   dictionary: dict
-                                                       bundle: bundle];
+			result = [[[self class] alloc] initWithName: name
+                                             dictionary: dict
+                                                 bundle: bundle];
 		}
 	}
 	return result;
@@ -96,17 +96,33 @@
 	return _nibBundle;
 }
 
-- (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
+- (Class) defaultViewControllerClass
+{
+    return [RCSTableViewController class];
+}
+
+- (Class) viewControllerClass
 {
 	NSString *name = [self controllerClassName];
-	Class controllerClass = name ? NSClassFromString(name) : [RCSTableViewController class];
+	Class controllerClass = [name length] ? NSClassFromString(name) : [self defaultViewControllerClass];
+    return controllerClass;
+}
+
+- (RCSTableViewController *) viewControllerWithRootObject: (NSObject *)object
+{
+	Class controllerClass = [self viewControllerClass];
 	RCSTableViewController *c;
 	if ([controllerClass isSubclassOfClass: [RCSTableViewController class]]) {
-		c = [[controllerClass alloc] initWithNibName: [self nibName] bundle: [self nibBundle]];
+		c = [(RCSTableViewController *)[controllerClass alloc] initWithNibName: [self nibName] bundle: [self nibBundle]];
 		[c setRootObject: object];
 		[c setTableDefinition: self];
 	}
 	return c;
+}
+
+- (Class) tableSectionDefinitionClass
+{
+    return [RCSTableSectionDefinition class];
 }
 
 - (NSMutableDictionary *) _buildSectionDefinitions
@@ -116,7 +132,7 @@
 	
 	if (sectionsDict) {
 		[sectionsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-			RCSTableSectionDefinition *def = [[RCSTableSectionDefinition alloc] initWithName: key dictionary: obj parent: self];
+			RCSTableSectionDefinition *def = [(RCSTableSectionDefinition *)[[self tableSectionDefinitionClass] alloc] initWithName: key dictionary: obj parent: self];
 			[result setObject: def forKey: key];
 		}];
 	}

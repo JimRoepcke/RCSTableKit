@@ -46,6 +46,11 @@
 	return self;
 }
 
+- (Class) tableRowDefinitionClass
+{
+    return [RCSTableRowDefinition class];
+}
+
 - (NSMutableDictionary *) _buildRowDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
@@ -53,7 +58,7 @@
 	
 	if (rowsDict) {
 		[rowsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-			RCSTableRowDefinition *def = [[RCSTableRowDefinition alloc] initWithName: key dictionary: obj parent: self];
+			RCSTableRowDefinition *def = [(RCSTableRowDefinition *)[[self tableRowDefinitionClass] alloc] initWithName: key dictionary: obj parent: self];
 			[result setObject: def forKey: key];
 		}];
 	}
@@ -71,6 +76,11 @@
 
 #pragma mark -
 #pragma mark Public API
+
+- (Class) tableSectionClass
+{
+    return [RCSTableSection class];
+}
 
 // called by RCSTableDefinition's sectionForTable:
 // returns an array of RCSTableSection objects
@@ -90,9 +100,9 @@
 	for (NSObject *obj in objects) {
 		sectionObject = obj == nullValue ? tableObject : obj;
 		if ((sectionPredicate == nil) || [sectionPredicate evaluateWithObject: sectionObject]) {
-			section = [[RCSTableSection alloc] initUsingDefintion: self
-												   withRootObject: sectionObject
-														 forTable: table];
+			section = [(RCSTableSection *)[[self tableSectionClass] alloc] initUsingDefintion: self
+                                                                               withRootObject: sectionObject
+                                                                                     forTable: table];
 			[result addObject: section];
 		}
 	}

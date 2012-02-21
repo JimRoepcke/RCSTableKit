@@ -155,6 +155,11 @@
 #pragma mark -
 #pragma mark Public API
 
+- (Class) tableRowClass
+{
+    return [RCSTableRow class];
+}
+
 // called by RCSTableSectionDefinition's rowsForSection:
 // returns an array of RCSTableRow objects
 - (NSMutableArray *) rowsForSection: (RCSTableSection *)section
@@ -174,9 +179,9 @@
 	for (NSObject *obj in objects) {
 		rowObject = obj == nullValue ? sectionObject : obj;
 		if ((rowPredicate == nil) || [rowPredicate evaluateWithObject: rowObject]) {
-			row = [[RCSTableRow alloc] initUsingDefintion: self
-										   withRootObject: rowObject
-											   forSection: section];
+			row = [(RCSTableRow *)[[self tableRowClass] alloc] initUsingDefintion: self
+                                                                   withRootObject: rowObject
+                                                                       forSection: section];
 			[result addObject: row];
 		}
 	}
