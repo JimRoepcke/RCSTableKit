@@ -46,7 +46,11 @@
 - (NSString *) title: (RCSTable *)aTable;
 - (NSString *) tableHeaderImagePath: (RCSTable *)table;
 
-- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value;
+- (BOOL) isEditable;
+- (BOOL) allowsSelection;
+- (BOOL) allowsSelectionDuringEditing;
+- (BOOL) allowsMultipleSelection;
+- (BOOL) allowsMultipleSelectionDuringEditing;
 
 @end
 

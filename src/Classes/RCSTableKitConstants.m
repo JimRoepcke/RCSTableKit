@@ -12,6 +12,8 @@ NSString * const kTKControllerKey = @"controller";
 NSString * const kTKViewWillDisappearNotificationName = @"RCSTableViewControllerViewWillDisappear";
 NSString * const kTKAllowsSelectionDuringEditingKey = @"allowsSelectionDuringEditing";
 NSString * const kTKAllowsSelectionKey = @"allowsSelection";
+NSString * const kTKAllowsMultipleSelectionDuringEditingKey = @"allowsMultipleSelectionDuringEditing";
+NSString * const kTKAllowsMultipleSelectionKey = @"allowsMultipleSelection";
 NSString * const kTKIsEditableKey = @"isEditable";
 
 // table view cell

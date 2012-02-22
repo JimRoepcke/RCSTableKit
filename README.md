@@ -23,7 +23,7 @@ Building RCSTableKit
 
 Using RCSTableKit in your iOS app project (using Xcode 4.2.x)
 -------------------------------------------------------------
-- TODO: rewrite this for Xcode 4, these instructions are for 3.2.x.
+- TODO: rewrite this for Xcode 4.3, these instructions are for 3.2.x.
 - Open RCSTableKit/src/RCSTableKit.xcodeproj in Xcode
 - Drag-and-drop the RCSTableKit project icon at the top of RCSTableKit's Groups & Files pane into your app project
 - In the General tab of the inspector of for app target, make your project dependent on the RCSTableKit target in RCSTableKit.xcodeproj
@@ -173,6 +173,26 @@ compatible.
             <td>key path string</td>
             <td>value returned sets the view controller's navigation item's title.</td>
         </tr>
+        <tr>
+            <td><strong>allowsSelection</strong></td>
+            <td>boolean</td>
+            <td>corresponds to [UITableView allowsSelection]</td>
+        </tr>
+        <tr>
+            <td><strong>allowsSelectionDuringEditing</strong></td>
+            <td>boolean</td>
+            <td>corresponds to -[UITableView allowsSelectionDuringEditing]</td>
+        </tr>
+        <tr>
+            <td><strong>allowsMultipleSelection</strong></td>
+            <td>boolean</td>
+            <td>corresponds to [UITableView allowsMultipleSelection]</td>
+        </tr>
+        <tr>
+            <td><strong>allowsMultipleSelectionDuringEditing</strong></td>
+            <td>boolean</td>
+            <td>corresponds to -[UITableView allowsMultipleSelectionDuringEditing]</td>
+        </tr>
     </tbody>
 </table>
 
@@ -213,16 +233,6 @@ compatible.
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td><strong>allowsSelection</strong></td>
-            <td>boolean</td>
-            <td>corresponds to [UITableView allowsSelection]</td>
-        </tr>
-        <tr>
-            <td><strong>allowsSelectionDuringEditing</strong></td>
-            <td>boolean</td>
-            <td>corresponds to -[UITableView allowsSelectionDuringEditing]</td>
-        </tr>
         <tr>
             <td><strong>tableHeaderImagePath:kvc</strong></td>
             <td>key path string</td>

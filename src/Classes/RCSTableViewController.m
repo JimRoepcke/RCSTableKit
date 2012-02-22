@@ -26,8 +26,6 @@
 {
 	[_tableView setDelegate: nil];
 	[_tableView setDataSource: nil];
-
-	
 }
 
 #pragma mark -
@@ -40,16 +38,18 @@
 	UITableView *tv = [self tableView];
 	[tv setDataSource: self];
 	
-	[tv setAllowsSelectionDuringEditing: [[self tableDefinition] configurationBoolForKey: kTKAllowsSelectionDuringEditingKey
-																			 withDefault: [tv allowsSelectionDuringEditing]]];
-	[tv setAllowsSelection: [[self tableDefinition] configurationBoolForKey: kTKAllowsSelectionKey
-																withDefault: [tv allowsSelection]]];
+    RCSTableDefinition *def = [self tableDefinition];
+    [tv setAllowsSelection: [def allowsSelection]];
+    [tv setAllowsMultipleSelection: [def allowsMultipleSelection]];
+    [tv setAllowsSelectionDuringEditing: [def allowsSelectionDuringEditing]];
+    [tv setAllowsMultipleSelectionDuringEditing: [def allowsMultipleSelectionDuringEditing]];
 }
 
 - (void) viewDidUnload
 {
 	[super viewDidUnload];
 	[[self tableView] setDataSource: nil];
+    [[self tableView] setDelegate: nil];
 	[self setTableView: nil];
 	[self setTable: nil];
 	[self setTableHeaderImagePath: nil];
@@ -90,7 +90,7 @@
 
 - (void) configureEditButton
 {
-	if ([[self tableDefinition] configurationBoolForKey: kTKIsEditableKey withDefault: NO]) {
+    if ([[self tableDefinition] isEditable]) {
 		[[self navigationItem] setRightBarButtonItem: [self editButtonItem]];
 	}
 }

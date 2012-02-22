@@ -142,12 +142,6 @@
 #pragma mark -
 #pragma mark Public API
 
-- (BOOL) configurationBoolForKey: (id)key_ withDefault: (BOOL)value
-{
-	NSNumber *num = [_dictionary objectForKey: key_];
-	return num == nil ? value : [num boolValue];
-}
-
 // called by RCSTable's designated initializer
 // returns an array of RCSTableSection objects
 - (NSMutableArray *) sectionsForTable: (RCSTable *)table
@@ -187,6 +181,36 @@
 		result = [[table object] valueForKeyPath: _tableHeaderImagePath];
 	}
 	return result;
+}
+
+- (BOOL) isEditable
+{
+    NSNumber *editable = [_dictionary objectForKey: kTKIsEditableKey];
+    return editable ? [editable boolValue] : NO;
+}
+
+- (BOOL) allowsSelection
+{
+    NSNumber *allows = [_dictionary objectForKey: kTKAllowsSelectionKey];
+    return allows ? [allows boolValue] : YES;
+}
+
+- (BOOL) allowsSelectionDuringEditing
+{
+    NSNumber *allows = [_dictionary objectForKey: kTKAllowsSelectionDuringEditingKey];
+    return allows ? [allows boolValue] : NO;
+}
+
+- (BOOL) allowsMultipleSelection
+{
+    NSNumber *allows = [_dictionary objectForKey: kTKAllowsMultipleSelectionKey];
+    return allows ? [allows boolValue] : NO;
+}
+
+- (BOOL) allowsMultipleSelectionDuringEditing
+{
+    NSNumber *allows = [_dictionary objectForKey: kTKAllowsMultipleSelectionDuringEditingKey];
+    return allows ? [allows boolValue] : NO;
 }
 
 @end

@@ -12,6 +12,8 @@ extern NSString * const kTKControllerKey;
 extern NSString * const kTKViewWillDisappearNotificationName;
 extern NSString * const kTKAllowsSelectionDuringEditingKey;
 extern NSString * const kTKAllowsSelectionKey;
+extern NSString * const kTKAllowsMultipleSelectionDuringEditingKey;
+extern NSString * const kTKAllowsMultipleSelectionKey;
 extern NSString * const kTKIsEditableKey;
 
 // table view cell
