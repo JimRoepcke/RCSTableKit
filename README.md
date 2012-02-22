@@ -361,6 +361,16 @@ None, but if you specify nothing, your cell will be pretty boring!
             <td>corresponds to UITableViewCellStyle parameter of -[UITableViewCell initWithStyle:reuseIdentifier:], ignored when using cellNib</td>
         </tr>
         <tr>
+            <td><strong>cellStyle:kvc</strong></td>
+            <td>key path string</td>
+            <td>returns "default", "value1", "value2", or "subtitle", corresponds to UITableViewCellStyle parameter of -[UITableViewCell initWithStyle:reuseIdentifier:], ignored when using cellNib</td>
+        </tr>
+        <tr>
+            <td><strong>cellStyle:sel</strong></td>
+            <td>selector string</td>
+            <td>returns an NSNumber wrapping UITableViewCellStyleDefault, UITableViewCellStyleValue1, UITableViewCellStyleValue2, or UITableViewCellStyleSubtitle, used for the to UITableViewCellStyle parameter of -[UITableViewCell initWithStyle:reuseIdentifier:], ignored when using cellNib</td>
+        </tr>
+        <tr>
             <td><strong>becomeFirstResponder</strong></td>
             <td>boolean</td>
             <td></td>
@@ -459,18 +469,18 @@ None, but if you specify nothing, your cell will be pretty boring!
         <tr style="background-color: lightgrey"><td colspan="3"><strong>Table Cell Accessories and responding to accessory button tapping</strong></td></tr>
         <tr>
             <td><strong>accessoryType</strong></td>
-            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
+            <td>none, disclosureIndicator, detailDisclosureButton or checkmark</td>
             <td>corresponds to -[UITableViewCell accessoryType]</td>
         </tr>
         <tr>
             <td><strong>accessoryType:kvc</strong></td>
             <td>key path string</td>
-            <td>returns "disclosureIndicator", "detailDisclosureButton" or "checkmark". corresponds to -[UITableViewCell accessoryType]</td>
+            <td>returns "none", "disclosureIndicator", "detailDisclosureButton" or "checkmark". corresponds to -[UITableViewCell accessoryType]</td>
         </tr>
         <tr>
             <td><strong>accessoryType:sel</strong></td>
             <td>selector string</td>
-            <td>returns an NSNumber wrapping UITableViewAccessoryDisclosureIndicator, UITableViewAccessoryDetailDisclosureButton or UITableViewAccessoryCheckmark. Corresponds to -[UITableViewCell accessoryType]</td>
+            <td>returns an NSNumber wrapping UITableViewAccessoryNone, UITableViewAccessoryDisclosureIndicator, UITableViewAccessoryDetailDisclosureButton or UITableViewAccessoryCheckmark. Corresponds to -[UITableViewCell accessoryType]</td>
         </tr>
         <tr>
             <td><strong>editingAccessoryType</strong></td>
@@ -479,13 +489,13 @@ None, but if you specify nothing, your cell will be pretty boring!
         </tr>
         <tr>
             <td><strong>editingAccessoryType:kvc</strong></td>
-            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
-            <td>returns "disclosureIndicator", "detailDisclosureButton" or "checkmark". corresponds to -[UITableViewCell editingAccessoryType]</td>
+            <td>key path string</td>
+            <td>returns "none", "disclosureIndicator", "detailDisclosureButton" or "checkmark". corresponds to -[UITableViewCell editingAccessoryType]</td>
         </tr>
         <tr>
             <td><strong>editingAccessoryType:sel</strong></td>
-            <td>disclosureIndicator, detailDisclosureButton or checkmark</td>
-            <td>returns an NSNumber wrapping UITableViewAccessoryDisclosureIndicator, UITableViewAccessoryDetailDisclosureButton or UITableViewAccessoryCheckmark. Corresponds to -[UITableViewCell editingAccessoryType]</td>
+            <td>selector string</td>
+            <td>returns an NSNumber wrapping UITableViewAccessoryNone, UITableViewAccessoryDisclosureIndicator, UITableViewAccessoryDetailDisclosureButton or UITableViewAccessoryCheckmark. Corresponds to -[UITableViewCell editingAccessoryType]</td>
         </tr>
         <tr>
             <td><strong>accessoryPushConfiguration</strong></td>
