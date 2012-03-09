@@ -73,9 +73,9 @@
 
 - (NSArray *) objectsForSectionsInTable: (RCSTable *)table
 {
-	if (_list == nil) {
+	if ((_list == nil) || ([_list length] == 0)) {
 		NSString *objectKeyPath = [[_dictionary objectForKey: kTKObjectKey] description];
-		return [NSArray arrayWithObject: objectKeyPath ? [[table object] valueForKeyPath: objectKeyPath] : [NSNull null]];
+		return [NSArray arrayWithObject: [objectKeyPath length] ? [[table object] valueForKeyPath: objectKeyPath] : [NSNull null]];
 	}
 	return [[table object] valueForKeyPath: _list];
 }
@@ -96,7 +96,7 @@
 	NSArray *objects = [self objectsForSectionsInTable: table];
 	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *sectionPredicate;
-	if ([predicate length] > 0) {
+	if ([predicate length]) {
 		sectionPredicate = [NSPredicate predicateWithFormat: predicate];
 	}
 	NSObject *sectionObject;

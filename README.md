@@ -286,7 +286,7 @@ compatible.
         <tr>
             <td><strong>list</strong></td>
             <td>list of objects</td>
-            <td>the section will be repeated for each object in the list</td>
+            <td>the section will be repeated for each object in the list, supercedes <strong>object</strong></td>
         </tr>
         <tr>
             <td><strong>object</strong></td>
@@ -323,7 +323,7 @@ None, but if you specify nothing, your cell will be pretty boring!
         <tr>
             <td><strong>list</strong></td>
             <td>list of objects</td>
-            <td>the row will be repeated for each object in the list</td>
+            <td>the row will be repeated for each object in the list, supercedes <strong>object</strong></td>
         </tr>
         <tr>
             <td><strong>object</strong></td>

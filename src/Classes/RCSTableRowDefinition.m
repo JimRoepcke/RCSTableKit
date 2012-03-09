@@ -150,9 +150,9 @@
 
 - (NSArray *) objectsForRowsInSection: (RCSTableSection *)section
 {
-	if (_list == nil) {
+	if ((_list == nil) || ([_list length] == 0)) {
 		NSString *objectKeyPath = [_dictionary objectForKey: kTKObjectKey];
-		return [NSArray arrayWithObject: objectKeyPath ?
+		return [NSArray arrayWithObject: [objectKeyPath length] ?
 				[[section object] valueForKeyPath: objectKeyPath] :
 				[NSNull null]];
 	}
@@ -176,7 +176,7 @@
 	NSArray *objects = [self objectsForRowsInSection: section];
 	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *rowPredicate;
-	if ([predicate length] > 0) {
+	if ([predicate length]) {
 		rowPredicate = [NSPredicate predicateWithFormat: predicate];
 	}
 	NSObject *rowObject;
@@ -208,13 +208,13 @@
 {
 	if (_cellClassBlock == nil) {
 		NSString *s = [_dictionary objectForKey: kTKStaticCellKey];
-		if (s) _cellClassBlock = [^(RCSTableRow *r) {
+		if ([s length]) _cellClassBlock = [^(RCSTableRow *r) {
 			Class c = NSClassFromString(s);
 			return c ? c : [RCSTableViewCell class];
 		} copy];
 		else {
 			s = [_dictionary objectForKey: kTKCellKey];
-			if (s) _cellClassBlock = [^(RCSTableRow *r) {
+			if ([s length]) _cellClassBlock = [^(RCSTableRow *r) {
 				NSString *cs = [[r object] valueForKeyPath: s];
 				Class c = cs ? NSClassFromString(cs) : nil;
 				return c ? c : [RCSTableViewCell class];
@@ -357,7 +357,7 @@
 {
 	if (_backgroundColorBlock == nil) {
 		NSString *s = [_dictionary objectForKey: kTKBackgroundColorKey];
-		if (s) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+		if ([s length]) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 		else {
 			SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKBackgroundColorSelectorKey]);
 #pragma clang diagnostic push
@@ -377,7 +377,7 @@
 		if (s) _textBlock = [^(RCSTableRow *r) { return s; } copy];
 		else {
 			s = [_dictionary objectForKey: kTKTextKey];
-			if (s) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			if ([s length]) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKTextSelectorKey]);
 #pragma clang diagnostic push
@@ -398,7 +398,7 @@
 		if (s) _detailTextBlock = [^(RCSTableRow *r) { return s; } copy];
 		else {
 			s = [_dictionary objectForKey: kTKDetailTextKey];
-			if (s) _detailTextBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			if ([s length]) _detailTextBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKDetailTextSelectorKey]);
 #pragma clang diagnostic push
@@ -416,13 +416,13 @@
 {
 	if (_imageBlock == nil) {
 		NSString *s = [_dictionary objectForKey: kTKStaticImageKey];
-		if (s) {
+		if ([s length]) {
 			UIImage *i = [UIImage imageNamed: s];
 			_imageBlock = [^(RCSTableRow *r) { return i; } copy];
 		}
 		else {
 			s = [_dictionary objectForKey: kTKImageKey];
-			if (s) _imageBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			if ([s length]) _imageBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKImageSelectorKey]);
 #pragma clang diagnostic push
@@ -452,7 +452,7 @@
 			}
 		} else {
 			s = [_dictionary objectForKey: kTKEditingAccessoryTypeKey];
-			if (s) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
+			if ([s length]) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
 				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
 				else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
@@ -492,7 +492,7 @@
 			}
 		} else {
 			s = [_dictionary objectForKey: kTKAccessoryTypeKey];
-			if (s) _accessoryTypeBlock = [^(RCSTableRow *r) {
+			if ([s length]) _accessoryTypeBlock = [^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
 				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
 				else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
@@ -532,7 +532,7 @@
 			}
 		} else {
 			s = [_dictionary objectForKey: kTKCellStyleKey];
-			if (s) _cellStyleBlock = [^(RCSTableRow *r) {
+			if ([s length]) _cellStyleBlock = [^(RCSTableRow *r) {
 				NSString *styleString = [[r object] valueForKeyPath: s];
 				if ([kTKCellStyleValue1Key isEqualToString: styleString]) { return UITableViewCellStyleValue1; }
 				else if ([kTKCellStyleValue2Key isEqualToString: styleString]) { return UITableViewCellStyleValue2; }
