@@ -4,6 +4,10 @@
 //  See license below.
 //
 
+#import "RCSTableViewCell.h"
+#import "RCSTableKitConstants.h"
+#import "RCSTableRow.h"
+
 @implementation RCSTableViewCell
 
 @synthesize row=_row;

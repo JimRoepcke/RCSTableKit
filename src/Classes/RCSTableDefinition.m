@@ -4,6 +4,12 @@
 //  See license below.
 //
 
+#import "RCSTableDefinition.h"
+#import "RCSTableKitConstants.h"
+#import "RCSTableViewController.h"
+#import "RCSTableSectionDefinition.h"
+#import "RCSTable.h"
+
 @interface RCSTableDefinition ()
 @property (nonatomic, readwrite, copy) NSDictionary *dictionary;
 @property (nonatomic, readwrite, strong) NSArray *displaySections;

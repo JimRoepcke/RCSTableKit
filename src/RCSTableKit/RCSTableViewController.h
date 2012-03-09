@@ -6,6 +6,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class RCSTableDefinition;
+@class RCSTable;
+
 @interface RCSTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSObject *rootObject;

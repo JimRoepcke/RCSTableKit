@@ -4,6 +4,8 @@
 //  See license below.
 //
 
+#import "RCSTableViewCell.h"
+
 extern NSString * const kTKESCAttributeKey;
 extern NSString * const kTKESCAutocapitalizationTypeKey;
 extern NSString * const kTKESCAutocorrectionTypeKey;

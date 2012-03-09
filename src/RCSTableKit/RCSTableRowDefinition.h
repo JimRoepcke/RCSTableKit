@@ -4,6 +4,8 @@
 //  See license below.
 //
 
+#import "RCSBaseDefinition.h"
+
 @class RCSTableSectionDefinition;
 @class RCSTableSection;
 @class RCSTableRow;

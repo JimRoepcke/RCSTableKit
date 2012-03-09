@@ -4,6 +4,14 @@
 //  See license below.
 //
 
+#import "RCSTableViewController.h"
+#import "RCSTable.h"
+#import "RCSTableDefinition.h"
+#import "RCSTableKitConstants.h"
+#import "RCSTableRow.h"
+#import "RCSTableSection.h"
+#import "RCSTableViewCell.h"
+
 @interface RCSTableViewController ()
 @property (nonatomic, copy) NSString *tableHeaderImagePath;
 - (void) configureEditButton;

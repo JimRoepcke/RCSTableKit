@@ -4,6 +4,11 @@
 //  See license below.
 //
 
+#import "RCSTable.h"
+#import "RCSTableDefinition.h"
+#import "RCSTableSection.h"
+#import "RCSTableRow.h"
+
 @interface RCSTable ()
 @property (nonatomic, readwrite, strong) RCSTableDefinition *definition;
 @property (nonatomic, readwrite, assign) NSObject *object;
