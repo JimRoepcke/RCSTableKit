@@ -23,6 +23,15 @@
 	return num == nil ? value : [num floatValue];
 }
 
++ (id) receiver: (id)rcvr leakyPerformSelector: (SEL)aSelector withObject: (id)object
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    id result = [rcvr performSelector: aSelector withObject: object];
+#pragma clang diagnostic pop
+    return result;
+}
+
 @end
 
 /*

@@ -11,6 +11,7 @@
 
 + (BOOL)         boolForKey: (id)key_ withDefault: (BOOL)value       inDictionary: (NSDictionary *)dict;
 + (CGFloat)     floatForKey: (id)key_ withDefault: (CGFloat)value    inDictionary: (NSDictionary *)dict;
++ (id) receiver: (id)rcvr leakyPerformSelector: (SEL)aSelector withObject: (id)object;
 
 @end
 

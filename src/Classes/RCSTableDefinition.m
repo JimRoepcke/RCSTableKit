@@ -178,11 +178,7 @@
 {
 	NSString *result;
 	if (_tableHeaderImagePathSelector) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        result = [[table controller] performSelector: _tableHeaderImagePathSelector
-										  withObject: table];
-#pragma clang diagnostic pop
+        result = [[self class] receiver: [table controller] leakyPerformSelector: _tableHeaderImagePathSelector withObject: table];
 	} else if (_tableHeaderImagePath) {
 		result = [[table object] valueForKeyPath: _tableHeaderImagePath];
 	}
