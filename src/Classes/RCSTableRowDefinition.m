@@ -335,7 +335,7 @@
 		NSString *s = [_dictionary objectForKey: kTKBackgroundColorKey];
 		if ([s length]) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 		else {
-            __weak RCSTableDefinition *blockSelf = self;
+            __weak RCSTableRowDefinition *blockSelf = self;
 			SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKBackgroundColorSelectorKey]);
 			if (sel) _backgroundColorBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
 			else _backgroundColorBlock = [^(RCSTableRow *r) { return nil; } copy];
@@ -353,7 +353,7 @@
 			s = [_dictionary objectForKey: kTKTextKey];
 			if ([s length]) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
-                __weak RCSTableDefinition *blockSelf = self;
+                __weak RCSTableRowDefinition *blockSelf = self;
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKTextSelectorKey]);
                 if (sel) _textBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
 				else _textBlock = [^(RCSTableRow *r) { return nil; } copy];
@@ -372,7 +372,7 @@
 			s = [_dictionary objectForKey: kTKDetailTextKey];
 			if ([s length]) _detailTextBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
-                __weak RCSTableDefinition *blockSelf = self;
+                __weak RCSTableRowDefinition *blockSelf = self;
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKDetailTextSelectorKey]);
                 if (sel) _detailTextBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
 				else _detailTextBlock = [^(RCSTableRow *r) { return nil; } copy];
@@ -394,7 +394,7 @@
 			s = [_dictionary objectForKey: kTKImageKey];
 			if ([s length]) _imageBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
 			else {
-                __weak RCSTableDefinition *blockSelf = self;
+                __weak RCSTableRowDefinition *blockSelf = self;
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKImageSelectorKey]);
                 if (sel) _imageBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
 				else _imageBlock = [^(RCSTableRow *r) { return nil; } copy];
@@ -428,7 +428,7 @@
 				else { return UITableViewCellAccessoryNone; }
 			} copy];
 			else {
-                __weak RCSTableDefinition *blockSelf = self;
+                __weak RCSTableRowDefinition *blockSelf = self;
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKEditingAccessoryTypeSelectorKey]);
 				if (sel) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
                     NSNumber *type = [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
@@ -466,7 +466,7 @@
 				else { return UITableViewCellAccessoryNone; }
 			} copy];
 			else {
-                __weak RCSTableDefinition *blockSelf = self;
+                __weak RCSTableRowDefinition *blockSelf = self;
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKAccessoryTypeSelectorKey]);
 				if (sel) _accessoryTypeBlock = [^(RCSTableRow *r) {
                     NSNumber *type = [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
@@ -504,7 +504,7 @@
 				else { return UITableViewCellStyleDefault; }
 			} copy];
 			else {
-                __weak RCSTableDefinition *blockSelf = self;
+                __weak RCSTableRowDefinition *blockSelf = self;
 				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellStyleSelectorKey]);
 				if (sel) _cellStyleBlock = [^(RCSTableRow *r) {
                     NSNumber *type = [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
