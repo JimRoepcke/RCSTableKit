@@ -12,11 +12,6 @@
 
 @synthesize row=_row;
 
-- (void) dealloc
-{
-	 _row = nil; // left by the ARC refactoring, leaving for now i guess
-}
-
 - (BOOL) supportsText { return YES; }
 - (BOOL) supportsDetailText { return YES; }
 - (BOOL) supportsAccessories { return YES; }

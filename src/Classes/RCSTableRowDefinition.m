@@ -123,23 +123,6 @@
 	return self;
 }
 
-- (void) dealloc
-{
-    // don't think these are needed but the ARC refactorer left them
-    // so I'll leave them here for now
-    _willSelectBlock = nil;
-    _didSelectBlock = nil;
-    _accessoryButtonBlock = nil;
-    _textBlock = nil;
-    _detailTextBlock = nil;
-    _imageBlock = nil;
-    _accessoryTypeBlock = nil;
-    _editingAccessoryTypeBlock = nil;
-    _cellStyleBlock = nil;
-    _cellClassBlock = nil;
-    _backgroundColorBlock = nil;
-}
-
 - (void) pushConfiguration: (NSString *)name withRootObject: (NSObject *)object usingController: (RCSTableViewController *)controller
 {
 	// FIXME: avoid creating a new RCSTableDefinition here if possible
@@ -150,13 +133,13 @@
 
 - (NSArray *) objectsForRowsInSection: (RCSTableSection *)section
 {
-	if ((_list == nil) || ([_list length] == 0)) {
-		NSString *objectKeyPath = [_dictionary objectForKey: kTKObjectKey];
+	if ((!self.list) || ([self.list length] == 0)) {
+		NSString *objectKeyPath = [self.dictionary objectForKey: kTKObjectKey];
 		return [NSArray arrayWithObject: [objectKeyPath length] ?
 				[[section object] valueForKeyPath: objectKeyPath] :
 				[NSNull null]];
 	}
-	return [[section object] valueForKeyPath: _list];
+	return [[section object] valueForKeyPath: self.list];
 }
 
 #pragma mark -
@@ -174,18 +157,18 @@
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSArray *objects = [self objectsForRowsInSection: section];
-	NSString *predicate = [_dictionary objectForKey: kTKPredicateKey];
+	NSString *predicate = [self.dictionary objectForKey: kTKPredicateKey];
 	NSPredicate *rowPredicate;
 	if ([predicate length]) {
 		rowPredicate = [NSPredicate predicateWithFormat: predicate];
 	}
-	NSObject *rowObject;
-	RCSTableRow *row;
+	NSObject *rowObject = nil;
+	RCSTableRow *row = nil;
 	NSObject *sectionObject = [section object];
 	NSNull *nullValue = [NSNull null];
 	for (NSObject *obj in objects) {
 		rowObject = obj == nullValue ? sectionObject : obj;
-		if ((rowPredicate == nil) || [rowPredicate evaluateWithObject: rowObject]) {
+		if ((!rowPredicate) || [rowPredicate evaluateWithObject: rowObject]) {
 			row = [(RCSTableRow *)[[self tableRowClass] alloc] initUsingDefintion: self
                                                                    withRootObject: rowObject
                                                                        forSection: section];
@@ -197,52 +180,53 @@
 
 - (NSString *) cellReuseIdentifier
 {
-	if (_cellReuseIdentifier == nil) {
+	if (!_cellReuseIdentifier) {
 		_cellReuseIdentifier = [[NSString alloc] initWithFormat: @"%d",
-								(int)_dictionary];
+								(int)self.dictionary];
 	}
 	return _cellReuseIdentifier;
 }
 
 - (Class) cellClass: (RCSTableRow *)aRow
 {
-	if (_cellClassBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticCellKey];
-		if ([s length]) _cellClassBlock = [^(RCSTableRow *r) {
+	if (!self.cellClassBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticCellKey];
+		if ([s length]) self.cellClassBlock = ^(RCSTableRow *r) {
 			Class c = NSClassFromString(s);
 			return c ? c : [RCSTableViewCell class];
-		} copy];
+		};
 		else {
-			s = [_dictionary objectForKey: kTKCellKey];
-			if ([s length]) _cellClassBlock = [^(RCSTableRow *r) {
+			s = [self.dictionary objectForKey: kTKCellKey];
+			if ([s length]) self.cellClassBlock = ^(RCSTableRow *r) {
 				NSString *cs = [[r object] valueForKeyPath: s];
 				Class c = cs ? NSClassFromString(cs) : nil;
 				return c ? c : [RCSTableViewCell class];
-			} copy];
+			};
 			else {
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellSelectorKey]);
-				if (sel) _cellClassBlock = [^(RCSTableRow *r) {
-					Class c = [[self class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKCellSelectorKey]);
+                __weak RCSTableRowDefinition *weakSelf = self;
+				if (sel) self.cellClassBlock = ^(RCSTableRow *r) {
+					Class c = [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
 					return c ? c : [RCSTableViewCell class];
-				} copy];
-				else _cellClassBlock = [^(RCSTableRow *r) { return [RCSTableViewCell class]; } copy];
+				};
+				else self.cellClassBlock = ^(RCSTableRow *r) { return [RCSTableViewCell class]; };
 			}
 		}
 	}
-	return _cellClassBlock(aRow);
+	return self.cellClassBlock(aRow);
 }
 
 - (void) rowCommitEditingStyle: (RCSTableRow *)aRow
 {
 	RCSTableViewController *controller = [aRow controller];
-	if (_editingStyleAction) {
-		[[self class] receiver: controller leakyPerformSelector: _editingStyleAction withObject: aRow];
+	if (self.editingStyleAction) {
+		[[self class] receiver: controller leakyPerformSelector: self.editingStyleAction withObject: aRow];
 		// FIXME: this should happen via a callback, or something, right?
-		// if (_editingStyle == UITableViewCellEditingStyleDelete) {
+		// if (self.editingStyle == UITableViewCellEditingStyleDelete) {
 		//     something that makes a delete happen goes here
 		// }
-	} else if (_editingStylePushConfiguration) {
-		[self pushConfiguration: _editingStylePushConfiguration withRootObject: [aRow object] usingController: [aRow controller]];
+	} else if (self.editingStylePushConfiguration) {
+		[self pushConfiguration: self.editingStylePushConfiguration withRootObject: [aRow object] usingController: [aRow controller]];
 	}
 }
 
@@ -251,270 +235,270 @@
 	// yeah yeah this is crazy, but it's fun and cool
 	// this class is a flyweight so this computation will
 	// be re-used for every row
-	if (_willSelectBlock == nil) {
-		if (_action || _pushConfiguration) {
-			_willSelectBlock = [^(RCSTableRow *row, NSIndexPath *input) { return input; } copy];
+	if (!self.willSelectBlock) {
+		if (self.action || self.pushConfiguration) {
+			self.willSelectBlock = ^(RCSTableRow *row, NSIndexPath *input) { return input; };
 		} else {
-			BOOL indexPathWhenEditing = _editAction || _editPushConfiguration;
-			BOOL indexPathWhenViewing = _viewAction || _viewPushConfiguration;
+			BOOL indexPathWhenEditing = self.editAction || self.editPushConfiguration;
+			BOOL indexPathWhenViewing = self.viewAction || self.viewPushConfiguration;
 			if (indexPathWhenEditing && indexPathWhenViewing) {
-				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return input; } copy];
+				self.willSelectBlock = ^(RCSTableRow *r, NSIndexPath *input) { return input; };
 			} else if (indexPathWhenEditing) {
-				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return [[r controller] isEditing] ? input : nil; } copy];
+				self.willSelectBlock = ^(RCSTableRow *r, NSIndexPath *input) { return [[r controller] isEditing] ? input : nil; };
 			} else if (indexPathWhenViewing) {
-				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return [[r controller] isEditing] ? nil : input; } copy];
+				self.willSelectBlock = ^(RCSTableRow *r, NSIndexPath *input) { return [[r controller] isEditing] ? nil : input; };
 			} else {
-				_willSelectBlock = [^(RCSTableRow *r, NSIndexPath *input) { return nil; } copy];
+				self.willSelectBlock = ^(RCSTableRow *r, NSIndexPath *input) { return (NSIndexPath *)nil; };
 			}
 		}
 	}
-	return _willSelectBlock(aRow, anIndexPath);
+	return self.willSelectBlock(aRow, anIndexPath);
 }
 
 - (void) rowDidSelect: (RCSTableRow *)aRow
 {
-	if (_didSelectBlock == nil) {
-		__weak RCSTableRowDefinition *blockSelf = self;
-		if (_action) _didSelectBlock = [^(RCSTableRow *r) { [[blockSelf class] receiver: [r controller] leakyPerformSelector: blockSelf->_action withObject: r]; } copy];
+	if (!self.didSelectBlock) {
+		__weak RCSTableRowDefinition *weakSelf = self;
+		if (self.action) self.didSelectBlock = ^(RCSTableRow *r) { [[weakSelf class] receiver: [r controller] leakyPerformSelector: weakSelf.action withObject: r]; };
 		else {
-			if (_pushConfiguration) _didSelectBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_pushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
+			if (self.pushConfiguration) self.didSelectBlock = ^(RCSTableRow *r) { [weakSelf pushConfiguration: weakSelf.pushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 			else {
 				// editing
 				void (^editing)(RCSTableRow *);
-				if (_editAction) editing = ^(RCSTableRow *r) { [[blockSelf class] receiver: [r controller] leakyPerformSelector: blockSelf->_editAction withObject: r]; };
-				else if (_editPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				if (self.editAction) editing = ^(RCSTableRow *r) { [[weakSelf class] receiver: [r controller] leakyPerformSelector: weakSelf.editAction withObject: r]; };
+				else if (self.editPushConfiguration) editing = ^(RCSTableRow *r) { [weakSelf pushConfiguration: weakSelf.editPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				// not editing (viewing)
 				void (^viewing)(RCSTableRow *);
-				if (_viewAction) viewing = ^(RCSTableRow *r) { [[blockSelf class] receiver: [r controller] leakyPerformSelector: blockSelf->_viewAction withObject: r]; };
-				else if (_viewPushConfiguration) viewing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_viewPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
-				_didSelectBlock = [^(RCSTableRow *r) {
+				if (self.viewAction) viewing = ^(RCSTableRow *r) { [[weakSelf class] receiver: [r controller] leakyPerformSelector: weakSelf.viewAction withObject: r]; };
+				else if (self.viewPushConfiguration) viewing = ^(RCSTableRow *r) { [weakSelf pushConfiguration: weakSelf.viewPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				self.didSelectBlock = ^(RCSTableRow *r) {
 					if ([[r controller] isEditing]) {
 						if (editing) editing(r);
 					} else {
 						if (viewing) viewing(r);
 					}
-				} copy];
+				};
 			}
 		}
 	}
-	_didSelectBlock(aRow);
+	self.didSelectBlock(aRow);
 }
 
 - (void) rowAccessoryButtonTapped: (RCSTableRow *)aRow
 {
-	if (_accessoryButtonBlock == nil) {
-		__weak RCSTableRowDefinition *blockSelf = self;
-		if (_accessoryAction) _accessoryButtonBlock = [^(RCSTableRow *r) { [[blockSelf class] receiver: [r controller] leakyPerformSelector: blockSelf->_accessoryAction withObject: r]; } copy];
+	if (!self.accessoryButtonBlock) {
+		__weak RCSTableRowDefinition *weakSelf = self;
+		if (self.accessoryAction) self.accessoryButtonBlock = ^(RCSTableRow *r) { [[weakSelf class] receiver: [r controller] leakyPerformSelector: weakSelf.accessoryAction withObject: r]; };
 		else {
-			if (_accessoryPushConfiguration) _accessoryButtonBlock = [^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_accessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; } copy];
+			if (self.accessoryPushConfiguration) self.accessoryButtonBlock = ^(RCSTableRow *r) { [weakSelf pushConfiguration: weakSelf.accessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 			else {
 				// editing
 				void (^editing)(RCSTableRow *);
-				if (_editAccessoryAction) editing = ^(RCSTableRow *r) { [[blockSelf class] receiver: [r controller] leakyPerformSelector: blockSelf->_editAccessoryAction withObject: r]; };
-				else if (_editAccessoryPushConfiguration) editing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_editAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				if (self.editAccessoryAction) editing = ^(RCSTableRow *r) { [[weakSelf class] receiver: [r controller] leakyPerformSelector: weakSelf.editAccessoryAction withObject: r]; };
+				else if (self.editAccessoryPushConfiguration) editing = ^(RCSTableRow *r) { [weakSelf pushConfiguration: weakSelf.editAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
 				// not editing (viewing)
 				void (^viewing)(RCSTableRow *);
-				if (_viewAccessoryAction) viewing = ^(RCSTableRow *r) { [[blockSelf class] receiver: [r controller] leakyPerformSelector: blockSelf->_viewAccessoryAction withObject: r]; };
-				else if (_viewAccessoryPushConfiguration) viewing = ^(RCSTableRow *r) { [blockSelf pushConfiguration: blockSelf->_viewAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
-				_accessoryButtonBlock = [^(RCSTableRow *r) {
+				if (self.viewAccessoryAction) viewing = ^(RCSTableRow *r) { [[weakSelf class] receiver: [r controller] leakyPerformSelector: weakSelf.viewAccessoryAction withObject: r]; };
+				else if (self.viewAccessoryPushConfiguration) viewing = ^(RCSTableRow *r) { [weakSelf pushConfiguration: weakSelf.viewAccessoryPushConfiguration withRootObject: [r object] usingController: [r controller]]; };
+				self.accessoryButtonBlock = ^(RCSTableRow *r) {
 					if ([[r controller] isEditing]) {
 						if (editing) editing(r);
 					} else {
 						if (viewing) viewing(r);
 					}
-				} copy];
+				};
 			}
 		}
 	}
-	_accessoryButtonBlock(aRow);
+	self.accessoryButtonBlock(aRow);
 }
 
 - (UIColor *) backgroundColor: (RCSTableRow *)aRow
 {
-	if (_backgroundColorBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKBackgroundColorKey];
-		if ([s length]) _backgroundColorBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+	if (!self.backgroundColorBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKBackgroundColorKey];
+		if ([s length]) self.backgroundColorBlock = ^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; };
 		else {
-            __weak RCSTableRowDefinition *blockSelf = self;
-			SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKBackgroundColorSelectorKey]);
-			if (sel) _backgroundColorBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
-			else _backgroundColorBlock = [^(RCSTableRow *r) { return nil; } copy];
+            __weak RCSTableRowDefinition *weakSelf = self;
+			SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKBackgroundColorSelectorKey]);
+			if (sel) self.backgroundColorBlock = ^(RCSTableRow *r) { return [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; };
+			else self.backgroundColorBlock = ^(RCSTableRow *r) { return (UIColor *)nil; };
 		}
 	}
-	return _backgroundColorBlock(aRow);
+	return self.backgroundColorBlock(aRow);
 }
 
 - (NSString *) text: (RCSTableRow *)aRow
 {
-	if (_textBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticTextKey];
-		if (s) _textBlock = [^(RCSTableRow *r) { return s; } copy];
+	if (!self.textBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticTextKey];
+		if (s) self.textBlock = ^(RCSTableRow *r) { return s; };
 		else {
-			s = [_dictionary objectForKey: kTKTextKey];
-			if ([s length]) _textBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			s = [self.dictionary objectForKey: kTKTextKey];
+			if ([s length]) self.textBlock = ^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; };
 			else {
-                __weak RCSTableRowDefinition *blockSelf = self;
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKTextSelectorKey]);
-                if (sel) _textBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
-				else _textBlock = [^(RCSTableRow *r) { return nil; } copy];
+                __weak RCSTableRowDefinition *weakSelf = self;
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKTextSelectorKey]);
+                if (sel) self.textBlock = ^(RCSTableRow *r) { return [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; };
+				else self.textBlock = ^(RCSTableRow *r) { return (NSString *)nil; };
 			}
 		}
 	}
-	return _textBlock(aRow);
+	return self.textBlock(aRow);
 }
 
 - (NSString *) detailText: (RCSTableRow *)aRow
 {
-	if (_detailTextBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticDetailTextKey];
-		if (s) _detailTextBlock = [^(RCSTableRow *r) { return s; } copy];
+	if (!self.detailTextBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticDetailTextKey];
+		if (s) self.detailTextBlock = ^(RCSTableRow *r) { return s; };
 		else {
-			s = [_dictionary objectForKey: kTKDetailTextKey];
-			if ([s length]) _detailTextBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			s = [self.dictionary objectForKey: kTKDetailTextKey];
+			if ([s length]) self.detailTextBlock = ^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; };
 			else {
-                __weak RCSTableRowDefinition *blockSelf = self;
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKDetailTextSelectorKey]);
-                if (sel) _detailTextBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
-				else _detailTextBlock = [^(RCSTableRow *r) { return nil; } copy];
+                __weak RCSTableRowDefinition *weakSelf = self;
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKDetailTextSelectorKey]);
+                if (sel) self.detailTextBlock = ^(RCSTableRow *r) { return [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; };
+				else self.detailTextBlock = ^(RCSTableRow *r) { return (NSString *)nil; };
 			}
 		}
 	}
-	return _detailTextBlock(aRow);
+	return self.detailTextBlock(aRow);
 }
 
 - (UIImage *) image: (RCSTableRow *)aRow
 {
-	if (_imageBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticImageKey];
+	if (!self.imageBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticImageKey];
 		if ([s length]) {
 			UIImage *i = [UIImage imageNamed: s];
-			_imageBlock = [^(RCSTableRow *r) { return i; } copy];
+			self.imageBlock = ^(RCSTableRow *r) { return i; };
 		}
 		else {
-			s = [_dictionary objectForKey: kTKImageKey];
-			if ([s length]) _imageBlock = [^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; } copy];
+			s = [self.dictionary objectForKey: kTKImageKey];
+			if ([s length]) self.imageBlock = ^(RCSTableRow *r) { return [[r object] valueForKeyPath: s]; };
 			else {
-                __weak RCSTableRowDefinition *blockSelf = self;
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKImageSelectorKey]);
-                if (sel) _imageBlock = [^(RCSTableRow *r) { return [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; } copy];
-				else _imageBlock = [^(RCSTableRow *r) { return nil; } copy];
+                __weak RCSTableRowDefinition *weakSelf = self;
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKImageSelectorKey]);
+                if (sel) self.imageBlock = ^(RCSTableRow *r) { return [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r]; };
+				else self.imageBlock = ^(RCSTableRow *r) { return (UIImage *)nil; };
 			}
 		}
 	}
-	return _imageBlock(aRow);
+	return self.imageBlock(aRow);
 }
 
 - (UITableViewCellAccessoryType) editingAccessoryType: (RCSTableRow *)aRow
 {
-	if (_editingAccessoryTypeBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticEditingAccessoryTypeKey];
+	if (!self.editingAccessoryTypeBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticEditingAccessoryTypeKey];
 		if (s) {
 			if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: s]) {
-				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; } copy];
+				self.editingAccessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; };
 			} else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: s]) {
-				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; } copy];
+				self.editingAccessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; };
 			} else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: s]) {
-				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; } copy];
+				self.editingAccessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; };
 			} else {
-				_editingAccessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryNone; } copy];
+				self.editingAccessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryNone; };
 			}
 		} else {
-			s = [_dictionary objectForKey: kTKEditingAccessoryTypeKey];
-			if ([s length]) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
+			s = [self.dictionary objectForKey: kTKEditingAccessoryTypeKey];
+			if ([s length]) self.editingAccessoryTypeBlock = ^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
 				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
 				else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
 				else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
 				else { return UITableViewCellAccessoryNone; }
-			} copy];
+			};
 			else {
-                __weak RCSTableRowDefinition *blockSelf = self;
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKEditingAccessoryTypeSelectorKey]);
-				if (sel) _editingAccessoryTypeBlock = [^(RCSTableRow *r) {
-                    NSNumber *type = [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
+                __weak RCSTableRowDefinition *weakSelf = self;
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKEditingAccessoryTypeSelectorKey]);
+				if (sel) self.editingAccessoryTypeBlock = ^(RCSTableRow *r) {
+                    NSNumber *type = [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
 					return (UITableViewCellAccessoryType)[type intValue];
-				} copy];
-				else _editingAccessoryTypeBlock = [^(RCSTableRow *r) { return nil; } copy];
+				};
+				else self.editingAccessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryNone; };
 			}
 		}
 	}
-	return _editingAccessoryTypeBlock(aRow);
+	return self.editingAccessoryTypeBlock(aRow);
 }
 
 - (UITableViewCellAccessoryType) accessoryType: (RCSTableRow *)aRow
 {
 	if ([[aRow controller] isEditing]) return [self editingAccessoryType: aRow];
-	if (_accessoryTypeBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticAccessoryTypeKey];
+	if (!self.accessoryTypeBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticAccessoryTypeKey];
 		if (s) {
 			if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: s]) {
-				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; } copy];
+				self.accessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryDisclosureIndicator; };
 			} else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: s]) {
-				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; } copy];
+				self.accessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryDetailDisclosureButton; };
 			} else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: s]) {
-				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; } copy];
+				self.accessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryCheckmark; };
 			} else {
-				_accessoryTypeBlock = [^(RCSTableRow *r) { return UITableViewCellAccessoryNone; } copy];
+				self.accessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryNone; };
 			}
 		} else {
-			s = [_dictionary objectForKey: kTKAccessoryTypeKey];
-			if ([s length]) _accessoryTypeBlock = [^(RCSTableRow *r) {
+			s = [self.dictionary objectForKey: kTKAccessoryTypeKey];
+			if ([s length]) self.accessoryTypeBlock = ^(RCSTableRow *r) {
 				NSString *typeString = [[r object] valueForKeyPath: s];
 				if ([kTKAccessoryTypeDisclosureIndicatorKey isEqualToString: typeString]) { return UITableViewCellAccessoryDisclosureIndicator; }
 				else if ([kTKAccessoryTypeDetailDisclosureButtonKey isEqualToString: typeString]) { return UITableViewCellAccessoryDetailDisclosureButton; }
 				else if ([kTKAccessoryTypeCheckmarkKey isEqualToString: typeString]) { return UITableViewCellAccessoryCheckmark; }
 				else { return UITableViewCellAccessoryNone; }
-			} copy];
+			};
 			else {
-                __weak RCSTableRowDefinition *blockSelf = self;
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKAccessoryTypeSelectorKey]);
-				if (sel) _accessoryTypeBlock = [^(RCSTableRow *r) {
-                    NSNumber *type = [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
+                __weak RCSTableRowDefinition *weakSelf = self;
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKAccessoryTypeSelectorKey]);
+				if (sel) self.accessoryTypeBlock = ^(RCSTableRow *r) {
+                    NSNumber *type = [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
 					return (UITableViewCellAccessoryType)[type intValue];
-				} copy];
-				else _accessoryTypeBlock = [^(RCSTableRow *r) { return nil; } copy];
+				};
+				else self.accessoryTypeBlock = ^(RCSTableRow *r) { return UITableViewCellAccessoryNone; };
 			}
 		}
 	}
-	return _accessoryTypeBlock(aRow);
+	return self.accessoryTypeBlock(aRow);
 }
 
 
 - (UITableViewCellStyle) cellStyle: (RCSTableRow *)aRow
 {
-	if (_cellStyleBlock == nil) {
-		NSString *s = [_dictionary objectForKey: kTKStaticCellStyleKey];
+	if (!self.cellStyleBlock) {
+		NSString *s = [self.dictionary objectForKey: kTKStaticCellStyleKey];
 		if (s) {
 			if ([kTKCellStyleValue1Key isEqualToString: s]) {
-				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleValue1; } copy];
+				self.cellStyleBlock = ^(RCSTableRow *r) { return UITableViewCellStyleValue1; };
 			} else if ([kTKCellStyleValue2Key isEqualToString: s]) {
-				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleValue2; } copy];
+				self.cellStyleBlock = ^(RCSTableRow *r) { return UITableViewCellStyleValue2; };
 			} else if ([kTKCellStyleSubtitleKey isEqualToString: s]) {
-				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleSubtitle; } copy];
+				self.cellStyleBlock = ^(RCSTableRow *r) { return UITableViewCellStyleSubtitle; };
 			} else {
-				_cellStyleBlock = [^(RCSTableRow *r) { return UITableViewCellStyleDefault; } copy];
+				self.cellStyleBlock = ^(RCSTableRow *r) { return UITableViewCellStyleDefault; };
 			}
 		} else {
-			s = [_dictionary objectForKey: kTKCellStyleKey];
-			if ([s length]) _cellStyleBlock = [^(RCSTableRow *r) {
+			s = [self.dictionary objectForKey: kTKCellStyleKey];
+			if ([s length]) self.cellStyleBlock = ^(RCSTableRow *r) {
 				NSString *styleString = [[r object] valueForKeyPath: s];
 				if ([kTKCellStyleValue1Key isEqualToString: styleString]) { return UITableViewCellStyleValue1; }
 				else if ([kTKCellStyleValue2Key isEqualToString: styleString]) { return UITableViewCellStyleValue2; }
 				else if ([kTKCellStyleSubtitleKey isEqualToString: styleString]) { return UITableViewCellStyleSubtitle; }
 				else { return UITableViewCellStyleDefault; }
-			} copy];
+			};
 			else {
-                __weak RCSTableRowDefinition *blockSelf = self;
-				SEL sel = NSSelectorFromString([_dictionary objectForKey: kTKCellStyleSelectorKey]);
-				if (sel) _cellStyleBlock = [^(RCSTableRow *r) {
-                    NSNumber *type = [[blockSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
+                __weak RCSTableRowDefinition *weakSelf = self;
+				SEL sel = NSSelectorFromString([self.dictionary objectForKey: kTKCellStyleSelectorKey]);
+				if (sel) self.cellStyleBlock = ^(RCSTableRow *r) {
+                    NSNumber *type = [[weakSelf class] receiver: [r controller] leakyPerformSelector: sel withObject: r];
 					return (UITableViewCellStyle)[type intValue];
-				} copy];
-				else _cellStyleBlock = [^(RCSTableRow *r) { return nil; } copy];
+				};
+				else self.cellStyleBlock = ^(RCSTableRow *r) { return UITableViewCellStyleDefault; };
 			}
 		}
 	}
-	return _cellStyleBlock(aRow);
+	return self.cellStyleBlock(aRow);
 }
 
 @end
