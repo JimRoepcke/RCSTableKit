@@ -71,8 +71,8 @@
 // TODO: cache named table definitions?
 + (RCSTableDefinition *) tableDefinitionNamed: (NSString *)name inBundle: (NSBundle *)bundle
 {
-	RCSTableDefinition *result;
-	NSDictionary *dict;
+	RCSTableDefinition *result = nil;
+	NSDictionary *dict = nil;
 	if (bundle == nil) { bundle = [NSBundle mainBundle]; }
 	if (name) {
 		dict = [NSDictionary dictionaryWithContentsOfFile: [bundle pathForResource: name ofType: @"plist"]];
@@ -176,7 +176,7 @@
 
 - (NSString *) tableHeaderImagePath: (RCSTable *)table
 {
-	NSString *result;
+	NSString *result = nil;
 	if (_tableHeaderImagePathSelector) {
         result = [[self class] receiver: [table controller] leakyPerformSelector: _tableHeaderImagePathSelector withObject: table];
 	} else if (_tableHeaderImagePath) {
