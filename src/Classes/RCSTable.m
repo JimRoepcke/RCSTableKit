@@ -11,9 +11,9 @@
 
 @interface RCSTable ()
 @property (nonatomic, readwrite, strong) RCSTableDefinition *definition;
-@property (nonatomic, readwrite, assign) NSObject *object;
+@property (nonatomic, readwrite, weak) NSObject *object;
 @property (nonatomic, readwrite, strong) NSMutableArray *sections;
-@property (nonatomic, readwrite, assign) RCSTableViewController *controller; // parent
+@property (nonatomic, readwrite, weak) RCSTableViewController *controller; // parent
 @end
 
 @implementation RCSTable

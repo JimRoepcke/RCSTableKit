@@ -13,8 +13,8 @@
 
 @interface RCSTableRow ()
 @property (nonatomic, readwrite, strong) RCSTableRowDefinition *definition;
-@property (nonatomic, readwrite, assign) NSObject *object;
-@property (nonatomic, readwrite, assign) RCSTableSection *section; // parent
+@property (nonatomic, readwrite, weak) NSObject *object;
+@property (nonatomic, readwrite, weak) RCSTableSection *section; // parent
 - (UITableViewCellStyle) cellStyle;
 @end
 

@@ -9,9 +9,9 @@
 
 @interface RCSTableSection ()
 @property (nonatomic, readwrite, strong) RCSTableSectionDefinition *definition;
-@property (nonatomic, readwrite, assign) NSObject *object;
+@property (nonatomic, readwrite, weak) NSObject *object;
 @property (nonatomic, readwrite, strong) NSMutableArray *rows;
-@property (nonatomic, readwrite, assign) RCSTable *table; // parent
+@property (nonatomic, readwrite, weak) RCSTable *table; // parent
 @end
 
 @implementation RCSTableSection
