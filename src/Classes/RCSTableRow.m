@@ -45,7 +45,7 @@
 
 - (NSString *) stringForDictionaryKey: (id)key
 {
-	return [[[_definition dictionary] objectForKey: key] description];
+	return [[_definition dictionary][key] description];
 }
 
 - (BOOL) isEditable
@@ -62,7 +62,7 @@
 		NSArray *a = [[NSBundle mainBundle] loadNibNamed: nibName
 												   owner: self
 												 options: nil];
-		cell = [a objectAtIndex: 0];
+		cell = a[0];
 	} else {
 		cell = [[[self cellClass] alloc] initWithStyle: [self cellStyle]
                                         reuseIdentifier: [self cellReuseIdentifier]];

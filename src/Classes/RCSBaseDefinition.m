@@ -13,13 +13,13 @@
 
 + (BOOL) boolForKey: (id)key_ withDefault: (BOOL)value inDictionary: (NSDictionary *)dict
 {
-	NSNumber *num = [dict objectForKey: key_];
+	NSNumber *num = dict[key_];
 	return num == nil ? value : [num boolValue];
 }
 
 + (CGFloat) floatForKey: (id)key_ withDefault: (CGFloat)value inDictionary: (NSDictionary *)dict
 {
-	NSNumber *num = [dict objectForKey: key_];
+	NSNumber *num = dict[key_];
 	return num == nil ? value : [num floatValue];
 }
 

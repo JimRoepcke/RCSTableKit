@@ -42,17 +42,17 @@
         _name = [name_ copy];
         _bundle = bundle_;
 		_dictionary = [dictionary_ copy];
-		_nibName = [[dictionary_ objectForKey: kTKNibKey] copy];
-		_nibBundleName = [[dictionary_ objectForKey: kTKNibBundleKey] copy];
-		_controllerClassName = [[dictionary_ objectForKey: kTKControllerKey] copy];
-		_displaySections = [dictionary_ objectForKey: kTKDisplaySectionsKey];
+		_nibName = [dictionary_[kTKNibKey] copy];
+		_nibBundleName = [dictionary_[kTKNibBundleKey] copy];
+		_controllerClassName = [dictionary_[kTKControllerKey] copy];
+		_displaySections = dictionary_[kTKDisplaySectionsKey];
 		if (_displaySections == nil) {
 			// TODO: use all sections? in what order? alphabetical? throw an exception?
 			_displaySections = [[NSArray alloc] init];
 		}
 		_sectionDefinitions = [self _buildSectionDefinitions];
-		_tableHeaderImagePath = [[dictionary_ objectForKey: kTKTableHeaderImagePath] copy];
-		_tableHeaderImagePathSelector = NSSelectorFromString([dictionary_ objectForKey: kTKTableHeaderImagePathSelector]);
+		_tableHeaderImagePath = [dictionary_[kTKTableHeaderImagePath] copy];
+		_tableHeaderImagePathSelector = NSSelectorFromString(dictionary_[kTKTableHeaderImagePathSelector]);
 	}
 	return self;
 }
@@ -134,12 +134,12 @@
 - (NSMutableDictionary *) _buildSectionDefinitions
 {
 	NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-	NSDictionary *sectionsDict = [_dictionary objectForKey: kTKSectionsKey];
+	NSDictionary *sectionsDict = _dictionary[kTKSectionsKey];
 	
 	if (sectionsDict) {
 		[sectionsDict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
 			RCSTableSectionDefinition *def = [(RCSTableSectionDefinition *)[[self tableSectionDefinitionClass] alloc] initWithName: key dictionary: obj parent: self];
-			[result setObject: def forKey: key];
+			result[key] = def;
 		}];
 	}
 	return result;
@@ -156,7 +156,7 @@
 	
 	RCSTableSectionDefinition *secDef;
 	for (NSString *sectionKey in _displaySections) {
-		secDef = [_sectionDefinitions objectForKey: sectionKey];
+		secDef = _sectionDefinitions[sectionKey];
 		[result addObjectsFromArray: [secDef sectionsForTable: table]];
 	}
 	return result;
@@ -164,9 +164,9 @@
 
 - (NSString *) title: (RCSTable *)aTable
 {
-	NSString *title = [_dictionary objectForKey: kTKStaticTitleKey];
+	NSString *title = _dictionary[kTKStaticTitleKey];
 	if (title == nil) {
-		title = [_dictionary objectForKey: kTKTitleKey];
+		title = _dictionary[kTKTitleKey];
 		if ([title length]) {
 			title = [[aTable object] valueForKeyPath: title];
 		}
@@ -187,31 +187,31 @@
 
 - (BOOL) isEditable
 {
-    NSNumber *editable = [_dictionary objectForKey: kTKIsEditableKey];
+    NSNumber *editable = _dictionary[kTKIsEditableKey];
     return editable ? [editable boolValue] : NO;
 }
 
 - (BOOL) allowsSelection
 {
-    NSNumber *allows = [_dictionary objectForKey: kTKAllowsSelectionKey];
+    NSNumber *allows = _dictionary[kTKAllowsSelectionKey];
     return allows ? [allows boolValue] : YES;
 }
 
 - (BOOL) allowsSelectionDuringEditing
 {
-    NSNumber *allows = [_dictionary objectForKey: kTKAllowsSelectionDuringEditingKey];
+    NSNumber *allows = _dictionary[kTKAllowsSelectionDuringEditingKey];
     return allows ? [allows boolValue] : NO;
 }
 
 - (BOOL) allowsMultipleSelection
 {
-    NSNumber *allows = [_dictionary objectForKey: kTKAllowsMultipleSelectionKey];
+    NSNumber *allows = _dictionary[kTKAllowsMultipleSelectionKey];
     return allows ? [allows boolValue] : NO;
 }
 
 - (BOOL) allowsMultipleSelectionDuringEditing
 {
-    NSNumber *allows = [_dictionary objectForKey: kTKAllowsMultipleSelectionDuringEditingKey];
+    NSNumber *allows = _dictionary[kTKAllowsMultipleSelectionDuringEditingKey];
     return allows ? [allows boolValue] : NO;
 }
 

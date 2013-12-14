@@ -45,7 +45,7 @@
 
 - (RCSTableRow *) rowAtIndex: (NSInteger)index_
 {
-	return (RCSTableRow *)[_rows objectAtIndex: index_];
+	return (RCSTableRow *)_rows[index_];
 }
 
 - (NSString *) title

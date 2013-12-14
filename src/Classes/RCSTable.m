@@ -50,12 +50,12 @@
 
 - (NSInteger) numberOfRowsInSection: (NSInteger)section_
 {
-	return [(RCSTableSection *)[_sections objectAtIndex: section_] numberOfRows];
+	return [(RCSTableSection *)_sections[section_] numberOfRows];
 }
 
 - (RCSTableSection *) sectionAtIndex: (NSInteger)section
 {
-	return (RCSTableSection *)[_sections objectAtIndex: section];
+	return (RCSTableSection *)_sections[section];
 }
 
 - (RCSTableRow *) rowAtIndexPath: (NSIndexPath *)indexPath
